@@ -50,4 +50,5 @@ fuxiangtui/
 
 ## 🔗 相关链接
 
+- 本项目仓库：https://github.com/surpr1se/fuxiangtui
 - 团队配置仓库：https://github.com/surpr1se/damengxia1
