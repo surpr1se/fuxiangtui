@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad23" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14B8A6"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="url(#grad23)"/>
+  
+  <!-- 左上拼图块 -->
+  <path d="M55 65 L95 65 L95 85 Q100 75 105 85 L105 65 L145 65 L145 105 L125 105 Q135 110 135 115 L145 115 L145 145 L105 145 L105 125 Q100 135 95 125 L95 145 L55 145 L55 115 L65 115 Q75 110 75 105 L55 105 Z" 
+        fill="white" opacity="0.9" transform="translate(-20, -10) scale(0.8)"/>
+  
+  <!-- 中心圆点 -->
+  <circle cx="100" cy="100" r="10" fill="url(#grad23)" opacity="0.9"/>
+</svg>

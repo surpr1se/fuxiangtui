@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 印章红底色 -->
+  <circle cx="100" cy="100" r="90" fill="#B91C1C"/>
+  
+  <!-- 印章边框 -->
+  <circle cx="100" cy="100" r="82" fill="none" stroke="#FCD34D" stroke-width="3" opacity="0.8"/>
+  <circle cx="100" cy="100" r="75" fill="none" stroke="#FCD34D" stroke-width="1.5" opacity="0.5"/>
+  
+  <!-- F字母篆刻风格 -->
+  <path d="M65 55 L135 55 L135 75 L90 75 L90 95 L120 95 L120 115 L90 115 L90 155 L65 155 Z" 
+        fill="#FCD34D" opacity="0.95"/>
+  
+  <!-- 装饰纹 -->
+  <circle cx="100" cy="100" r="55" fill="none" stroke="#FCD34D" stroke-width="1" stroke-dasharray="5 5" opacity="0.3"/>
+</svg>

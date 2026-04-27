@@ -1,0 +1,27 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad25" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#84CC16"/>
+      <stop offset="100%" stop-color="#65A30D"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="url(#grad25)"/>
+  
+  <!-- 树叶形状 -->
+  <path d="M100 45 Q145 70 145 110 Q145 155 100 170 Q55 155 55 110 Q55 70 100 45" 
+        fill="white" opacity="0.9"/>
+  
+  <!-- 主叶脉 -->
+  <path d="M100 55 L100 160" stroke="url(#grad25)" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  
+  <!-- 侧叶脉 -->
+  <path d="M100 75 Q80 65 65 80" stroke="url(#grad25)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M100 75 Q120 65 135 80" stroke="url(#grad25)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M100 95 Q75 88 60 100" stroke="url(#grad25)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M100 95 Q125 88 140 100" stroke="url(#grad25)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M100 115 Q75 110 60 120" stroke="url(#grad25)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M100 115 Q125 110 140 120" stroke="url(#grad25)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M100 135 Q80 130 70 140" stroke="url(#grad25)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M100 135 Q120 130 130 140" stroke="url(#grad25)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+</svg>

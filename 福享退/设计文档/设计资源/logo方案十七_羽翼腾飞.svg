@@ -1,0 +1,21 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad17" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0EA5E9"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="url(#grad17)"/>
+  
+  <!-- 左羽翼 -->
+  <path d="M65 90 Q55 70 75 60 Q90 55 100 70 L100 130 Q90 145 75 140 Q55 130 65 110" 
+        fill="white" opacity="0.9"/>
+  
+  <!-- 右羽翼 -->
+  <path d="M135 90 Q145 70 125 60 Q110 55 100 70 L100 130 Q110 145 125 140 Q145 130 135 110" 
+        fill="white" opacity="0.9"/>
+  
+  <!-- 中心F -->
+  <rect x="92" y="85" width="16" height="30" rx="2" fill="url(#grad17)" opacity="0.8"/>
+</svg>

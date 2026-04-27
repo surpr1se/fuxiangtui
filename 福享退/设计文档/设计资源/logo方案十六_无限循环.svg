@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad16" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="50%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#A855F7"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="url(#grad16)"/>
+  
+  <!-- 无限符号变形 -->
+  <path d="M75 100 Q75 75 100 75 Q125 75 125 100 Q125 125 100 125 Q75 125 75 100" 
+        fill="none" stroke="white" stroke-width="8" stroke-linecap="round" opacity="0.95"/>
+  <path d="M95 100 Q95 85 100 85 Q105 85 105 100 Q105 115 100 115 Q95 115 95 100" 
+        fill="white" opacity="0.3"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad19" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="url(#grad19)"/>
+  
+  <!-- 大六边形 -->
+  <path d="M100 55 L139 77 L139 123 L100 145 L61 123 L61 77 Z" 
+        fill="white" opacity="0.9"/>
+  
+  <!-- 中心F -->
+  <path d="M85 80 L115 80 L115 95 L92 95 L92 110 L108 110 L108 120 L92 120 L92 130 L85 130 Z" 
+        fill="url(#grad19)" opacity="0.85"/>
+  
+  <!-- 装饰小六边形 -->
+  <path d="M45 100 L55 94 L55 106 L45 112 L35 106 L35 94 Z" fill="white" opacity="0.4"/>
+  <path d="M155 100 L165 94 L165 106 L155 112 L145 106 L145 94 Z" fill="white" opacity="0.4"/>
+</svg>

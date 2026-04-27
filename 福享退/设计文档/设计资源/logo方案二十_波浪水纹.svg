@@ -1,0 +1,22 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad20" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="50%" stop-color="#0891B2"/>
+      <stop offset="100%" stop-color="#0E7490"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="url(#grad20)"/>
+  
+  <!-- 三层波浪 -->
+  <path d="M45 75 Q70 60 95 75 Q120 90 145 75 Q170 60 175 75" 
+        stroke="white" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <path d="M45 100 Q70 85 95 100 Q120 115 145 100 Q170 85 175 100" 
+        stroke="white" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M45 125 Q70 110 95 125 Q120 140 145 125 Q170 110 175 125" 
+        stroke="white" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.5"/>
+  
+  <!-- 中心圆点 -->
+  <circle cx="100" cy="100" r="8" fill="white" opacity="0.9"/>
+</svg>
