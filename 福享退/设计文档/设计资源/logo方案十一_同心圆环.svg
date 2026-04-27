@@ -1,0 +1,27 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="greenGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="100" cy="100" r="90" fill="url(#greenGrad2)"/>
+  
+  <!-- 外环 -->
+  <circle cx="100" cy="100" r="70" fill="none" stroke="white" stroke-width="4" opacity="0.9"/>
+  
+  <!-- 中环 -->
+  <circle cx="100" cy="100" r="50" fill="none" stroke="white" stroke-width="4" opacity="0.7"/>
+  
+  <!-- 内环（实心） -->
+  <circle cx="100" cy="100" r="30" fill="white" opacity="0.9"/>
+  
+  <!-- 中心圆点 -->
+  <circle cx="100" cy="100" r="10" fill="#059669"/>
+  
+  <!-- 缺口设计（增加识别度） -->
+  <circle cx="100" cy="100" r="70" fill="none" stroke="url(#greenGrad2)" stroke-width="6" 
+          stroke-dasharray="15 400" stroke-dashoffset="330" stroke-linecap="round"/>
+</svg>

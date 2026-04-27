@@ -1,0 +1,30 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="warmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7043"/>
+      <stop offset="100%" stop-color="#E64A19"/>
+    </linearGradient>
+    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="100%" stop-color="#FFD54F"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="100" cy="100" r="90" fill="url(#warmGrad)"/>
+  
+  <!-- 六瓣花瓣 -->
+  <g fill="url(#yellowGrad)" opacity="0.95">
+    <ellipse cx="100" cy="55" rx="22" ry="28" transform="rotate(0 100 100)"/>
+    <ellipse cx="100" cy="55" rx="22" ry="28" transform="rotate(60 100 100)"/>
+    <ellipse cx="100" cy="55" rx="22" ry="28" transform="rotate(120 100 100)"/>
+    <ellipse cx="100" cy="55" rx="22" ry="28" transform="rotate(180 100 100)"/>
+    <ellipse cx="100" cy="55" rx="22" ry="28" transform="rotate(240 100 100)"/>
+    <ellipse cx="100" cy="55" rx="22" ry="28" transform="rotate(300 100 100)"/>
+  </g>
+  
+  <!-- 花心（F字母变形） -->
+  <circle cx="100" cy="100" r="28" fill="white" opacity="0.95"/>
+  <path d="M88 85 L112 85 L112 98 L95 98 L95 110 L108 110 L108 122 L95 122 L95 135 L88 135 Z" 
+        fill="url(#warmGrad)" opacity="0.9"/>
+</svg>

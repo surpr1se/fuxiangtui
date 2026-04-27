@@ -1,0 +1,28 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blueGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E88E5"/>
+      <stop offset="50%" stop-color="#42A5F5"/>
+      <stop offset="100%" stop-color="#1565C0"/>
+    </linearGradient>
+    <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD54F"/>
+      <stop offset="100%" stop-color="#FFB300"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形外框 -->
+  <circle cx="100" cy="100" r="90" fill="url(#blueGrad3)"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+  
+  <!-- F字母主体（盾牌形状） -->
+  <path d="M70 60 L130 60 L130 85 L90 85 L90 108 L115 108 L115 128 L90 128 L90 160 L70 160 Z" 
+        fill="url(#goldGrad2)" opacity="0.95"/>
+  
+  <!-- 盾牌顶部弧形 -->
+  <path d="M65 62 Q65 50 100 50 Q135 50 135 62" 
+        stroke="white" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.8"/>
+  
+  <!-- 装饰圆点 -->
+  <circle cx="100" cy="145" r="5" fill="white" opacity="0.7"/>
+</svg>

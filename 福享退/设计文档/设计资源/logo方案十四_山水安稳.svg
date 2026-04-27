@@ -1,0 +1,26 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#26C6DA"/>
+      <stop offset="100%" stop-color="#0097A7"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="100" cy="100" r="90" fill="url(#cyanGrad)"/>
+  
+  <!-- 三层山纹 -->
+  <path d="M35 140 Q60 100 85 125 Q100 110 115 125 Q140 100 165 140" 
+        fill="white" opacity="0.4"/>
+  <path d="M40 120 Q65 85 90 110 Q100 95 110 110 Q135 85 160 120" 
+        fill="white" opacity="0.6"/>
+  <path d="M45 100 Q70 65 100 85 Q130 65 155 100" 
+        fill="white" opacity="0.85"/>
+  
+  <!-- 太阳 -->
+  <circle cx="100" cy="65" r="15" fill="white" opacity="0.9"/>
+  
+  <!-- 水纹 -->
+  <path d="M50 150 Q75 145 100 150 Q125 155 150 150" 
+        stroke="white" stroke-width="3" fill="none" opacity="0.5" stroke-linecap="round"/>
+</svg>

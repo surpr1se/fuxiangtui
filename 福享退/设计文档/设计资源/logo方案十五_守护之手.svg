@@ -1,0 +1,27 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#AB47BC"/>
+      <stop offset="100%" stop-color="#7B1FA2"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="100" cy="100" r="90" fill="url(#purpleGrad)"/>
+  
+  <!-- 左手 -->
+  <path d="M60 105 Q55 80 75 70 Q85 65 95 70 L95 130 Q80 140 65 125 Q55 115 60 105" 
+        fill="white" opacity="0.9"/>
+  
+  <!-- 右手 -->
+  <path d="M140 105 Q145 80 125 70 Q115 65 105 70 L105 130 Q120 140 135 125 Q145 115 140 105" 
+        fill="white" opacity="0.9"/>
+  
+  <!-- 中心爱心 -->
+  <path d="M100 90 Q90 80 82 90 Q75 100 82 110 Q90 125 100 135 Q110 125 118 110 Q125 100 118 90 Q110 80 100 90" 
+        fill="url(#purpleGrad)" opacity="0.85"/>
+  
+  <!-- 环抱弧线 -->
+  <path d="M70 145 Q100 155 130 145" 
+        stroke="white" stroke-width="4" fill="none" opacity="0.6" stroke-linecap="round"/>
+</svg>
