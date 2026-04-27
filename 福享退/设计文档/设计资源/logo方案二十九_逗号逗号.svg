@@ -1,0 +1,21 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad29" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="100%" stop-color="#DC2626"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="url(#grad29)"/>
+  
+  <!-- 上逗号 -->
+  <path d="M70 65 Q85 55 100 65 Q115 75 115 90 Q115 105 100 105 Q85 105 85 90" 
+        fill="white" opacity="0.95"/>
+  
+  <!-- 下逗号 -->
+  <path d="M85 100 Q85 115 100 115 Q115 115 115 130 Q115 145 100 145 Q85 145 70 135" 
+        fill="white" opacity="0.95"/>
+  
+  <!-- 中间横 -->
+  <rect x="110" y="92" width="25" height="8" rx="2" fill="white" opacity="0.95"/>
+</svg>

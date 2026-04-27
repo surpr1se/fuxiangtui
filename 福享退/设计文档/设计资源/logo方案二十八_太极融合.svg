@@ -1,0 +1,26 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad28a" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="grad28b" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#4F46E5"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="white" opacity="0.1"/>
+  
+  <!-- 太极半边1 -->
+  <path d="M100 20 A80 80 0 0 1 100 180 A40 40 0 0 0 100 100 A40 40 0 0 1 100 20" 
+        fill="url(#grad28a)" opacity="0.95"/>
+  
+  <!-- 太极半边2 -->
+  <path d="M100 20 A80 80 0 0 0 100 180 A40 40 0 0 0 100 100 A40 40 0 0 1 100 20" 
+        fill="url(#grad28b)" opacity="0.95"/>
+  
+  <!-- 鱼眼 -->
+  <circle cx="100" cy="60" r="12" fill="white" opacity="0.95"/>
+  <circle cx="100" cy="140" r="12" fill="white" opacity="0.95"/>
+</svg>
