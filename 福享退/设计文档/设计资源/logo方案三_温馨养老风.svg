@@ -1,43 +1,27 @@
 <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- 渐变定义 -->
   <defs>
-    <linearGradient id="warmGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FF9800;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FFCC80;stop-opacity:1" />
+    <linearGradient id="warmGradNew" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="50%" stop-color="#FF8E53"/>
+      <stop offset="100%" stop-color="#FEC89A"/>
     </linearGradient>
   </defs>
   
   <!-- 圆形背景 -->
-  <circle cx="100" cy="105" r="80" fill="url(#warmGradient)" />
+  <circle cx="100" cy="100" r="85" fill="url(#warmGradNew)" />
   
-  <!-- 阳光放射线条 -->
-  <g stroke="#FFF8E1" stroke-width="3" opacity="0.7">
-    <line x1="100" y1="45" x2="100" y2="25" />
-    <line x1="70" y1="55" x2="55" y2="40" />
-    <line x1="130" y1="55" x2="145" y2="40" />
-    <line x1="50" y1="75" x2="35" y2="60" />
-    <line x1="150" y1="75" x2="165" y2="60" />
-  </g>
+  <!-- 阳光光晕 -->
+  <circle cx="100" cy="68" r="22" fill="white" opacity="0.3" />
+  <circle cx="100" cy="68" r="15" fill="white" opacity="0.5" />
   
-  <!-- 太阳 -->
-  <circle cx="100" cy="65" r="18" fill="#FFF8E1" opacity="0.9" />
+  <!-- 爱心（放大居中） -->
+  <path d="M100 75 C80 58 55 72 55 92 C55 118 100 145 100 145 C100 145 145 118 145 92 C145 72 120 58 100 75" 
+        fill="white" opacity="0.95" />
   
-  <!-- 爱心 -->
-  <path d="M100 85 C85 70 65 80 65 95 C65 115 100 135 100 135 C100 135 135 115 135 95 C135 80 115 70 100 85" fill="#E91E63" opacity="0.8" />
+  <!-- 爱心内部点缀 -->
+  <circle cx="100" cy="95" r="6" fill="url(#warmGradNew)" opacity="0.6" />
   
-  <!-- 房子屋顶 -->
-  <path d="M60 120 L100 90 L140 120 Z" fill="#795548" />
-  
-  <!-- 房子主体 -->
-  <rect x="65" y="120" width="70" height="45" rx="3" fill="#8D6E63" />
-  
-  <!-- 门 -->
-  <rect x="88" y="140" width="24" height="25" fill="#5D4037" rx="2" />
-  
-  <!-- 窗户 -->
-  <rect x="75" y="130" width="12" height="12" fill="#FFF8E1" rx="1" />
-  <rect x="113" y="130" width="12" height="12" fill="#FFF8E1" rx="1" />
-  
-  <!-- 底部文字 -->
-  <text x="100" y="190" font-family="Microsoft YaHei, sans-serif" font-size="14" font-weight="bold" fill="#FF9800" text-anchor="middle">福享退 · 安享退休</text>
+  <!-- 底部弧形装饰 -->
+  <path d="M55 150 Q75 160 100 160 Q125 160 145 150" 
+        stroke="white" stroke-width="4" fill="none" opacity="0.6" stroke-linecap="round" />
 </svg>
