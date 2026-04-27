@@ -1,0 +1,27 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="warmGradNew" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="50%" stop-color="#FF8E53"/>
+      <stop offset="100%" stop-color="#FEC89A"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="100" cy="100" r="85" fill="url(#warmGradNew)" />
+  
+  <!-- 阳光光晕 -->
+  <circle cx="100" cy="68" r="22" fill="white" opacity="0.3" />
+  <circle cx="100" cy="68" r="15" fill="white" opacity="0.5" />
+  
+  <!-- 爱心（放大居中） -->
+  <path d="M100 75 C80 58 55 72 55 92 C55 118 100 145 100 145 C100 145 145 118 145 92 C145 72 120 58 100 75" 
+        fill="white" opacity="0.95" />
+  
+  <!-- 爱心内部点缀 -->
+  <circle cx="100" cy="95" r="6" fill="url(#warmGradNew)" opacity="0.6" />
+  
+  <!-- 底部弧形装饰 -->
+  <path d="M55 150 Q75 160 100 160 Q125 160 145 150" 
+        stroke="white" stroke-width="4" fill="none" opacity="0.6" stroke-linecap="round" />
+</svg>
