@@ -1,0 +1,22 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 六边形背景 -->
+  <polygon points="100,20 170,55 170,145 100,180 30,145 30,55" fill="#7C3AED" stroke="#A78BFA" stroke-width="3" />
+  
+  <!-- 指纹外圈 -->
+  <path d="M100 60 Q140 60 140 100 Q140 140 100 140 Q60 140 60 100 Q60 60 100 60" stroke="white" stroke-width="2.5" fill="none" opacity="0.9" />
+  
+  <!-- 指纹中圈 -->
+  <path d="M100 75 Q125 75 125 100 Q125 125 100 125 Q75 125 75 100 Q75 75 100 75" stroke="white" stroke-width="2.5" fill="none" opacity="0.8" />
+  
+  <!-- 指纹内圈 -->
+  <path d="M100 88 Q112 88 112 100 Q112 112 100 112 Q88 112 88 100 Q88 88 100 88" stroke="white" stroke-width="2.5" fill="none" opacity="0.7" />
+  
+  <!-- 指纹中心点 -->
+  <circle cx="100" cy="100" r="5" fill="white" />
+  
+  <!-- 内部福字 -->
+  <text x="100" y="118" font-family="SimSun, STSong, serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle" opacity="0.9">福</text>
+  
+  <!-- 底部文字 -->
+  <text x="100" y="193" font-family="Microsoft YaHei, sans-serif" font-size="14" font-weight="bold" fill="#7C3AED" text-anchor="middle">福享退</text>
+</svg>

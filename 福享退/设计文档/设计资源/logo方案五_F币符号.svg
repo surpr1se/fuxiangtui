@@ -1,0 +1,24 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D97706;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 -->
+  <circle cx="100" cy="100" r="85" fill="url(#goldGrad)" />
+  
+  <!-- 内圆边框 -->
+  <circle cx="100" cy="100" r="70" fill="none" stroke="white" stroke-width="2" opacity="0.8" />
+  
+  <!-- F字母主体 -->
+  <path d="M65 65 L110 65 L110 90 L80 90 L80 115 L100 115 L100 135 L80 135 L80 160 L65 160 Z" fill="white" />
+  
+  <!-- 货币符号 ￥ -->
+  <path d="M125 85 L150 85 L132 105 L150 105 L132 125 L150 125 L132 145 L150 145" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" />
+  <line x1="137" y1="85" x2="137" y2="145" stroke="white" stroke-width="3" stroke-linecap="round" />
+  
+  <!-- 底部文字 -->
+  <text x="100" y="188" font-family="Microsoft YaHei, sans-serif" font-size="15" font-weight="bold" fill="#D97706" text-anchor="middle">福享退</text>
+</svg>
