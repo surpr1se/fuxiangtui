@@ -1015,4 +1015,270 @@
                             <span class="required">*</span> 退休年龄
                         </label>
                         <input type="number" class="form-input" value="60" placeholder="请输入退休年龄">
-                        <div class="form-tip">男性60岁，女性工人50岁、干部5
+                        <div class="form-tip">男性60岁，女性工人50岁、干部55岁</div>
+                    </div>
+                    
+                    <div class="form-item">
+                        <label class="form-label">
+                            <span class="required">*</span> 退休年份
+                        </label>
+                        <input type="number" class="form-input" value="2030" placeholder="请输入退休年份">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label class="form-label">
+                            <span class="required">*</span> 个人账户累计金额
+                        </label>
+                        <input type="number" class="form-input" value="215680" placeholder="请输入个人账户总额">
+                        <div class="form-tip">系统已自动计算，如有误差可手动调整</div>
+                    </div>
+                    
+                    <div class="form-item">
+                        <label class="form-label">上年社会平均工资</label>
+                        <input type="number" class="form-input" value="8500" placeholder="请输入社平工资">
+                        <div class="form-tip">系统已自动填入最新数据</div>
+                    </div>
+                </div>
+                
+                <button class="calc-btn" onclick="goPage('result')">开始计算 →</button>
+            </div>
+            
+            <!-- 计算结果页 -->
+            <div id="page-result" class="page">
+                <div class="result-card">
+                    <div class="result-label">预计每月领取养老金</div>
+                    <div class="result-number">¥ 3,850</div>
+                    <div class="result-unit">/ 月</div>
+                    <div class="result-desc">* 以上为模拟测算结果，仅供参考，实际以社保局核定为准</div>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleDetail('detail1')">
+                        <span>📊 计算明细</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="detail1" class="detail-content">
+                        <div class="detail-row">
+                            <span class="detail-label">基础养老金</span>
+                            <span class="detail-value highlight">¥ 2,320</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">个人账户养老金</span>
+                            <span class="detail-value highlight">¥ 1,530</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">过渡性养老金</span>
+                            <span class="detail-value">¥ 0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">每月合计</span>
+                            <span class="detail-value highlight">¥ 3,850</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleDetail('detail2')">
+                        <span>📝 计算公式说明</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="detail2" class="detail-content">
+                        <div class="detail-row">
+                            <span class="detail-label">基础养老金</span>
+                            <span class="detail-value">(社平工资+指数化工资)/2 × 缴费年限%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">个人账户养老金</span>
+                            <span class="detail-value">个人账户累计 / 计发月数</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">计发月数(60岁)</span>
+                            <span class="detail-value">139个月</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="goPage('home')">返回首页</button>
+                    <button class="btn-primary" onclick="alert('模拟：已保存到历史记录')">保存结果</button>
+                </div>
+            </div>
+            
+            <!-- 历史记录页 -->
+            <div id="page-history" class="page">
+                <div class="history-item" onclick="goPage('result')">
+                    <div class="history-header">
+                        <span class="history-date">2024年4月27日 15:30</span>
+                        <span class="history-result">¥ 3,850/月</span>
+                    </div>
+                    <div class="history-info">
+                        <span>缴费年限：15年</span>
+                        <span>平均基数：¥ 5,980</span>
+                    </div>
+                </div>
+                
+                <div class="history-item" onclick="goPage('result')">
+                    <div class="history-header">
+                        <span class="history-date">2024年4月20日 10:15</span>
+                        <span class="history-result">¥ 4,200/月</span>
+                    </div>
+                    <div class="history-info">
+                        <span>缴费年限：18年</span>
+                        <span>平均基数：¥ 6,500</span>
+                    </div>
+                </div>
+                
+                <div class="history-item" onclick="goPage('result')">
+                    <div class="history-header">
+                        <span class="history-date">2024年4月10日 16:42</span>
+                        <span class="history-result">¥ 3,580/月</span>
+                    </div>
+                    <div class="history-info">
+                        <span>缴费年限：15年</span>
+                        <span>平均基数：¥ 5,600</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 个人中心页 -->
+            <div id="page-profile" class="page">
+                <div class="profile-header">
+                    <div class="avatar">👤</div>
+                    <div class="user-name">微信用户</div>
+                </div>
+                
+                <div class="menu-list">
+                    <div class="menu-list-item">
+                        <div class="menu-list-left">
+                            <span class="menu-list-icon">📋</span>
+                            <span class="menu-list-text">我的计算记录</span>
+                        </div>
+                        <span class="menu-list-arrow">→</span>
+                    </div>
+                    <div class="menu-list-item">
+                        <div class="menu-list-left">
+                            <span class="menu-list-icon">⚙️</span>
+                            <span class="menu-list-text">系统设置</span>
+                        </div>
+                        <span class="menu-list-arrow">→</span>
+                    </div>
+                    <div class="menu-list-item">
+                        <div class="menu-list-left">
+                            <span class="menu-list-icon">❓</span>
+                            <span class="menu-list-text">帮助中心</span>
+                        </div>
+                        <span class="menu-list-arrow">→</span>
+                    </div>
+                    <div class="menu-list-item">
+                        <div class="menu-list-left">
+                            <span class="menu-list-icon">📖</span>
+                            <span class="menu-list-text">政策说明</span>
+                        </div>
+                        <span class="menu-list-arrow">→</span>
+                    </div>
+                    <div class="menu-list-item">
+                        <div class="menu-list-left">
+                            <span class="menu-list-icon">📞</span>
+                            <span class="menu-list-text">联系客服</span>
+                        </div>
+                        <span class="menu-list-arrow">→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-bar">
+            <div class="tab-item active" onclick="goPage('home')">
+                <span class="tab-icon">🏠</span>
+                <span>首页</span>
+            </div>
+            <div class="tab-item" onclick="goPage('upload')">
+                <span class="tab-icon">📤</span>
+                <span>测算</span>
+            </div>
+            <div class="tab-item" onclick="goPage('history')">
+                <span class="tab-icon">📋</span>
+                <span>历史</span>
+            </div>
+            <div class="tab-item" onclick="goPage('profile')">
+                <span class="tab-icon">👤</span>
+                <span>我的</span>
+            </div>
+        </div>
+        
+        <div class="loading-overlay" id="loading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">正在解析PDF，请稍候...</div>
+        </div>
+    </div>
+    
+    <script>
+        let currentPage = 'home';
+        let pageHistory = ['home'];
+        
+        function goPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageName).classList.add('active');
+            
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            
+            const tabMap = {
+                'home': 0,
+                'upload': 1,
+                'payment': 1,
+                'info': 1,
+                'result': 1,
+                'history': 2,
+                'profile': 3
+            };
+            if (tabMap[pageName] !== undefined) {
+                document.querySelectorAll('.tab-item')[tabMap[pageName]].classList.add('active');
+            }
+            
+            const titles = {
+                'home': '福享退',
+                'upload': 'PDF上传',
+                'payment': '缴费明细',
+                'info': '补充信息',
+                'result': '测算结果',
+                'history': '历史记录',
+                'profile': '个人中心'
+            };
+            document.getElementById('pageTitle').textContent = titles[pageName];
+            
+            document.querySelector('.nav-back').style.display = pageName === 'home' ? 'none' : 'block';
+            
+            if (currentPage !== pageName) {
+                pageHistory.push(pageName);
+            }
+            currentPage = pageName;
+        }
+        
+        function goBack() {
+            if (pageHistory.length > 1) {
+                pageHistory.pop();
+                const prevPage = pageHistory[pageHistory.length - 1];
+                goPage(prevPage);
+                pageHistory.pop();
+            }
+        }
+        
+        function mockUpload() {
+            document.getElementById('loading').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('show');
+                goPage('payment');
+            }, 1500);
+        }
+        
+        function toggleDetail(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        document.querySelectorAll('.detail-content').forEach(el => {
+            el.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
