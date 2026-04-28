@@ -1523,74 +1523,104 @@
             <!-- 个人中心页 -->
             <div id="page-profile" class="page">
                 <div class="profile-header">
-                    <div class="avatar">👤</div>
-                    <div class="user-name">微信用户</div>
-                    <div style="font-size:12px;opacity:0.8;margin-top:4px;">已获取微信授权</div>
+                    <div class="avatar" style="width:64px;height:64px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">👤</div>
+                    <div class="user-name" style="font-size:18px;margin-top:12px;">微信用户</div>
+                    <div style="font-size:12px;opacity:0.9;margin-top:4px;background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:12px;">已获取微信授权</div>
                 </div>
                 
-                <!-- 微信用户信息卡片 -->
-                <div class="form-card" style="margin-bottom:16px;">
-                    <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:12px;">📱 微信授权信息</div>
-                    <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #f5f5f5;">
-                        <span style="font-size:13px;color:#666;width:80px;">昵称</span>
-                        <span style="font-size:13px;color:#333;font-weight:500;">微信用户</span>
-                    </div>
-                    <div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #f5f5f5;">
-                        <span style="font-size:13px;color:#666;width:80px;">头像</span>
-                        <div style="width:32px;height:32px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;">👤</div>
-                    </div>
-                    <div style="display:flex;align-items:center;padding:10px 0;">
-                        <span style="font-size:13px;color:#666;width:80px;">OpenID</span>
-                        <span style="font-size:12px;color:#999;">oY87623bc...</span>
-                    </div>
-                </div>
-                
-                <div class="menu-list">
-                    <div class="menu-list-item">
-                        <div class="menu-list-left">
-                            <span class="menu-list-icon">📋</span>
-                            <span class="menu-list-text">我的计算记录</span>
+                <!-- 数据统计卡片 -->
+                <div class="summary-card" style="margin:-20px 16px 16px;border-radius:12px;padding:16px;">
+                    <div style="display:flex;">
+                        <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">
+                            <div style="font-size:24px;font-weight:700;">12</div>
+                            <div style="font-size:12px;opacity:0.8;margin-top:4px;">测算次数</div>
                         </div>
-                        <span class="menu-list-arrow">→</span>
-                    </div>
-                    <div class="menu-list-item">
-                        <div class="menu-list-left">
-                            <span class="menu-list-icon">⚙️</span>
-                            <span class="menu-list-text">系统设置</span>
+                        <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">
+                            <div style="font-size:24px;font-weight:700;">¥3.2k</div>
+                            <div style="font-size:12px;opacity:0.8;margin-top:4px;">平均待遇</div>
                         </div>
-                        <span class="menu-list-arrow">→</span>
-                    </div>
-                    <div class="menu-list-item">
-                        <div class="menu-list-left">
-                            <span class="menu-list-icon">❓</span>
-                            <span class="menu-list-text">帮助中心</span>
+                        <div style="flex:1;text-align:center;">
+                            <div style="font-size:24px;font-weight:700;">18</div>
+                            <div style="font-size:12px;opacity:0.8;margin-top:4px;">累计缴费月</div>
                         </div>
-                        <span class="menu-list-arrow">→</span>
-                    </div>
-                    <div class="menu-list-item">
-                        <div class="menu-list-left">
-                            <span class="menu-list-icon">📖</span>
-                            <span class="menu-list-text">政策说明</span>
-                        </div>
-                        <span class="menu-list-arrow">→</span>
-                    </div>
-                    <div class="menu-list-item">
-                        <div class="menu-list-left">
-                            <span class="menu-list-icon">📞</span>
-                            <span class="menu-list-text">联系客服</span>
-                        </div>
-                        <span class="menu-list-arrow">→</span>
-                    </div>
-                    <div class="menu-list-item" style="margin-top:12px;background:#FFF5F5;">
-                        <div class="menu-list-left">
-                            <span class="menu-list-icon">🚪</span>
-                            <span class="menu-list-text" style="color:#E53E3E;">退出登录</span>
-                        </div>
-                        <span class="menu-list-arrow">→</span>
                     </div>
                 </div>
                 
-                <div style="text-align:center;padding:16px;font-size:12px;color:#999;">
+                <!-- 我的计算记录 -->
+                <div style="padding:0 16px;margin-bottom:16px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <span style="font-size:15px;font-weight:600;color:#333;">📋 我的计算记录</span>
+                        <span style="font-size:12px;color:#FF6B6B;">查看全部 →</span>
+                    </div>
+                    <div class="history-item" style="margin:0;padding:12px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="font-size:13px;color:#666;">2024年4月28日 10:30</span>
+                            <span style="font-size:18px;font-weight:700;color:#FF6B6B;">¥ 3,850/月</span>
+                        </div>
+                        <div style="display:flex;gap:12px;font-size:11px;color:#999;">
+                            <span>缴费年限：15年</span>
+                            <span>平均基数：¥ 5,980</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 政策说明 -->
+                <div style="padding:0 16px;margin-bottom:16px;">
+                    <div style="font-size:15px;font-weight:600;color:#333;margin-bottom:12px;">📖 政策说明</div>
+                    <div class="menu-list">
+                        <div class="menu-list-item" style="border-radius:10px 10px 0 0;">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">📄</span>
+                                <span class="menu-list-text">养老保险政策解读</span>
+                            </div>
+                            <span class="menu-list-arrow">→</span>
+                        </div>
+                        <div class="menu-list-item" style="border-radius:0;">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">📊</span>
+                                <span class="menu-list-text">待遇计算公式说明</span>
+                            </div>
+                            <span class="menu-list-arrow">→</span>
+                        </div>
+                        <div class="menu-list-item" style="border-radius:0 0 10px 10px;">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">📍</span>
+                                <span class="menu-list-text">福建省社保政策</span>
+                            </div>
+                            <span class="menu-list-arrow">→</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 其他功能 -->
+                <div style="padding:0 16px;margin-bottom:16px;">
+                    <div style="font-size:15px;font-weight:600;color:#333;margin-bottom:12px;">🔧 其他</div>
+                    <div class="menu-list">
+                        <div class="menu-list-item" style="border-radius:10px 10px 0 0;">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">📝</span>
+                                <span class="menu-list-text">用户协议</span>
+                            </div>
+                            <span class="menu-list-arrow">→</span>
+                        </div>
+                        <div class="menu-list-item" style="border-radius:0;">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">🔒</span>
+                                <span class="menu-list-text">隐私政策</span>
+                            </div>
+                            <span class="menu-list-arrow">→</span>
+                        </div>
+                        <div class="menu-list-item" style="border-radius:0 0 10px 10px;background:#FFF5F5;">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">🚪</span>
+                                <span class="menu-list-text" style="color:#E53E3E;">退出登录</span>
+                            </div>
+                            <span class="menu-list-arrow">→</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align:center;padding:8px 16px 16px;font-size:12px;color:#999;">
                     福享退 v1.0.0
                 </div>
             </div>
@@ -1604,10 +1634,6 @@
             <div class="tab-item" onclick="goPage('upload')">
                 <span class="tab-icon">📤</span>
                 <span>测算</span>
-            </div>
-            <div class="tab-item" onclick="goPage('history')">
-                <span class="tab-icon">📋</span>
-                <span>历史</span>
             </div>
             <div class="tab-item" onclick="goPage('profile')">
                 <span class="tab-icon">👤</span>
@@ -1738,7 +1764,7 @@
                 'info': 1,
                 'result': 1,
                 'history': 2,
-                'profile': 3
+                'profile': 2
             };
             if (tabMap[pageName] !== undefined) {
                 document.querySelectorAll('.tab-item')[tabMap[pageName]].classList.add('active');
