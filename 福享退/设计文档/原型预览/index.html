@@ -1567,21 +1567,21 @@
                 <div style="padding:0 16px;margin-bottom:16px;">
                     <div style="font-size:15px;font-weight:600;color:#333;margin-bottom:12px;">📖 政策说明</div>
                     <div class="menu-list">
-                        <div class="menu-list-item" style="border-radius:10px 10px 0 0;cursor:pointer;" onclick="alert('模拟：打开「养老保险政策解读」详情页')">
+                        <div class="menu-list-item" style="border-radius:10px 10px 0 0;cursor:pointer;" onclick="goPage('policy-1')">
                             <div class="menu-list-left">
                                 <span class="menu-list-icon">📄</span>
                                 <span class="menu-list-text">养老保险政策解读</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
                         </div>
-                        <div class="menu-list-item" style="border-radius:0;cursor:pointer;" onclick="alert('模拟：打开「待遇计算公式说明」详情页')">
+                        <div class="menu-list-item" style="border-radius:0;cursor:pointer;" onclick="goPage('policy-2')">
                             <div class="menu-list-left">
                                 <span class="menu-list-icon">📊</span>
                                 <span class="menu-list-text">待遇计算公式说明</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
                         </div>
-                        <div class="menu-list-item" style="border-radius:0 0 10px 10px;cursor:pointer;" onclick="alert('模拟：打开「福建省社保政策」详情页')">
+                        <div class="menu-list-item" style="border-radius:0 0 10px 10px;cursor:pointer;" onclick="goPage('policy-3')">
                             <div class="menu-list-left">
                                 <span class="menu-list-icon">📍</span>
                                 <span class="menu-list-text">福建省社保政策</span>
@@ -1595,14 +1595,14 @@
                 <div style="padding:0 16px;margin-bottom:16px;">
                     <div style="font-size:15px;font-weight:600;color:#333;margin-bottom:12px;">🔧 其他</div>
                     <div class="menu-list">
-                        <div class="menu-list-item" style="border-radius:10px 10px 0 0;cursor:pointer;" onclick="alert('模拟：打开「用户协议」详情页')">
+                        <div class="menu-list-item" style="border-radius:10px 10px 0 0;cursor:pointer;" onclick="goPage('policy-4')">
                             <div class="menu-list-left">
                                 <span class="menu-list-icon">📝</span>
                                 <span class="menu-list-text">用户协议</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
                         </div>
-                        <div class="menu-list-item" style="border-radius:0;cursor:pointer;" onclick="alert('模拟：打开「隐私政策」详情页')">
+                        <div class="menu-list-item" style="border-radius:0;cursor:pointer;" onclick="goPage('policy-5')">
                             <div class="menu-list-left">
                                 <span class="menu-list-icon">🔒</span>
                                 <span class="menu-list-text">隐私政策</span>
@@ -1621,6 +1621,230 @@
                 
                 <div style="text-align:center;padding:8px 16px 16px;font-size:12px;color:#999;">
                     福享退 v1.0.0
+                </div>
+            </div>
+            
+            <!-- 养老保险政策解读页面 -->
+            <div id="page-policy-1" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;">📄 养老保险政策解读</h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">一、养老保险体系概述</div>
+                    <p style="font-size:14px;color:#666;line-height:1.8;margin:0;">我国养老保险分为三类：企业职工基本养老保险、机关事业单位养老保险、城乡居民基本养老保险，分别覆盖不同人群，保障退休后基本生活。</p>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">二、参保范围</div>
+                    <p style="font-size:14px;color:#666;line-height:1.8;margin:0;">✅ 企业职工：各类企业、社会团体、民办非企业单位等组织的职工<br>✅ 灵活就业人员：未在用人单位参保的非全日制从业人员<br>✅ 机关事业单位：公务员、事业单位编制内工作人员<br>✅ 城乡居民：年满16周岁（不含在校学生），非国家机关和事业单位工作人员及不属于职工基本养老保险制度覆盖范围的城乡居民</p>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">三、缴费比例</div>
+                    <div style="background:#FFF8F0;border-radius:8px;padding:12px;">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                            <span style="font-size:13px;color:#666;">单位缴费</span>
+                            <span style="font-size:14px;font-weight:600;color:#333;">16%</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                            <span style="font-size:13px;color:#666;">个人缴费</span>
+                            <span style="font-size:14px;font-weight:600;color:#333;">8%</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;">
+                            <span style="font-size:13px;color:#666;">计入个人账户</span>
+                            <span style="font-size:14px;font-weight:600;color:#FF6B6B;">全部个人缴费</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">四、退休年龄</div>
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead>
+                            <tr style="background:#FFF8F0;">
+                                <th style="padding:8px;text-align:left;border:1px solid #FFE0D0;">人群</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #FFE0D0;">男性</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #FFE0D0;">女性</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding:8px;border:1px solid #FFE0D0;color:#666;">企业工人</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">60岁</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">50岁</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;border:1px solid #FFE0D0;color:#666;">干部/管理岗</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">60岁</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">55岁</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;border:1px solid #FFE0D0;color:#666;">城乡居民</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">60岁</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">60岁</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 待遇计算公式说明页面 -->
+            <div id="page-policy-2" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;">📊 待遇计算公式说明</h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">企业职工养老金 = 基础养老金 + 个人账户养老金</div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">一、基础养老金</div>
+                    <div style="background:#FFF8F0;border-radius:8px;padding:12px;margin-bottom:12px;">
+                        <p style="font-size:14px;color:#333;line-height:1.8;margin:0;text-align:center;font-weight:500;">(退休时本省上年度在岗职工月平均工资 + 本人指数化月平均缴费工资) ÷ 2 × 累计缴费年限 × 1%</p>
+                    </div>
+                    <p style="font-size:13px;color:#666;line-height:1.7;margin:0;">💡 本人指数化月平均缴费工资 = 退休时上年度全省在岗职工月平均工资 × 本人平均缴费工资指数</p>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">二、个人账户养老金</div>
+                    <div style="background:#FFF8F0;border-radius:8px;padding:12px;margin-bottom:12px;">
+                        <p style="font-size:14px;color:#333;line-height:1.8;margin:0;text-align:center;font-weight:500;">退休时个人账户累计储存额 ÷ 计发月数</p>
+                    </div>
+                    <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:8px;">📌 常用计发月数参考：</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <div style="background:#F8FAFC;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#666;">50岁退休</div>
+                            <div style="font-size:16px;font-weight:700;color:#FF6B6B;">195个月</div>
+                        </div>
+                        <div style="background:#F8FAFC;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#666;">55岁退休</div>
+                            <div style="font-size:16px;font-weight:700;color:#FF6B6B;">170个月</div>
+                        </div>
+                        <div style="background:#F8FAFC;border-radius:6px;padding:8px;text-align:center;grid-column:span 2;">
+                            <div style="font-size:12px;color:#666;">60岁退休</div>
+                            <div style="font-size:16px;font-weight:700;color:#FF6B6B;">139个月</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">三、重要概念说明</div>
+                    <div style="border-bottom:1px solid #F5F5F5;padding:10px 0;">
+                        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:4px;">缴费工资指数</div>
+                        <p style="font-size:13px;color:#666;line-height:1.6;margin:0;">本人当年缴费基数 ÷ 上年度全省在岗职工月平均工资，取值范围 0.6 ~ 3.0</p>
+                    </div>
+                    <div style="border-bottom:1px solid #F5F5F5;padding:10px 0;">
+                        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:4px;">平均缴费指数</div>
+                        <p style="font-size:13px;color:#666;line-height:1.6;margin:0;">各年度缴费指数的平均值，反映整个缴费期间缴费水平高低</p>
+                    </div>
+                    <div style="padding:10px 0 0;">
+                        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:4px;">视同缴费年限</div>
+                        <p style="font-size:13px;color:#666;line-height:1.6;margin:0;">实行个人缴费制度前，按国家规定可计算为连续工龄的工作年限</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 福建省社保政策页面 -->
+            <div id="page-policy-3" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;">📍 福建省社保政策</h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">一、重点政策文件</div>
+                    <div style="background:#F8FAFC;border-radius:8px;padding:10px;margin-bottom:8px;">
+                        <div style="font-size:13px;font-weight:600;color:#333;">闽政〔2006〕24号</div>
+                        <p style="font-size:12px;color:#666;margin:4px 0 0;">福建省企业职工基本养老保险省级统筹实施意见</p>
+                    </div>
+                    <div style="background:#F8FAFC;border-radius:8px;padding:10px;margin-bottom:8px;">
+                        <div style="font-size:13px;font-weight:600;color:#333;">闽政〔2015〕48号</div>
+                        <p style="font-size:12px;color:#666;margin:4px 0 0;">完善机关事业单位养老保险制度改革实施意见</p>
+                    </div>
+                    <div style="background:#F8FAFC;border-radius:8px;padding:10px;">
+                        <div style="font-size:13px;font-weight:600;color:#333;">闽人社文〔2019〕236号</div>
+                        <p style="font-size:12px;color:#666;margin:4px 0 0;">规范机关事业单位养老保险待遇计发办法</p>
+                    </div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">二、灵活就业人员参保</div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F5F5F5;">
+                        <span style="font-size:14px;color:#666;">缴费基数</span>
+                        <span style="font-size:14px;font-weight:600;color:#333;">全省全口径平均工资 60% ~ 300%</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F5F5F5;">
+                        <span style="font-size:14px;color:#666;">缴费比例</span>
+                        <span style="font-size:14px;font-weight:600;color:#FF6B6B;">20%</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+                        <span style="font-size:14px;color:#666;">计入个人账户</span>
+                        <span style="font-size:14px;font-weight:600;color:#333;">8%</span>
+                    </div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">三、城乡居民保缴费档次</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">200元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">300元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">500元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">1000元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">2000元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">3000元</div>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;color:#999;margin-top:10px;text-align:center;">政府补贴：缴费200元补贴40元，每提高一档增加5元</p>
+                </div>
+            </div>
+            
+            <!-- 用户协议页面 -->
+            <div id="page-policy-4" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;">📝 用户服务协议</h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:14px;color:#666;line-height:1.8;">
+                        <p style="margin-top:0;">欢迎您使用福享退养老金测算服务！在使用本服务前，请您仔细阅读以下条款：</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">一、服务说明</h4>
+                        <p style="margin:0 0 12px;">福享退是一款养老金测算工具，通过用户输入的缴费基数、缴费年限等信息，按照国家及福建省养老保险政策公式，自动计算预估养老金待遇。</p>
+                        <p style="background:#FFF8F0;border-radius:8px;padding:12px;margin:0 0 12px;color:#D97706;font-size:13px;">
+                            ⚠️ <strong>重要提示：</strong>本工具测算结果仅供参考，不代表社保经办机构最终核定结果，实际待遇以社保部门核算为准。
+                        </p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">二、账号管理</h4>
+                        <p style="margin:0 0 12px;">用户通过微信授权登录，需妥善保管账号信息。用户对账号下的所有行为承担法律责任。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">三、行为规范</h4>
+                        <p style="margin:0 0 12px;">用户在使用本服务时，不得发布违法信息、恶意攻击系统、进行虚假测算或其他违反法律法规的行为。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">四、知识产权</h4>
+                        <p style="margin:0 0 12px;">本软件所有内容（包括但不限于文字、图片、图标、软件代码）均受知识产权法保护，未经授权不得复制、传播或用于商业用途。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">五、免责声明</h4>
+                        <p style="margin:0 0 12px;">1. 测算结果仅供参考，不作为任何待遇主张依据<br>2. 因政策调整、参数变动导致测算结果与实际不符的，不承担责任<br>3. 因用户提供信息不准确导致结果有误的，由用户自行承担</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">六、争议解决</h4>
+                        <p style="margin:0;">因本服务引起的争议，双方应友好协商解决，协商不成的，提交福建省福州市有管辖权的法院诉讼解决。</p>
+                    </div>
+                </div>
+                <div style="text-align:center;padding:12px;font-size:12px;color:#999;">
+                    最后更新日期：2024年4月1日
+                </div>
+            </div>
+            
+            <!-- 隐私政策页面 -->
+            <div id="page-policy-5" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;">🔒 隐私政策</h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:14px;color:#666;line-height:1.8;">
+                        <p style="margin-top:0;">福享退深知个人信息对您的重要性，我们严格按照《个人信息保护法》等法律法规要求，保护您的个人隐私。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">一、信息收集</h4>
+                        <p style="margin:0 0 12px;">我们收集的信息包括：<br>✅ 微信授权信息（昵称、头像）<br>✅ 您主动输入的社保缴费信息（缴费基数、缴费年限等）<br>✅ 上传的PDF缴费凭证文件<br>✅ 设备信息及操作日志</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">二、信息使用</h4>
+                        <p style="margin:0 0 12px;">收集的信息仅用于：<br>1. 为您提供养老金测算服务<br>2. 保存您的测算历史记录<br>3. 优化改进产品功能<br>4. 保障账户安全</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">三、信息存储与保护</h4>
+                        <p style="margin:0 0 12px;">✅ 数据加密存储，采用AES-256加密算法<br>✅ 服务器部署在腾讯云福州节点，符合数据本地化要求<br>✅ PDF文件自上传之日起30天后自动删除<br>✅ 建立完善的数据安全管理制度，定期进行安全审计</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">四、信息共享与披露</h4>
+                        <p style="margin:0 0 12px;">我们不会出售您的个人信息。仅在以下情况下可能共享您的信息：<br>1. 获得您的明确同意<br>2. 法律法规要求或行政、司法机关依法要求<br>3. 为完成测算所必需的第三方服务提供商（如OCR识别服务）</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">五、您的权利</h4>
+                        <p style="margin:0 0 12px;">您依法享有以下权利：<br>1. 访问、更正您的个人信息<br>2. 删除您的测算记录及个人数据<br>3. 注销您的账号<br>4. 撤回已同意的授权</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">六、未成年人保护</h4>
+                        <p style="margin:0 0 12px;">本服务仅面向年满16周岁的用户。如果您是未成年人，请在监护人陪同下阅读本政策，并在监护人同意后使用。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">七、政策更新</h4>
+                        <p style="margin:0;">我们可能会适时更新本隐私政策。重大变更会通过APP内通知方式告知您。如您继续使用本服务，即表示同意更新后的政策。</p>
+                    </div>
+                </div>
+                <div style="text-align:center;padding:12px;font-size:12px;color:#999;">
+                    最后更新日期：2024年4月1日
                 </div>
             </div>
         </div>
@@ -1776,7 +2000,12 @@
                 'info': '补充信息',
                 'result': '测算结果',
                 'history': '历史记录',
-                'profile': '个人中心'
+                'profile': '个人中心',
+                'policy-1': '养老保险政策解读',
+                'policy-2': '待遇计算公式说明',
+                'policy-3': '福建省社保政策',
+                'policy-4': '用户服务协议',
+                'policy-5': '隐私政策'
             };
             document.getElementById('pageTitle').textContent = titles[pageName];
             
