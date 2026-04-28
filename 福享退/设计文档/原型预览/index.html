@@ -813,6 +813,293 @@
             font-size: 12px;
             font-weight: 500;
         }
+        
+        /* 缴费明细编辑弹窗样式 */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            width: 340px;
+            max-height: 580px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 16px;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+        
+        .month-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .month-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .month-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .month-input {
+            padding: 8px 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        
+        .month-input:focus {
+            outline: none;
+            border-color: #FF6B6B;
+        }
+        
+        .stats-box {
+            background: #F8FAFC;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+        }
+        
+        .stats-label {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .stats-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .stats-value.highlight {
+            color: #FF6B6B;
+        }
+        
+        .change-notice {
+            background: #FEF3C7;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid #F59E0B;
+        }
+        
+        .change-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #92400E;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .change-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 4px 0;
+        }
+        
+        .change-old {
+            color: #DC2626;
+            text-decoration: line-through;
+        }
+        
+        .change-new {
+            color: #059669;
+            font-weight: 600;
+        }
+        
+        .modal-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .modal-btn-cancel {
+            flex: 1;
+            padding: 12px;
+            background: #F1F5F9;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        .modal-btn-confirm {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        /* 未来缴费选择样式 */
+        .future-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 16px;
+        }
+        
+        .future-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .future-options {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .future-option {
+            flex: 1;
+            padding: 14px 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .future-option:hover {
+            border-color: #FF8E53;
+        }
+        
+        .future-option.selected {
+            border-color: #FF6B6B;
+            background: #FFF8F0;
+        }
+        
+        .future-percent {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .future-option.selected .future-percent {
+            color: #FF6B6B;
+        }
+        
+        .future-desc {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .future-preview {
+            background: #F0FDF4;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 14px;
+            border-left: 4px solid #10B981;
+        }
+        
+        .preview-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #065F46;
+            margin-bottom: 8px;
+        }
+        
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 4px 0;
+            color: #065F46;
+        }
+        
+        /* 上一步/下一步按钮样式 */
+        .step-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .step-btn-prev {
+            flex: 1;
+            padding: 14px;
+            background: #F1F5F9;
+            border: none;
+            border-radius: 10px;
+            color: #666;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .step-btn-next {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -833,7 +1120,14 @@
             <!-- 首页 -->
             <div id="page-home" class="page active">
                 <div class="logo-area">
-                    <div class="logo">❤️</div>
+                    <div class="logo">
+                        <svg width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="100" cy="100" r="85" fill="white" opacity="0.95" />
+                            <circle cx="100" cy="68" r="22" fill="white" opacity="0.3" />
+                            <circle cx="100" cy="68" r="15" fill="white" opacity="0.5" />
+                            <path d="M100 75 C80 58 55 72 55 92 C55 118 100 145 100 145 C100 145 145 118 145 92 C145 72 120 58 100 75" fill="white" opacity="0.95" />
+                        </svg>
+                    </div>
                     <div class="logo-title">福享退</div>
                     <div class="logo-desc">企业职工养老待遇测算</div>
                 </div>
@@ -928,7 +1222,7 @@
                         </select>
                     </div>
                     
-                    <div class="table-row" onclick="alert('模拟：打开编辑弹窗')">
+                    <div class="table-row">
                         <div class="row-left">
                             <div class="row-year">2024年</div>
                             <div class="row-base">缴费基数：6000元</div>
@@ -936,7 +1230,7 @@
                         <div class="row-right">
                             <div class="row-money">¥ 14,400</div>
                             <div class="row-month">12个月</div>
-                            <button class="edit-btn">编辑</button>
+                            <button class="edit-btn" onclick="openEditModal(2024)">编辑</button>
                         </div>
                     </div>
                     
@@ -948,7 +1242,7 @@
                         <div class="row-right">
                             <div class="row-money">¥ 13,920</div>
                             <div class="row-month">12个月</div>
-                            <button class="edit-btn">编辑</button>
+                            <button class="edit-btn" onclick="openEditModal(2023)">编辑</button>
                         </div>
                     </div>
                     
@@ -960,7 +1254,7 @@
                         <div class="row-right">
                             <div class="row-money">¥ 13,200</div>
                             <div class="row-month">12个月</div>
-                            <button class="edit-btn">编辑</button>
+                            <button class="edit-btn" onclick="openEditModal(2022)">编辑</button>
                         </div>
                     </div>
                 </div>
@@ -985,7 +1279,10 @@
                     </div>
                 </div>
                 
-                <button class="calc-btn" onclick="goPage('info')">确认无误，下一步 →</button>
+                <div class="step-buttons">
+                    <button class="step-btn-prev" onclick="goPage('upload')">← 上一步</button>
+                    <button class="step-btn-next" onclick="goPage('info')">下一步 →</button>
+                </div>
             </div>
             
             <!-- 补充信息页 -->
@@ -1040,7 +1337,46 @@
                     </div>
                 </div>
                 
-                <button class="calc-btn" onclick="goPage('result')">开始计算 →</button>
+                <!-- 未来缴费预测选择 -->
+                <div class="future-section">
+                    <div class="future-title">🔮 未来缴费预测</div>
+                    <div class="future-options">
+                        <div class="future-option" onclick="selectFutureOption(this, 60)">
+                            <div class="future-percent">60%</div>
+                            <div class="future-desc">按社平60%</div>
+                        </div>
+                        <div class="future-option selected" onclick="selectFutureOption(this, 100)">
+                            <div class="future-percent">100%</div>
+                            <div class="future-desc">按社平100%</div>
+                        </div>
+                        <div class="future-option" onclick="selectFutureOption(this, 300)">
+                            <div class="future-percent">300%</div>
+                            <div class="future-desc">按社平300%</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 预测结果预览 -->
+                    <div class="future-preview">
+                        <div class="preview-title">✓ 已自动生成缴费明细</div>
+                        <div class="preview-row">
+                            <span>预测缴费年限</span>
+                            <span>6年（2025-2030）</span>
+                        </div>
+                        <div class="preview-row">
+                            <span>预测缴费基数</span>
+                            <span>逐年按社平增长</span>
+                        </div>
+                        <div class="preview-row">
+                            <span>预计个人账户增加</span>
+                            <span>¥ 86,400</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-buttons">
+                    <button class="step-btn-prev" onclick="goPage('payment')">← 上一步</button>
+                    <button class="step-btn-next" onclick="goPage('result')">开始计算 →</button>
+                </div>
             </div>
             
             <!-- 计算结果页 -->
@@ -1099,7 +1435,7 @@
                 </div>
                 
                 <div class="action-buttons">
-                    <button class="btn-secondary" onclick="goPage('home')">返回首页</button>
+                    <button class="btn-secondary" onclick="goPage('info')">← 修改参数</button>
                     <button class="btn-primary" onclick="alert('模拟：已保存到历史记录')">保存结果</button>
                 </div>
             </div>
@@ -1210,6 +1546,106 @@
             <div class="loading-spinner"></div>
             <div class="loading-text">正在解析PDF，请稍候...</div>
         </div>
+        
+        <!-- 缴费明细编辑弹窗 -->
+        <div class="modal-overlay" id="editModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" id="editModalTitle">编辑2024年缴费明细</span>
+                    <span class="modal-close" onclick="closeEditModal()">×</span>
+                </div>
+                <div class="modal-body">
+                    <!-- 变更提示（修改后显示） -->
+                    <div class="change-notice" id="changeNotice" style="display:none;">
+                        <div class="change-title">⚠️ 本年度数据已修改</div>
+                        <div class="change-row">
+                            <span>原年度平均基数</span>
+                            <span class="change-old">¥ 6000</span>
+                        </div>
+                        <div class="change-row">
+                            <span>新年度平均基数</span>
+                            <span class="change-new">¥ 6200</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 按月编辑表格 -->
+                    <div class="month-grid">
+                        <div class="month-item">
+                            <label class="month-label">1月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">2月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">3月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">4月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">5月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">6月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">7月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">8月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">9月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">10月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">11月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">12月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                    </div>
+                    
+                    <!-- 年度统计 -->
+                    <div class="stats-box">
+                        <div class="stats-row">
+                            <span class="stats-label">本年度月平均缴费基数</span>
+                            <span class="stats-value highlight" id="yearAvgBase">¥ 6,100</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">当年度月社平工资</span>
+                            <span class="stats-value">¥ 8,500</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">缴费指数</span>
+                            <span class="stats-value">0.718</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">本年度缴费总额</span>
+                            <span class="stats-value highlight">¥ 73,200</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn-cancel" onclick="closeEditModal()">取消</button>
+                    <button class="modal-btn-confirm" onclick="saveEditModal()">保存修改</button>
+                </div>
+            </div>
+        </div>
     </div>
     
     <script>
@@ -1279,6 +1715,78 @@
         document.querySelectorAll('.detail-content').forEach(el => {
             el.style.display = 'none';
         });
+        
+        // 编辑缴费明细弹窗功能
+        let currentEditYear = 2024;
+        const originalBase = {
+            2024: 6000,
+            2023: 5800,
+            2022: 5500
+        };
+        
+        function openEditModal(year) {
+            currentEditYear = year;
+            document.getElementById('editModalTitle').textContent = '编辑' + year + '年缴费明细';
+            document.getElementById('editModal').classList.add('show');
+            
+            // 根据年份设置不同的初始数据（模拟）
+            const inputs = document.querySelectorAll('.month-input');
+            const base = originalBase[year] || 6000;
+            inputs.forEach(input => input.value = base);
+            
+            // 隐藏变更提示
+            document.getElementById('changeNotice').style.display = 'none';
+            calculateYearAvg();
+        }
+        
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('show');
+        }
+        
+        function calculateYearAvg() {
+            const inputs = document.querySelectorAll('.month-input');
+            let total = 0;
+            let count = 0;
+            
+            inputs.forEach(input => {
+                const value = parseFloat(input.value) || 0;
+                total += value;
+                count++;
+            });
+            
+            const avg = Math.round(total / count);
+            document.getElementById('yearAvgBase').textContent = '¥ ' + avg.toLocaleString();
+            
+            // 如果平均值与原基数不同，显示变更提示
+            if (avg !== originalBase[currentEditYear]) {
+                const notice = document.getElementById('changeNotice');
+                notice.style.display = 'block';
+                notice.querySelectorAll('.change-row')[0].querySelector('.change-old').textContent = '¥ ' + originalBase[currentEditYear];
+                notice.querySelectorAll('.change-row')[1].querySelector('.change-new').textContent = '¥ ' + avg;
+            } else {
+                document.getElementById('changeNotice').style.display = 'none';
+            }
+        }
+        
+        function saveEditModal() {
+            alert('模拟：' + currentEditYear + '年缴费明细已保存');
+            closeEditModal();
+        }
+        
+        // 未来缴费选项选择
+        function selectFutureOption(el, percent) {
+            document.querySelectorAll('.future-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            el.classList.add('selected');
+            
+            // 更新预览数据
+            const preview = document.querySelector('.future-preview');
+            const baseAmount = 86400;
+            
+            preview.querySelector('.preview-row:last-child span:last-child').textContent = 
+                '¥ ' + Math.round(baseAmount * percent / 100).toLocaleString();
+        }
     </script>
 </body>
 </html>
