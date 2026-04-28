@@ -1120,12 +1120,21 @@
             <!-- 首页 -->
             <div id="page-home" class="page active">
                 <div class="logo-area">
-                    <div class="logo">
-                        <svg width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="100" cy="100" r="85" fill="white" opacity="0.95" />
+                    <div class="logo" style="background:none;">
+                        <svg width="80" height="80" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FF6B6B"/>
+                                    <stop offset="50%" stop-color="#FF8E53"/>
+                                    <stop offset="100%" stop-color="#FEC89A"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="90" fill="url(#logoGrad)" />
                             <circle cx="100" cy="68" r="22" fill="white" opacity="0.3" />
                             <circle cx="100" cy="68" r="15" fill="white" opacity="0.5" />
                             <path d="M100 75 C80 58 55 72 55 92 C55 118 100 145 100 145 C100 145 145 118 145 92 C145 72 120 58 100 75" fill="white" opacity="0.95" />
+                            <circle cx="100" cy="95" r="6" fill="url(#logoGrad)" opacity="0.6" />
+                            <path d="M55 150 Q75 160 100 160 Q125 160 145 150" stroke="white" stroke-width="4" fill="none" opacity="0.6" stroke-linecap="round" />
                         </svg>
                     </div>
                     <div class="logo-title">福享退</div>
