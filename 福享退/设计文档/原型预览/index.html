@@ -1738,14 +1738,20 @@
             document.getElementById('editModalTitle').textContent = '编辑' + year + '年缴费明细';
             document.getElementById('editModal').classList.add('show');
             
-            // 根据年份设置不同的初始数据（模拟）
+            // 根据年份设置不同的初始数据（模拟部分月份已修改）
             const inputs = document.querySelectorAll('.month-input');
             const base = originalBase[year] || 6000;
-            inputs.forEach(input => input.value = base);
             
-            // 隐藏变更提示
-            document.getElementById('changeNotice').style.display = 'none';
-            calculateYearAvg();
+            // 模拟：前6个月是原值，后6个月是新值，让用户一打开就能看到变更效果
+            inputs.forEach((input, index) => {
+                if (index < 6) {
+                    input.value = base;  // 前6个月原值
+                } else {
+                    input.value = Math.round(base * 1.05);  // 后6个月增长5%，模拟变更
+                }
+            });
+            
+            calculateYearAvg();  // 自动计算并显示变更提示
         }
         
         function closeEditModal() {
