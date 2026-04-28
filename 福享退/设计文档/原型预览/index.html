@@ -1349,12 +1349,16 @@
                 <!-- 未来缴费预测选择 -->
                 <div class="future-section">
                     <div class="future-title">🔮 未来缴费预测</div>
-                    <div class="future-options">
+                    <div class="future-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div class="future-option selected" onclick="selectFutureOption(this, 'real')">
+                            <div class="future-percent" style="font-size:14px;">本人基数</div>
+                            <div class="future-desc">按最新缴费基数</div>
+                        </div>
                         <div class="future-option" onclick="selectFutureOption(this, 60)">
                             <div class="future-percent">60%</div>
                             <div class="future-desc">按社平60%</div>
                         </div>
-                        <div class="future-option selected" onclick="selectFutureOption(this, 100)">
+                        <div class="future-option" onclick="selectFutureOption(this, 100)">
                             <div class="future-percent">100%</div>
                             <div class="future-desc">按社平100%</div>
                         </div>
@@ -1380,19 +1384,19 @@
                         </div>
                         <div class="preview-row">
                             <span>预计个人账户增加</span>
-                            <span id="futureTotalAmount">¥ 86,400</span>
+                            <span id="futureTotalAmount">¥ 38,726</span>
                         </div>
                         
                         <!-- 年度明细（默认折叠） -->
                         <div id="futureYearDetail" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(16,185,129,0.2);">
                             <div style="font-size:12px;color:#065F46;font-weight:600;margin-bottom:8px;">📋 年度缴费基数明细</div>
                             <div id="futureYearList" style="font-size:12px;color:#065F46;">
-                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2025年</span><span>¥ 8,925 × 100%</span></div>
-                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2026年</span><span>¥ 9,371 × 100%</span></div>
-                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2027年</span><span>¥ 9,840 × 100%</span></div>
-                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2028年</span><span>¥ 10,332 × 100%</span></div>
-                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2029年</span><span>¥ 10,849 × 100%</span></div>
-                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2030年</span><span>¥ 11,391 × 100%</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2025年</span><span>¥ 6,150（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2026年</span><span>¥ 6,458（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2027年</span><span>¥ 6,781（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2028年</span><span>¥ 7,120（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2029年</span><span>¥ 7,476（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2030年</span><span>¥ 7,850（本人基数）</span></div>
                             </div>
                         </div>
                     </div>
@@ -1839,28 +1843,40 @@
         }
         
         // 未来缴费选项选择
-        function selectFutureOption(el, percent) {
+        function selectFutureOption(el, mode) {
             document.querySelectorAll('.future-option').forEach(opt => {
                 opt.classList.remove('selected');
             });
             el.classList.add('selected');
             
-            // 更新总金额
             const baseAmount = 86400;
-            document.getElementById('futureTotalAmount').textContent = 
-                '¥ ' + Math.round(baseAmount * percent / 100).toLocaleString();
-            
-            // 更新年度明细的比例显示
             const yearList = document.getElementById('futureYearList');
             const baseValues = [8925, 9371, 9840, 10332, 10849, 11391];
             const years = [2025, 2026, 2027, 2028, 2029, 2030];
+            const realBase = 6150; // 本人最新缴费基数
+            const growthRate = 1.05; // 年增长率5%
             
             let html = '';
-            for (let i = 0; i < years.length; i++) {
-                const value = Math.round(baseValues[i] * percent / 100);
-                html += '<div style="display:flex;justify-content:space-between;padding:3px 0;"><span>' + years[i] + '年</span><span>¥ ' + value.toLocaleString() + ' × ' + percent + '%</span></div>';
+            let totalAmount = 0;
+            
+            if (mode === 'real') {
+                // 按本人最新缴费基数，逐年增长
+                for (let i = 0; i < years.length; i++) {
+                    const value = Math.round(realBase * Math.pow(growthRate, i));
+                    html += '<div style="display:flex;justify-content:space-between;padding:3px 0;"><span>' + years[i] + '年</span><span>¥ ' + value.toLocaleString() + '（本人基数）</span></div>';
+                    totalAmount += value * 8 * 12; // 8%计入个人账户
+                }
+            } else {
+                // 按社平比例
+                for (let i = 0; i < years.length; i++) {
+                    const value = Math.round(baseValues[i] * mode / 100);
+                    html += '<div style="display:flex;justify-content:space-between;padding:3px 0;"><span>' + years[i] + '年</span><span>¥ ' + value.toLocaleString() + ' × ' + mode + '%</span></div>';
+                    totalAmount += value * 8 * 12; // 8%计入个人账户
+                }
             }
+            
             yearList.innerHTML = html;
+            document.getElementById('futureTotalAmount').textContent = '¥ ' + Math.round(totalAmount / 100).toLocaleString();
         }
     </script>
 </body>
