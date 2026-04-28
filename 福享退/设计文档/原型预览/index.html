@@ -164,27 +164,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
         }
         
         .menu-icon.primary {
             background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-            color: white;
         }
         
         .menu-icon.blue {
             background: linear-gradient(135deg, #4FACFE 0%, #0072FF 100%);
-            color: white;
         }
         
         .menu-icon.green {
             background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-            color: white;
         }
         
         .menu-icon.purple {
             background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-            color: white;
+        }
+        
+        .menu-icon svg {
+            width: 24px;
+            height: 24px;
         }
         
         .menu-title {
@@ -760,7 +760,13 @@
         }
         
         .menu-list-icon {
-            font-size: 20px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .menu-list-icon svg {
+            width: 20px;
+            height: 20px;
         }
         
         .menu-list-text {
@@ -1152,19 +1158,45 @@
                 
                 <div class="menu-grid">
                     <div class="menu-item" onclick="goPage('upload')">
-                        <div class="menu-icon primary">📤</div>
+                        <div class="menu-icon primary">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 10L12 15L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 15V3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                         <div class="menu-title">PDF上传</div>
                     </div>
                     <div class="menu-item" onclick="goPage('payment')">
-                        <div class="menu-icon blue">📊</div>
+                        <div class="menu-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 20H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 4V20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 11V20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 15V20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 20H4.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                         <div class="menu-title">缴费明细</div>
                     </div>
                     <div class="menu-item" onclick="goPage('history')">
-                        <div class="menu-icon green">📋</div>
+                        <div class="menu-icon green">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14 2V8H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 13H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 17H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                         <div class="menu-title">历史记录</div>
                     </div>
                     <div class="menu-item" onclick="goPage('profile')">
-                        <div class="menu-icon purple">👤</div>
+                        <div class="menu-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                         <div class="menu-title">个人中心</div>
                     </div>
                 </div>
@@ -1569,21 +1601,57 @@
                     <div class="menu-list">
                         <div class="menu-list-item" style="border-radius:10px 10px 0 0;cursor:pointer;" onclick="goPage('policy-1')">
                             <div class="menu-list-left">
-                                <span class="menu-list-icon">📄</span>
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14 2V8H20" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
                                 <span class="menu-list-text">养老保险政策解读</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
                         </div>
                         <div class="menu-list-item" style="border-radius:0;cursor:pointer;" onclick="goPage('policy-2')">
                             <div class="menu-list-left">
-                                <span class="menu-list-icon">📊</span>
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 20H4" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M4 4H6V20H4" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M8 12H10V20H8V12Z" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 9H14V20H12V9Z" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M16 5H18V20H16V5Z" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
                                 <span class="menu-list-text">待遇计算公式说明</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
                         </div>
                         <div class="menu-list-item" style="border-radius:0 0 10px 10px;cursor:pointer;" onclick="goPage('policy-3')">
                             <div class="menu-list-left">
-                                <span class="menu-list-icon">📍</span>
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="url(#grad3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="url(#grad3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
                                 <span class="menu-list-text">福建省社保政策</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
@@ -1597,21 +1665,50 @@
                     <div class="menu-list">
                         <div class="menu-list-item" style="border-radius:10px 10px 0 0;cursor:pointer;" onclick="goPage('policy-4')">
                             <div class="menu-list-left">
-                                <span class="menu-list-icon">📝</span>
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="url(#grad4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M18.5 2.5L21.5 5.5L15.5 11.5L12.5 12.5L13.5 9.5L18.5 2.5Z" stroke="url(#grad4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
                                 <span class="menu-list-text">用户协议</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
                         </div>
                         <div class="menu-list-item" style="border-radius:0;cursor:pointer;" onclick="goPage('policy-5')">
                             <div class="menu-list-left">
-                                <span class="menu-list-icon">🔒</span>
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="url(#grad5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke="url(#grad5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" stroke="url(#grad5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
                                 <span class="menu-list-text">隐私政策</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
                         </div>
                         <div class="menu-list-item" style="border-radius:0 0 10px 10px;background:#FFF5F5;cursor:pointer;" onclick="alert('模拟：确认退出登录')">
                             <div class="menu-list-left">
-                                <span class="menu-list-icon">🚪</span>
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M16 17L21 12L16 7" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M21 12H9" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
                                 <span class="menu-list-text" style="color:#E53E3E;">退出登录</span>
                             </div>
                             <span class="menu-list-arrow">→</span>
