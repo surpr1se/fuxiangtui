@@ -1366,18 +1366,34 @@
                     
                     <!-- 预测结果预览 -->
                     <div class="future-preview">
-                        <div class="preview-title">✓ 已自动生成缴费明细</div>
+                        <div class="preview-title" onclick="toggleFutureDetail()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                            <span>✓ 已自动生成缴费明细</span>
+                            <span id="futureToggleIcon" style="font-size:12px;">▼</span>
+                        </div>
                         <div class="preview-row">
                             <span>预测缴费年限</span>
                             <span>6年（2025-2030）</span>
                         </div>
                         <div class="preview-row">
                             <span>预测缴费基数</span>
-                            <span>逐年按社平增长</span>
+                            <span>逐年按社平5%增长</span>
                         </div>
                         <div class="preview-row">
                             <span>预计个人账户增加</span>
-                            <span>¥ 86,400</span>
+                            <span id="futureTotalAmount">¥ 86,400</span>
+                        </div>
+                        
+                        <!-- 年度明细（默认折叠） -->
+                        <div id="futureYearDetail" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(16,185,129,0.2);">
+                            <div style="font-size:12px;color:#065F46;font-weight:600;margin-bottom:8px;">📋 年度缴费基数明细</div>
+                            <div id="futureYearList" style="font-size:12px;color:#065F46;">
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2025年</span><span>¥ 8,925 × 100%</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2026年</span><span>¥ 9,371 × 100%</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2027年</span><span>¥ 9,840 × 100%</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2028年</span><span>¥ 10,332 × 100%</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2029年</span><span>¥ 10,849 × 100%</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2030年</span><span>¥ 11,391 × 100%</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1809,6 +1825,19 @@
             closeEditModal();
         }
         
+        // 展开/收起未来缴费年度明细
+        function toggleFutureDetail() {
+            const detail = document.getElementById('futureYearDetail');
+            const icon = document.getElementById('futureToggleIcon');
+            if (detail.style.display === 'none') {
+                detail.style.display = 'block';
+                icon.textContent = '▲';
+            } else {
+                detail.style.display = 'none';
+                icon.textContent = '▼';
+            }
+        }
+        
         // 未来缴费选项选择
         function selectFutureOption(el, percent) {
             document.querySelectorAll('.future-option').forEach(opt => {
@@ -1816,12 +1845,22 @@
             });
             el.classList.add('selected');
             
-            // 更新预览数据
-            const preview = document.querySelector('.future-preview');
+            // 更新总金额
             const baseAmount = 86400;
-            
-            preview.querySelector('.preview-row:last-child span:last-child').textContent = 
+            document.getElementById('futureTotalAmount').textContent = 
                 '¥ ' + Math.round(baseAmount * percent / 100).toLocaleString();
+            
+            // 更新年度明细的比例显示
+            const yearList = document.getElementById('futureYearList');
+            const baseValues = [8925, 9371, 9840, 10332, 10849, 11391];
+            const years = [2025, 2026, 2027, 2028, 2029, 2030];
+            
+            let html = '';
+            for (let i = 0; i < years.length; i++) {
+                const value = Math.round(baseValues[i] * percent / 100);
+                html += '<div style="display:flex;justify-content:space-between;padding:3px 0;"><span>' + years[i] + '年</span><span>¥ ' + value.toLocaleString() + ' × ' + percent + '%</span></div>';
+            }
+            yearList.innerHTML = html;
         }
     </script>
 </body>
