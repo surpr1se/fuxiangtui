@@ -1365,15 +1365,26 @@
                         <label class="form-label">
                             <span class="required">*</span> 退休年龄
                         </label>
-                        <input type="number" class="form-input" value="60" placeholder="请输入退休年龄">
-                        <div class="form-tip">男性60岁，女性工人50岁、干部55岁</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
+                            <input type="number" class="form-input" value="60" placeholder="法定退休年龄" id="retireAge">
+                            <input type="number" class="form-input" value="63" placeholder="延迟后年龄" id="delayRetireAge">
+                        </div>
+                        <div class="form-tip" style="color:#FF6B6B;">📢 根据最新延迟退休政策：1970年出生男性，原60岁，延迟3年至63岁（2033年）</div>
+                        <div style="background:#FEF3C7;border-radius:8px;padding:10px;margin-top:8px;">
+                            <div style="font-size:13px;font-weight:600;color:#92400E;margin-bottom:6px;">⏰ 延迟退休影响测算</div>
+                            <div style="font-size:12px;color:#B45309;line-height:1.6;">
+                                多缴3年，多领约 12%<br>
+                                预计回本年龄：71岁 → 72岁<br>
+                                建议：预期寿命>75岁，延迟更划算
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="form-item">
                         <label class="form-label">
                             <span class="required">*</span> 退休年份
                         </label>
-                        <input type="number" class="form-input" value="2030" placeholder="请输入退休年份">
+                        <input type="number" class="form-input" value="2033" placeholder="请输入退休年份">
                     </div>
                     
                     <div class="form-item">
@@ -1461,7 +1472,63 @@
                         <span class="result-number">¥3,850</span>
                         <span style="font-size:20px;font-weight:500;margin-left:4px;margin-bottom:6px;">/月</span>
                     </div>
-                    <div class="result-desc">* 以上为模拟测算结果，仅供参考，实际以社保局核定为准</div>
+                    <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;margin-top:12px;">
+                        <div style="font-size:13px;color:white;display:flex;align-items:center;gap:6px;">
+                            <span>💰</span>
+                            <span>预计到 <strong style="font-size:15px;">72岁</strong> 时，累计领取额超过个人缴费总额（回本）</span>
+                        </div>
+                    </div>
+                    <div class="result-desc" style="margin-top:10px;">* 以上为模拟测算结果，仅供参考，实际以社保局核定为准</div>
+                </div>
+                
+                <!-- 📈 待遇调整预测（新增功能） -->
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleDetail('adjustPrediction')" style="background:linear-gradient(135deg, #F59E0B, #D97706);color:white;">
+                        <span>📈 待遇调整预测（按每年4.5%增长）</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="adjustPrediction" class="detail-content" style="display:none;background:#FFFBEB;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
+                            <div style="text-align:center;padding:10px;background:white;border-radius:8px;">
+                                <div style="font-size:12px;color:#666;">65岁</div>
+                                <div style="font-size:16px;font-weight:700;color:#FF6B6B;">¥ 4,790</div>
+                                <div style="font-size:10px;color:#999;">月领取</div>
+                            </div>
+                            <div style="text-align:center;padding:10px;background:white;border-radius:8px;">
+                                <div style="font-size:12px;color:#666;">70岁</div>
+                                <div style="font-size:16px;font-weight:700;color:#FF6B6B;">¥ 5,970</div>
+                                <div style="font-size:10px;color:#999;">月领取</div>
+                            </div>
+                            <div style="text-align:center;padding:10px;background:white;border-radius:8px;">
+                                <div style="font-size:12px;color:#666;">75岁</div>
+                                <div style="font-size:16px;font-weight:700;color:#FF6B6B;">¥ 7,440</div>
+                                <div style="font-size:10px;color:#999;">月领取</div>
+                            </div>
+                        </div>
+                        <div style="font-size:12px;color:#92400E;line-height:1.6;background:white;padding:10px;border-radius:8px;">
+                            💡 <strong>累计领取金额：</strong><br>
+                            • 70岁时累计：约 128 万元<br>
+                            • 80岁时累计：约 256 万元<br>
+                            • 90岁时累计：约 438 万元
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ⚖️ 多方案对比入口 -->
+                <div class="detail-card" onclick="alert('模拟：跳转到多方案对比页面')" style="cursor:pointer;">
+                    <div class="detail-header" style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);color:white;">
+                        <span>⚖️ 多方案对比</span>
+                        <span>></span>
+                    </div>
+                    <div class="detail-content" style="background:#F5F3FF;padding:14px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:#4C1D95;margin-bottom:4px;">对比不同缴费方案的收益</div>
+                                <div style="font-size:11px;color:#7C3AED;">可选：60%/100%/300%社平、延迟退休等</div>
+                            </div>
+                            <span style="font-size:20px;">→</span>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="detail-card">
@@ -1674,6 +1741,23 @@
                             </div>
                             <span class="menu-list-arrow">></span>
                         </div>
+                        <div class="menu-list-item" style="border-radius:0 0 10px 10px;cursor:pointer;" onclick="goPage('policy-6')">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 16V22M8 22H16M9 2H15C15.5304 2 16.0391 2.21071 16.4142 2.58579C16.7893 2.96086 17 3.46957 17 4V14C17 14.5304 16.7893 15.0391 16.4142 15.4142C16.0391 15.7893 15.5304 16 15 16H9C8.46957 16 7.96086 15.7893 7.58579 15.4142C7.21071 15.0391 7 14.5304 7 14V4C7 3.46957 7.21071 2.96086 7.58579 2.58579C7.96086 2.21071 8.46957 2 9 2Z" stroke="url(#grad6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                <span class="menu-list-text">退休手续办理指南</span>
+                            </div>
+                            <span class="menu-list-arrow">></span>
+                        </div>
                     </div>
                 </div>
                 
@@ -1694,7 +1778,7 @@
                         其他
                     </div>
                     <div class="menu-list">
-                        <div class="menu-list-item" style="border-radius:10px 10px 0 0;cursor:pointer;" onclick="goPage('policy-4')">
+                        <div class="menu-list-item" style="border-radius:10px;cursor:pointer;" onclick="goPage('policy-4')">
                             <div class="menu-list-left">
                                 <span class="menu-list-icon">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2013,6 +2097,109 @@
                     最后更新日期：2026年4月28日
                 </div>
             </div>
+            
+            <!-- 退休手续办理指南页面 -->
+            <div id="page-policy-6" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M12 16V22M8 22H16M9 2H15C15.5304 2 16.0391 2.21071 16.4142 2.58579C16.7893 2.96086 17 3.46957 17 4V14C17 14.5304 16.7893 15.0391 16.4142 15.4142C16.0391 15.7893 15.5304 16 15 16H9C8.46957 16 7.96086 15.7893 7.58579 15.4142C7.21071 15.0391 7 14.5304 7 14V4C7 3.46957 7.21071 2.96086 7.58579 2.58579C7.96086 2.21071 8.46957 2 9 2Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    退休手续办理指南
+                </h3>
+                
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">📋 办理流程</div>
+                    <div style="position:relative;padding-left:24px;">
+                        <div style="position:absolute;left:8px;top:0;bottom:0;width:2px;background:#E5E7EB;"></div>
+                        
+                        <div style="position:relative;margin-bottom:20px;">
+                            <div style="position:absolute;left:-20px;top:2px;width:18px;height:18px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;">1</div>
+                            <div style="font-weight:600;color:#333;margin-bottom:4px;">单位/个人提交申请</div>
+                            <div style="font-size:12px;color:#666;line-height:1.5;">达到法定退休年龄前1个月，由单位或个人向社保经办机构提交退休申请</div>
+                        </div>
+                        
+                        <div style="position:relative;margin-bottom:20px;">
+                            <div style="position:absolute;left:-20px;top:2px;width:18px;height:18px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;">2</div>
+                            <div style="font-weight:600;color:#333;margin-bottom:4px;">材料审核</div>
+                            <div style="font-size:12px;color:#666;line-height:1.5;">社保经办机构审核人事档案、缴费记录等材料，确认退休资格及待遇标准</div>
+                        </div>
+                        
+                        <div style="position:relative;margin-bottom:20px;">
+                            <div style="position:absolute;left:-20px;top:2px;width:18px;height:18px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;">3</div>
+                            <div style="font-weight:600;color:#333;margin-bottom:4px;">待遇核算</div>
+                            <div style="font-size:12px;color:#666;line-height:1.5;">系统核算养老待遇金额，生成待遇核定表，本人签字确认</div>
+                        </div>
+                        
+                        <div style="position:relative;">
+                            <div style="position:absolute;left:-20px;top:2px;width:18px;height:18px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;">4</div>
+                            <div style="font-weight:600;color:#333;margin-bottom:4px;">领取养老金</div>
+                            <div style="font-size:12px;color:#666;line-height:1.5;">办理退休手续次月起，养老金按月发放至个人社保卡金融账户</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">📎 所需材料清单</div>
+                    <div style="font-size:13px;color:#333;line-height:2;">
+                        ✅ 身份证原件及复印件（正反面）<br>
+                        ✅ 户口簿原件及复印件（首页+本人页）<br>
+                        ✅ 本人社保卡（确保金融功能已激活）<br>
+                        ✅ 近期1寸免冠彩照1张<br>
+                        ✅ 人事档案（有视同缴费年限人员需提供）<br>
+                        ✅ 其他特殊材料（独生子女证、军转证明等）
+                    </div>
+                </div>
+                
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">🏢 各地市社保经办机构</div>
+                    <div style="padding:10px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-weight:500;color:#333;font-size:13px;">福州市社保局</div>
+                            <div style="font-size:11px;color:#999;margin-top:2px;">鼓楼区古田路128号</div>
+                        </div>
+                    </div>
+                    <div style="padding:10px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-weight:500;color:#333;font-size:13px;">厦门市社保局</div>
+                            <div style="font-size:11px;color:#999;margin-top:2px;">思明区长青路191号</div>
+                        </div>
+                    </div>
+                    <div style="padding:10px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-weight:500;color:#333;font-size:13px;">泉州市社保局</div>
+                            <div style="font-size:11px;color:#999;margin-top:2px;">丰泽区坪山路355号</div>
+                        </div>
+                    </div>
+                    <div style="padding:10px 0;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-weight:500;color:#333;font-size:13px;">查看全部9个地市 →</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">❓ 常见问题</div>
+                    <div style="margin-bottom:12px;">
+                        <div style="font-weight:500;color:#333;font-size:13px;margin-bottom:4px;">Q: 退休年龄如何确定？</div>
+                        <div style="font-size:12px;color:#666;line-height:1.5;">A: 企业职工男60周岁、女干部55周岁、女工人50周岁。灵活就业人员男60周岁、女55周岁。</div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <div style="font-weight:500;color:#333;font-size:13px;margin-bottom:4px;">Q: 缴费不满15年怎么办？</div>
+                        <div style="font-size:12px;color:#666;line-height:1.5;">A: 可选择延长缴费至满15年，或转入城乡居民养老保险，或一次性领取个人账户储存额。</div>
+                    </div>
+                    <div>
+                        <div style="font-weight:500;color:#333;font-size:13px;margin-bottom:4px;">Q: 养老金一般什么时候发放？</div>
+                        <div style="font-size:12px;color:#666;line-height:1.5;">A: 福建省养老金发放日为每月15日，遇节假日提前。</div>
+                    </div>
+                </div>
+                
+                <div style="text-align:center;padding:8px 16px;">
+                    <button style="padding:14px 40px;background:linear-gradient(135deg, #FF6B6B, #FF8E53);border:none;border-radius:12px;color:white;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 12px rgba(255,107,107,0.3);">
+                        📞 联系社保客服
+                    </button>
+                    <div style="font-size:11px;color:#999;margin-top:8px;">服务热线：12333（工作日 9:00-17:00）</div>
+                </div>
+            </div>
         </div>
         
         <div class="tab-bar">
@@ -2188,7 +2375,8 @@
                 'policy-2': '待遇计算公式说明',
                 'policy-3': '福建省社保政策',
                 'policy-4': '用户服务协议',
-                'policy-5': '隐私政策'
+                'policy-5': '隐私政策',
+                'policy-6': '退休手续办理指南'
             };
             document.getElementById('pageTitle').textContent = titles[pageName];
             
