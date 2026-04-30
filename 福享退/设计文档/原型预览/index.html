@@ -1365,26 +1365,15 @@
                         <label class="form-label">
                             <span class="required">*</span> 退休年龄
                         </label>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
-                            <input type="number" class="form-input" value="60" placeholder="法定退休年龄" id="retireAge">
-                            <input type="number" class="form-input" value="63" placeholder="延迟后年龄" id="delayRetireAge">
-                        </div>
-                        <div class="form-tip" style="color:#FF6B6B;">📢 根据最新延迟退休政策：1970年出生男性，原60岁，延迟3年至63岁（2033年）</div>
-                        <div style="background:#FEF3C7;border-radius:8px;padding:10px;margin-top:8px;">
-                            <div style="font-size:13px;font-weight:600;color:#92400E;margin-bottom:6px;">⏰ 延迟退休影响测算</div>
-                            <div style="font-size:12px;color:#B45309;line-height:1.6;">
-                                多缴3年，多领约 12%<br>
-                                预计回本年龄：71岁 → 72岁<br>
-                                建议：预期寿命>75岁，延迟更划算
-                            </div>
-                        </div>
+                        <input type="number" class="form-input" value="60" placeholder="请输入退休年龄">
+                        <div class="form-tip">男性60岁，女性工人50岁、干部55岁</div>
                     </div>
                     
                     <div class="form-item">
                         <label class="form-label">
                             <span class="required">*</span> 退休年份
                         </label>
-                        <input type="number" class="form-input" value="2033" placeholder="请输入退休年份">
+                        <input type="number" class="form-input" value="2030" placeholder="请输入退休年份">
                     </div>
                     
                     <div class="form-item">
@@ -1514,19 +1503,92 @@
                     </div>
                 </div>
                 
-                <!-- ⚖️ 多方案对比入口 -->
-                <div class="detail-card" onclick="alert('模拟：跳转到多方案对比页面')" style="cursor:pointer;">
+                <!-- ⚖️ 多方案对比（4种缴费档次） -->
+                <div class="detail-card">
                     <div class="detail-header" style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);color:white;">
-                        <span>⚖️ 多方案对比</span>
-                        <span>></span>
+                        <span>⚖️ 多方案对比（4种缴费档次）</span>
                     </div>
-                    <div class="detail-content" style="background:#F5F3FF;padding:14px;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <div>
-                                <div style="font-size:13px;font-weight:600;color:#4C1D95;margin-bottom:4px;">对比不同缴费方案的收益</div>
-                                <div style="font-size:11px;color:#7C3AED;">可选：60%/100%/300%社平、延迟退休等</div>
+                    <div class="detail-content" style="padding:0;">
+                        <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:4px;">
+                            <!-- 表头 -->
+                            <div style="background:#F5F3FF;padding:10px 8px;text-align:center;font-weight:600;color:#4C1D95;font-size:11px;border-bottom:1px solid #DDD6FE;">
+                                缴费档次
                             </div>
-                            <span style="font-size:20px;">→</span>
+                            <div style="background:#F5F3FF;padding:10px 8px;text-align:center;font-weight:600;color:#4C1D95;font-size:11px;border-bottom:1px solid #DDD6FE;">
+                                月待遇
+                            </div>
+                            <div style="background:#F5F3FF;padding:10px 8px;text-align:center;font-weight:600;color:#4C1D95;font-size:11px;border-bottom:1px solid #DDD6FE;">
+                                年化收益率
+                            </div>
+                            <div style="background:#F5F3FF;padding:10px 8px;text-align:center;font-weight:600;color:#4C1D95;font-size:11px;border-bottom:1px solid #DDD6FE;">
+                                回本年龄
+                            </div>
+                            
+                            <!-- 方案1：按本人基数 -->
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;">
+                                <div style="font-weight:600;color:#065F46;font-size:12px;">本人基数</div>
+                                <div style="font-size:10px;color:#10B981;">¥5,980/月</div>
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:700;color:#065F46;font-size:14px;">
+                                ¥3,850
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                                5.2%
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                                71岁
+                            </div>
+                            
+                            <!-- 方案2：按社平60% -->
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                                <div style="font-weight:600;color:#333;font-size:12px;">社平60%</div>
+                                <div style="font-size:10px;color:#666;">¥4,200/月</div>
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                                ¥3,120
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                                6.8%
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                                68岁
+                            </div>
+                            
+                            <!-- 方案3：按社平100% -->
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                                <div style="font-weight:600;color:#333;font-size:12px;">社平100%</div>
+                                <div style="font-size:10px;color:#666;">¥7,000/月</div>
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                                ¥4,580
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                                4.5%
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                                73岁
+                            </div>
+                            
+                            <!-- 方案4：按社平300% -->
+                            <div style="padding:10px 8px;text-align:center;">
+                                <div style="font-weight:600;color:#333;font-size:12px;">社平300%</div>
+                                <div style="font-size:10px;color:#666;">¥21,000/月</div>
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;font-weight:600;color:#333;font-size:14px;">
+                                ¥8,950
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                                2.8%
+                            </div>
+                            <div style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                                79岁
+                            </div>
+                        </div>
+                        
+                        <div style="background:#F5F3FF;padding:10px 12px;border-top:1px solid #DDD6FE;">
+                            <div style="font-size:11px;color:#6B21A8;line-height:1.5;">
+                                💡 <strong>结论：</strong>社平60%缴费性价比最高，回本最快。社平300%适合预期寿命超过85岁人群。
+                            </div>
                         </div>
                     </div>
                 </div>
