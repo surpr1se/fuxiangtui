@@ -63,14 +63,4 @@ public class UserController {
         sysUserService.updateById(updateUser);
         return Result.ok();
     }
-
-    @GetMapping("/stats")
-    public Result<?> getUserStats(@RequestAttribute("userId") Long userId) {
-        // TODO: 聚合计算次数、平均待遇、累计缴费月
-        Map<String, Object> stats = new HashMap<>();
-        stats.put("calculateCount", 0);
-        stats.put("avgPension", 0);
-        stats.put("totalPaymentMonths", 0);
-        return Result.ok(stats);
-    }
 }
