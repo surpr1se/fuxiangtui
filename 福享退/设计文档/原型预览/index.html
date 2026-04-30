@@ -2284,10 +2284,33 @@
                         </div>
                     </div>
                     
+                    <!-- 方案选择器 -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
+                        <div onclick="selectScheme('self')" id="scheme-self" style="background:#ECFDF5;border:2px solid #10B981;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
+                            <div style="font-size:13px;font-weight:700;color:#065F46;">本人基数</div>
+                            <div style="font-size:11px;color:#047857;margin-top:2px;">¥5,980/月</div>
+                            <div style="font-size:9px;background:#10B981;color:white;padding:2px 6px;border-radius:8px;margin-top:4px;display:inline-block;">当前选择</div>
+                        </div>
+                        <div onclick="selectScheme('60')" id="scheme-60" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
+                            <div style="font-size:13px;font-weight:600;color:#374151;">社平60%</div>
+                            <div style="font-size:11px;color:#6B7280;margin-top:2px;">¥4,200/月</div>
+                            <div style="font-size:9px;background:#10B981;color:white;padding:2px 6px;border-radius:8px;margin-top:4px;display:inline-block;visibility:hidden;">推荐</div>
+                        </div>
+                        <div onclick="selectScheme('100')" id="scheme-100" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
+                            <div style="font-size:13px;font-weight:600;color:#374151;">社平100%</div>
+                            <div style="font-size:11px;color:#6B7280;margin-top:2px;">¥7,000/月</div>
+                        </div>
+                        <div onclick="selectScheme('300')" id="scheme-300" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
+                            <div style="font-size:13px;font-weight:600;color:#374151;">社平300%</div>
+                            <div style="font-size:11px;color:#6B7280;margin-top:2px;">¥21,000/月</div>
+                        </div>
+                    </div>
+                    
                     <!-- 核心指标对比卡片 -->
                     <div class="detail-card" style="margin-bottom:16px;">
                         <div class="detail-header" style="background:#F5F3FF;color:#4C1D95;">
                             <span>📊 核心指标对比</span>
+                            <span style="font-size:11px;font-weight:normal;">点击上方方案可切换查看</span>
                         </div>
                         <div class="detail-content" style="padding:0;">
                             <div style="overflow-x:auto;">
@@ -2295,10 +2318,10 @@
                                     <thead>
                                         <tr style="background:#F5F3FF;">
                                             <th style="padding:10px 8px;text-align:left;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;">对比项目</th>
-                                            <th style="padding:10px 8px;text-align:center;color:#065F46;font-weight:600;border-bottom:2px solid #DDD6FE;background:#ECFDF5;">本人基数</th>
-                                            <th style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;">社平60%</th>
-                                            <th style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;">社平100%</th>
-                                            <th style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;">社平300%</th>
+                                            <th onclick="selectScheme('self')" style="padding:10px 8px;text-align:center;color:#065F46;font-weight:600;border-bottom:2px solid #DDD6FE;background:#ECFDF5;cursor:pointer;">本人基数</th>
+                                            <th onclick="selectScheme('60')" style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;cursor:pointer;">社平60%</th>
+                                            <th onclick="selectScheme('100')" style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;cursor:pointer;">社平100%</th>
+                                            <th onclick="selectScheme('300')" style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;cursor:pointer;">社平300%</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -2800,6 +2823,41 @@
             
             yearList.innerHTML = html;
             document.getElementById('futureTotalAmount').textContent = '¥ ' + Math.round(totalAmount / 100).toLocaleString();
+        }
+        
+        // 方案选择切换
+        function selectScheme(scheme) {
+            // 重置所有方案样式
+            document.querySelectorAll('[id^="scheme-"]').forEach(el => {
+                el.style.background = '#F3F4F6';
+                el.style.borderColor = '#E5E7EB';
+                el.querySelectorAll('div')[0].style.color = '#374151';
+                el.querySelectorAll('div')[1].style.color = '#6B7280';
+                const badge = el.querySelector('div:nth-child(3)');
+                if (badge) badge.style.visibility = 'hidden';
+            });
+            
+            // 设置选中方案样式
+            const selected = document.getElementById('scheme-' + scheme);
+            selected.style.background = scheme === '60' ? '#ECFDF5' : '#ECFDF5';
+            selected.style.borderColor = scheme === '60' ? '#10B981' : '#10B981';
+            selected.querySelectorAll('div')[0].style.color = '#065F46';
+            selected.querySelectorAll('div')[1].style.color = '#047857';
+            
+            // 给60%方案添加"推荐"标签
+            if (scheme === '60') {
+                const badge = selected.querySelector('div:nth-child(3)');
+                if (badge) badge.style.visibility = 'visible';
+            }
+            
+            // 如果是其他方案，也要显示选中状态标签
+            if (scheme !== '60') {
+                const badge = selected.querySelector('div:nth-child(3)');
+                if (badge) {
+                    badge.style.visibility = 'visible';
+                    badge.textContent = '当前选择';
+                }
+            }
         }
     </script>
 </body>
