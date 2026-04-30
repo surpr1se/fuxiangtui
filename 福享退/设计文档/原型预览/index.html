@@ -1367,6 +1367,13 @@
                         </label>
                         <input type="number" class="form-input" value="60" placeholder="请输入退休年龄">
                         <div class="form-tip">男性60岁，女性工人50岁、干部55岁</div>
+                        <div style="background:#FEF3C7;border-radius:8px;padding:10px;margin-top:10px;">
+                            <div style="font-size:13px;font-weight:600;color:#92400E;margin-bottom:6px;">⏰ 延迟退休影响参考</div>
+                            <div style="font-size:12px;color:#B45309;line-height:1.6;">
+                                按最新政策，您预计将延迟3年至63岁退休<br>
+                                多缴3年，多领约 12%，预计回本年龄：71岁 → 72岁
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="form-item">
@@ -1504,9 +1511,10 @@
                 </div>
                 
                 <!-- ⚖️ 多方案对比（4种缴费档次） -->
-                <div class="detail-card">
+                <div class="detail-card" onclick="alert('模拟：查看更多方案对比详情')" style="cursor:pointer;">
                     <div class="detail-header" style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);color:white;">
                         <span>⚖️ 多方案对比（4种缴费档次）</span>
+                        <span style="font-size:12px;">查看全部 →</span>
                     </div>
                     <div class="detail-content" style="padding:0;">
                         <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:4px;">
