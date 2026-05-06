@@ -1511,90 +1511,112 @@
                 </div>
                 
                 <!-- ⚖️ 多方案对比（4种缴费档次） -->
-                <div class="detail-card" onclick="goPage('scheme-compare')" style="cursor:pointer;">
-                    <div class="detail-header" style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);color:white;">
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleSchemeCompare()" style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);color:white;cursor:pointer;">
                         <span>⚖️ 多方案对比（4种缴费档次）</span>
-                        <span style="font-size:12px;">查看全部 →</span>
+                        <span id="scheme-compare-arrow" style="font-size:12px;">▼</span>
                     </div>
-                    <div class="detail-content" style="padding:0;">
+                    
+                    <!-- 展开内容区域 -->
+                    <div id="scheme-compare-content" class="detail-content" style="padding:0;display:block;">
+                        <!-- 方案选择器 -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;padding:12px 12px 8px;background:#F5F3FF;border-bottom:1px solid #DDD6FE;">
+                            <div onclick="selectCurrentScheme('self')" id="current-scheme-self" style="background:#ECFDF5;border:2px solid #10B981;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;">
+                                <div style="font-size:11px;font-weight:700;color:#065F46;">本人基数</div>
+                                <div style="font-size:9px;color:#047857;margin-top:2px;">¥5,980/月</div>
+                            </div>
+                            <div onclick="selectCurrentScheme('60')" id="current-scheme-60" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;">
+                                <div style="font-size:11px;font-weight:600;color:#374151;">社平60%</div>
+                                <div style="font-size:9px;color:#6B7280;margin-top:2px;">¥4,200/月</div>
+                            </div>
+                            <div onclick="selectCurrentScheme('100')" id="current-scheme-100" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;">
+                                <div style="font-size:11px;font-weight:600;color:#374151;">社平100%</div>
+                                <div style="font-size:9px;color:#6B7280;margin-top:2px;">¥7,000/月</div>
+                            </div>
+                            <div onclick="selectCurrentScheme('300')" id="current-scheme-300" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;">
+                                <div style="font-size:11px;font-weight:600;color:#374151;">社平300%</div>
+                                <div style="font-size:9px;color:#6B7280;margin-top:2px;">¥21,000/月</div>
+                            </div>
+                        </div>
+                        
                         <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:4px;">
                             <!-- 表头 -->
-                            <div style="background:#F5F3FF;padding:10px 8px;text-align:center;font-weight:600;color:#4C1D95;font-size:11px;border-bottom:1px solid #DDD6FE;">
+                            <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
                                 缴费档次
                             </div>
-                            <div style="background:#F5F3FF;padding:10px 8px;text-align:center;font-weight:600;color:#4C1D95;font-size:11px;border-bottom:1px solid #DDD6FE;">
+                            <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
                                 月待遇
                             </div>
-                            <div style="background:#F5F3FF;padding:10px 8px;text-align:center;font-weight:600;color:#4C1D95;font-size:11px;border-bottom:1px solid #DDD6FE;">
+                            <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
                                 年化收益率
                             </div>
-                            <div style="background:#F5F3FF;padding:10px 8px;text-align:center;font-weight:600;color:#4C1D95;font-size:11px;border-bottom:1px solid #DDD6FE;">
+                            <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
                                 回本年龄
                             </div>
                             
                             <!-- 方案1：按本人基数 -->
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;">
+                            <div id="row-self" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;">
                                 <div style="font-weight:600;color:#065F46;font-size:12px;">本人基数</div>
                                 <div style="font-size:10px;color:#10B981;">¥5,980/月</div>
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:700;color:#065F46;font-size:14px;">
+                            <div id="row-self-1" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:700;color:#065F46;font-size:14px;">
                                 ¥3,850
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                            <div id="row-self-2" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
                                 5.2%
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                            <div id="row-self-3" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
                                 71岁
                             </div>
                             
                             <!-- 方案2：按社平60% -->
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                            <div id="row-60" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
                                 <div style="font-weight:600;color:#333;font-size:12px;">社平60%</div>
                                 <div style="font-size:10px;color:#666;">¥4,200/月</div>
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                            <div id="row-60-1" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
                                 ¥3,120
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                            <div id="row-60-2" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
                                 6.8%
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                            <div id="row-60-3" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
                                 68岁
                             </div>
                             
                             <!-- 方案3：按社平100% -->
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                            <div id="row-100" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
                                 <div style="font-weight:600;color:#333;font-size:12px;">社平100%</div>
                                 <div style="font-size:10px;color:#666;">¥7,000/月</div>
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                            <div id="row-100-1" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
                                 ¥4,580
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                            <div id="row-100-2" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
                                 4.5%
                             </div>
-                            <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                            <div id="row-100-3" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
                                 73岁
                             </div>
                             
                             <!-- 方案4：按社平300% -->
-                            <div style="padding:10px 8px;text-align:center;">
+                            <div id="row-300" style="padding:10px 8px;text-align:center;">
                                 <div style="font-weight:600;color:#333;font-size:12px;">社平300%</div>
                                 <div style="font-size:10px;color:#666;">¥21,000/月</div>
                             </div>
-                            <div style="padding:10px 8px;text-align:center;font-weight:600;color:#333;font-size:14px;">
+                            <div id="row-300-1" style="padding:10px 8px;text-align:center;font-weight:600;color:#333;font-size:14px;">
                                 ¥8,950
                             </div>
-                            <div style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                            <div id="row-300-2" style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
                                 2.8%
                             </div>
-                            <div style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                            <div id="row-300-3" style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
                                 79岁
                             </div>
                         </div>
                         
-                        <div style="background:#F5F3FF;padding:10px 12px;border-top:1px solid #DDD6FE;">
-                            <div style="font-size:11px;color:#6B21A8;line-height:1.5;">
+                        <div style="background:#F9FAFB;padding:10px 12px;border-top:1px solid #E5E7EB;">
+                            <div style="font-size:11px;color:#374151;line-height:1.5;">
                                 💡 <strong>结论：</strong>社平60%缴费性价比最高，回本最快。社平300%适合预期寿命超过85岁人群。
                             </div>
                         </div>
@@ -2271,7 +2293,7 @@
                 </div>
             </div>
             
-            <!-- 多方案对比详情页面 -->
+            <!-- 多方案对比详情页面（已简化） -->
             <div id="page-scheme-compare" class="page">
                 <div class="content" style="padding:12px;">
                     <div style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);border-radius:16px;padding:16px;color:white;margin-bottom:16px;">
@@ -2280,7 +2302,7 @@
                             <span style="font-size:17px;font-weight:700;">多方案对比分析</span>
                         </div>
                         <div style="font-size:12px;opacity:0.9;line-height:1.5;">
-                            基于您的社保缴费数据，系统自动测算4种常见缴费方案，帮您选择最优解
+                            基于您的社保缴费数据，系统自动测算4种常见缴费方案
                         </div>
                     </div>
                     
@@ -2294,7 +2316,6 @@
                         <div onclick="selectScheme('60')" id="scheme-60" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
                             <div style="font-size:13px;font-weight:600;color:#374151;">社平60%</div>
                             <div style="font-size:11px;color:#6B7280;margin-top:2px;">¥4,200/月</div>
-                            <div style="font-size:9px;background:#10B981;color:white;padding:2px 6px;border-radius:8px;margin-top:4px;display:inline-block;visibility:hidden;">推荐</div>
                         </div>
                         <div onclick="selectScheme('100')" id="scheme-100" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
                             <div style="font-size:13px;font-weight:600;color:#374151;">社平100%</div>
@@ -2306,170 +2327,88 @@
                         </div>
                     </div>
                     
-                    <!-- 核心指标对比卡片 -->
-                    <div class="detail-card" style="margin-bottom:16px;">
-                        <div class="detail-header" style="background:#F5F3FF;color:#4C1D95;">
-                            <span>📊 核心指标对比</span>
-                            <span style="font-size:11px;font-weight:normal;">点击上方方案可切换查看</span>
-                        </div>
-                        <div class="detail-content" style="padding:0;">
-                            <div style="overflow-x:auto;">
-                                <table style="width:100%;border-collapse:collapse;font-size:12px;">
-                                    <thead>
-                                        <tr style="background:#F5F3FF;">
-                                            <th style="padding:10px 8px;text-align:left;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;">对比项目</th>
-                                            <th onclick="selectScheme('self')" style="padding:10px 8px;text-align:center;color:#065F46;font-weight:600;border-bottom:2px solid #DDD6FE;background:#ECFDF5;cursor:pointer;">本人基数</th>
-                                            <th onclick="selectScheme('60')" style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;cursor:pointer;">社平60%</th>
-                                            <th onclick="selectScheme('100')" style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;cursor:pointer;">社平100%</th>
-                                            <th onclick="selectScheme('300')" style="padding:10px 8px;text-align:center;color:#4C1D95;font-weight:600;border-bottom:2px solid #DDD6FE;cursor:pointer;">社平300%</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr style="border-bottom:1px solid #F3F4F6;">
-                                            <td style="padding:10px 8px;color:#666;">月缴费基数</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#065F46;background:#ECFDF5;">¥5,980</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#333;">¥4,200</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#333;">¥7,000</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#333;">¥21,000</td>
-                                        </tr>
-                                        <tr style="border-bottom:1px solid #F3F4F6;">
-                                            <td style="padding:10px 8px;color:#666;">预计月养老待遇</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:700;color:#065F46;background:#ECFDF5;font-size:15px;">¥3,850</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:700;color:#333;font-size:15px;">¥3,120</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:700;color:#333;font-size:15px;">¥4,580</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:700;color:#333;font-size:15px;">¥8,950</td>
-                                        </tr>
-                                        <tr style="border-bottom:1px solid #F3F4F6;">
-                                            <td style="padding:10px 8px;color:#666;">年化收益率</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#10B981;background:#ECFDF5;">5.2%</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:700;color:#10B981;font-size:14px;">6.8% ⭐</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#F59E0B;">4.5%</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;">2.8%</td>
-                                        </tr>
-                                        <tr style="border-bottom:1px solid #F3F4F6;">
-                                            <td style="padding:10px 8px;color:#666;">回本年龄</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#065F46;background:#ECFDF5;">71岁</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:700;color:#10B981;font-size:14px;">68岁 ✅</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#F59E0B;">73岁</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;">79岁</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding:10px 8px;color:#666;">80岁累计领取</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#065F46;background:#ECFDF5;">¥92.4万</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#333;">¥74.9万</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:600;color:#333;">¥109.9万</td>
-                                            <td style="padding:10px 8px;text-align:center;font-weight:700;color:#7C3AED;font-size:14px;">¥214.8万 💰</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 待遇曲线图 -->
-                    <div class="detail-card" style="margin-bottom:16px;">
-                        <div class="detail-header" style="background:#FFF7ED;color:#C2410C;">
-                            <span>📈 各年龄段待遇对比曲线</span>
-                        </div>
-                        <div class="detail-content" style="padding:16px;">
-                            <div style="height:160px;position:relative;background:#FFFBEB;border-radius:12px;padding:10px;">
-                                <svg width="100%" height="140" viewBox="0 0 300 140">
-                                    <!-- 网格线 -->
-                                    <line x1="30" y1="20" x2="30" y2="120" stroke="#FED7AA" stroke-width="1"/>
-                                    <line x1="90" y1="20" x2="90" y2="120" stroke="#FED7AA" stroke-width="1"/>
-                                    <line x1="150" y1="20" x2="150" y2="120" stroke="#FED7AA" stroke-width="1"/>
-                                    <line x1="210" y1="20" x2="210" y2="120" stroke="#FED7AA" stroke-width="1"/>
-                                    <line x1="270" y1="20" x2="270" y2="120" stroke="#FED7AA" stroke-width="1"/>
-                                    <line x1="30" y1="120" x2="270" y2="120" stroke="#FED7AA" stroke-width="1"/>
-                                    
-                                    <!-- 社平300%曲线 -->
-                                    <polyline points="30,110 90,95 150,75 210,50 270,20" 
-                                              fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
-                                    <circle cx="30" cy="110" r="3" fill="#7C3AED"/>
-                                    <circle cx="90" cy="95" r="3" fill="#7C3AED"/>
-                                    <circle cx="150" cy="75" r="3" fill="#7C3AED"/>
-                                    <circle cx="210" cy="50" r="3" fill="#7C3AED"/>
-                                    <circle cx="270" cy="20" r="3" fill="#7C3AED"/>
-                                    
-                                    <!-- 社平100%曲线 -->
-                                    <polyline points="30,115 90,103 150,88 210,70 270,45" 
-                                              fill="none" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round"/>
-                                    <circle cx="30" cy="115" r="3" fill="#FF6B6B"/>
-                                    <circle cx="90" cy="103" r="3" fill="#FF6B6B"/>
-                                    <circle cx="150" cy="88" r="3" fill="#FF6B6B"/>
-                                    <circle cx="210" cy="70" r="3" fill="#FF6B6B"/>
-                                    <circle cx="270" cy="45" r="3" fill="#FF6B6B"/>
-                                    
-                                    <!-- 本人基数曲线 -->
-                                    <polyline points="30,117 90,107 150,94 210,78 270,55" 
-                                              fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-                                    <circle cx="30" cy="117" r="3" fill="#10B981"/>
-                                    <circle cx="90" cy="107" r="3" fill="#10B981"/>
-                                    <circle cx="150" cy="94" r="3" fill="#10B981"/>
-                                    <circle cx="210" cy="78" r="3" fill="#10B981"/>
-                                    <circle cx="270" cy="55" r="3" fill="#10B981"/>
-                                    
-                                    <!-- 社平60%曲线 -->
-                                    <polyline points="30,120 90,112 150,102 210,90 270,75" 
-                                              fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
-                                    <circle cx="30" cy="120" r="3" fill="#F59E0B"/>
-                                    <circle cx="90" cy="112" r="3" fill="#F59E0B"/>
-                                    <circle cx="150" cy="102" r="3" fill="#F59E0B"/>
-                                    <circle cx="210" cy="90" r="3" fill="#F59E0B"/>
-                                    <circle cx="270" cy="75" r="3" fill="#F59E0B"/>
-                                    
-                                    <!-- X轴标签 -->
-                                    <text x="30" y="135" font-size="9" fill="#666" text-anchor="middle">60岁</text>
-                                    <text x="90" y="135" font-size="9" fill="#666" text-anchor="middle">65岁</text>
-                                    <text x="150" y="135" font-size="9" fill="#666" text-anchor="middle">70岁</text>
-                                    <text x="210" y="135" font-size="9" fill="#666" text-anchor="middle">75岁</text>
-                                    <text x="270" y="135" font-size="9" fill="#666" text-anchor="middle">80岁</text>
-                                </svg>
-                                
-                                <!-- 图例 -->
-                                <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:11px;">
-                                    <div style="display:flex;align-items:center;gap:4px;">
-                                        <div style="width:12px;height:3px;background:#7C3AED;border-radius:2px;"></div>
-                                        <span>社平300%</span>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:4px;">
-                                        <div style="width:12px;height:3px;background:#FF6B6B;border-radius:2px;"></div>
-                                        <span>社平100%</span>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:4px;">
-                                        <div style="width:12px;height:3px;background:#10B981;border-radius:2px;"></div>
-                                        <span>本人基数 ✅</span>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:4px;">
-                                        <div style="width:12px;height:3px;background:#F59E0B;border-radius:2px;"></div>
-                                        <span>社平60%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 智能推荐 -->
+                    <!-- 对比表格 -->
                     <div class="detail-card">
-                        <div class="detail-header" style="background:#ECFDF5;color:#065F46;">
-                            <span>💡 AI智能推荐</span>
-                        </div>
-                        <div class="detail-content" style="padding:16px;">
-                            <div style="background:#D1FAE5;border-radius:12px;padding:12px;margin-bottom:12px;">
-                                <div style="font-size:14px;font-weight:700;color:#065F46;margin-bottom:6px;">🌟 推荐方案：社平60%缴费</div>
-                                <div style="font-size:12px;color:#047857;line-height:1.6;">
-                                    • 年化收益率最高（6.8%），回本最快（68岁）<br>
-                                    • 适合大多数普通工薪阶层<br>
-                                    • 投入产出比最优，压力小收益高
+                        <div class="detail-content" style="padding:0;">
+                            <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:4px;">
+                                <!-- 表头 -->
+                                <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                    缴费档次
+                                </div>
+                                <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                    月待遇
+                                </div>
+                                <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                    年化收益率
+                                </div>
+                                <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                    回本年龄
+                                </div>
+                                
+                                <!-- 方案1：按本人基数 -->
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;">
+                                    <div style="font-weight:600;color:#065F46;font-size:12px;">本人基数</div>
+                                    <div style="font-size:10px;color:#10B981;">¥5,980/月</div>
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:700;color:#065F46;font-size:14px;">
+                                    ¥3,850
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                                    5.2%
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                                    71岁
+                                </div>
+                                
+                                <!-- 方案2：按社平60% -->
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                                    <div style="font-weight:600;color:#333;font-size:12px;">社平60%</div>
+                                    <div style="font-size:10px;color:#666;">¥4,200/月</div>
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                                    ¥3,120
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                                    6.8%
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                                    68岁
+                                </div>
+                                
+                                <!-- 方案3：按社平100% -->
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                                    <div style="font-weight:600;color:#333;font-size:12px;">社平100%</div>
+                                    <div style="font-size:10px;color:#666;">¥7,000/月</div>
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                                    ¥4,580
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                                    4.5%
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                                    73岁
+                                </div>
+                                
+                                <!-- 方案4：按社平300% -->
+                                <div style="padding:10px 8px;text-align:center;">
+                                    <div style="font-weight:600;color:#333;font-size:12px;">社平300%</div>
+                                    <div style="font-size:10px;color:#666;">¥21,000/月</div>
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;font-weight:600;color:#333;font-size:14px;">
+                                    ¥8,950
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                                    2.8%
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                                    79岁
                                 </div>
                             </div>
                             
-                            <div style="background:#F3F4F6;border-radius:12px;padding:12px;">
-                                <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">📋 其他方案适用人群</div>
-                                <div style="font-size:11px;color:#6B7280;line-height:1.8;">
-                                    <strong style="color:#7C3AED;">【社平300%】</strong> 适合高收入人群、企业主、预计寿命85岁以上<br>
-                                    <strong style="color:#FF6B6B;">【社平100%】</strong> 适合中等收入、追求稳定、预计寿命75-80岁<br>
-                                    <strong style="color:#10B981;">【本人基数】</strong> 适合当前缴费基数合理、不想调整的用户
+                            <div style="background:#F9FAFB;padding:10px 12px;border-top:1px solid #E5E7EB;">
+                                <div style="font-size:11px;color:#374151;line-height:1.5;">
+                                    💡 <strong>结论：</strong>社平60%缴费性价比最高，回本最快。社平300%适合预期寿命超过85岁人群。
                                 </div>
                             </div>
                         </div>
@@ -2785,6 +2724,62 @@
             } else {
                 detail.style.display = 'none';
                 icon.textContent = '▼';
+            }
+        }
+        
+        // 展开/收起多方案对比
+        function toggleSchemeCompare() {
+            const content = document.getElementById('scheme-compare-content');
+            const arrow = document.getElementById('scheme-compare-arrow');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                arrow.textContent = '▶';
+            }
+        }
+        
+        // 选择当前方案（高亮显示）
+        function selectCurrentScheme(scheme) {
+            // 重置所有方案样式
+            ['self', '60', '100', '300'].forEach(s => {
+                const schemeBtn = document.getElementById('current-scheme-' + s);
+                schemeBtn.style.background = '#F3F4F6';
+                schemeBtn.style.border = '2px solid #E5E7EB';
+                schemeBtn.querySelector('div').style.color = '#374151';
+                schemeBtn.querySelector('div:last-child').style.color = '#6B7280';
+                
+                // 重置表格行
+                for (let i = 0; i < 4; i++) {
+                    const row = document.getElementById('row-' + s + (i === 0 ? '' : '-' + i));
+                    if (row) {
+                        row.style.background = 'transparent';
+                        const cells = row.querySelectorAll('div');
+                        cells.forEach(cell => {
+                            cell.style.color = cell.style.color === 'rgb(6, 95, 70)' ? '#333' : cell.style.color;
+                        });
+                    }
+                }
+            });
+            
+            // 高亮选中方案
+            const selectedBtn = document.getElementById('current-scheme-' + scheme);
+            selectedBtn.style.background = '#ECFDF5';
+            selectedBtn.style.border = '2px solid #10B981';
+            selectedBtn.querySelector('div').style.color = '#065F46';
+            selectedBtn.querySelector('div:last-child').style.color = '#047857';
+            
+            // 高亮表格行
+            for (let i = 0; i < 4; i++) {
+                const row = document.getElementById('row-' + scheme + (i === 0 ? '' : '-' + i));
+                if (row) {
+                    row.style.background = '#ECFDF5';
+                    const cells = row.querySelectorAll('div');
+                    cells.forEach(cell => {
+                        cell.style.color = '#065F46';
+                    });
+                }
             }
         }
         
