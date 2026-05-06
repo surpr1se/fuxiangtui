@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福享退 - 福建养老保险待遇测算</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <!-- 手机容器 -->
+    <div class="phone">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span>福享退</span>
+            <span>16:30</span>
+        </div>
+
+        <!-- 导航栏 -->
+        <div class="nav-bar" id="navBar">
+            <span class="nav-back" id="navBack" onclick="goBack()" style="display:none;">←</span>
+            <span id="navTitle">福享退</span>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="content" id="content">
+            <!-- 首页 -->
+            <div id="page-home" class="page active">
+                <div class="logo-area">
+                    <div class="logo">
+                        <span>福</span>
+                    </div>
+                    <div class="logo-title">福享退</div>
+                    <div class="logo-desc">福建省养老保险待遇智能测算平台</div>
+                </div>
+
+                <!-- 核心测算功能 -->
+                <div class="section-title">
+                    <span>🔥 核心测算</span>
+                </div>
+                <div class="menu-grid">
+                    <div class="menu-item" onclick="goToPage('upload')">
+                        <div class="menu-icon primary">
+                            <span>📄</span>
+                        </div>
+                        <div class="menu-title">PDF测算</div>
+                        <div class="menu-desc">上传缴费明细自动计算</div>
+                    </div>
+                    <div class="menu-item" onclick="goToPage('manual')">
+                        <div class="menu-icon blue">
+                            <span>✏️</span>
+                        </div>
+                        <div class="menu-title">手动测算</div>
+                        <div class="menu-desc">手动填写缴费信息</div>
+                    </div>
+                </div>
+
+                <!-- 扩展分析功能 -->
+                <div class="section-title">
+                    <span>📊 扩展分析</span>
+                </div>
+                <div class="menu-grid">
+                    <div class="menu-item" onclick="showToast('V1.1版本开放，敬请期待')">
+                        <div class="menu-icon green">
+                            <span>📈</span>
+                        </div>
+                        <div class="menu-title">待遇调整预测</div>
+                        <div class="menu-desc">预测未来养老金增长</div>
+                    </div>
+                    <div class="menu-item" onclick="showToast('V1.1版本开放，敬请期待')">
+                        <div class="menu-icon purple">
+                            <span>💰</span>
+                        </div>
+                        <div class="menu-title">回本年计算</div>
+                        <div class="menu-desc">计算投资回报周期</div>
+                    </div>
+                    <div class="menu-item" onclick="showToast('V1.1版本开放，敬请期待')">
+                        <div class="menu-icon blue">
+                            <span>⏰</span>
+                        </div>
+                        <div class="menu-title">延迟退休影响</div>
+                        <div class="menu-desc">延迟退休方案对比</div>
+                    </div>
+                    <div class="menu-item" onclick="showToast('V2.0版本开放，敬请期待')">
+                        <div class="menu-icon green">
+                            <span>👑</span>
+                        </div>
+                        <div class="menu-title">批量测算</div>
+                        <div class="menu-desc">企业HR专业版</div>
+                    </div>
+                </div>
+
+                <!-- 其他功能 -->
+                <div class="section-title">
+                    <span>📋 其他服务</span>
+                </div>
+                <div class="menu-grid">
+                    <div class="menu-item" onclick="goToPage('history')">
+                        <div class="menu-icon blue">
+                            <span>📋</span>
+                        </div>
+                        <div class="menu-title">历史记录</div>
+                        <div class="menu-desc">查看历史测算结果</div>
+                    </div>
+                    <div class="menu-item" onclick="goToPage('guide')">
+                        <div class="menu-icon green">
+                            <span>📍</span>
+                        </div>
+                        <div class="menu-title">退休办理指南</div>
+                        <div class="menu-desc">福建各地办事流程</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF上传页 -->
+            <div id="page-upload" class="page">
+                <div class="upload-header">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-title">上传缴费明细PDF</div>
+                    <div class="upload-desc">请上传从福建省社保网上办事大厅下载的《基本养老个人历年缴费明细》PDF文件</div>
+                </div>
+
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-area-icon">⬆️</div>
+                    <div class="upload-area-title">点击选择文件</div>
+                    <div class="upload-area-desc">支持PDF格式，文件大小不超过10MB</div>
+                    <input type="file" id="fileInput" accept=".pdf" style="display:none;" onchange="handleFileSelect(event)">
+                </div>
+
+                <div class="file-info" id="fileInfo" style="display:none;">
+                    <div class="file-name">📄 <span id="fileName"></span></div>
+                    <div class="file-size">文件大小：<span id="fileSize"></span></div>
+                </div>
+
+                <div class="upload-progress" id="uploadProgress" style="display:none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">正在解析文件，请稍候...</div>
+                </div>
+
+                <div class="tips-card">
+                    <div class="tips-title">📌 温馨提示</div>
+                    <div class="tips-list">
+                        <div class="tip-item">1. 请确保PDF文件完整，未损坏或加密</div>
+                        <div class="tip-item">2. 系统将自动提取您的缴费明细，无需手动录入</div>
+                        <div class="tip-item">3. 解析完成后，您可以核对并编辑缴费数据</div>
+                        <div class="tip-item">4. 您的数据仅用于测算，我们不会存储您的PDF文件</div>
+                    </div>
+                </div>
+
+                <button class="btn-primary btn-full" id="uploadBtn" onclick="startUpload()" style="display:none;">
+                    开始解析
+                </button>
+
+                <div class="demo-entry" onclick="useDemoData()">
+                    🎯 没有PDF？使用示例数据体验测算
+                </div>
+            </div>
+
+            <!-- 缴费明细页 -->
+            <div id="page-detail" class="page">
+                <div class="user-info-card">
+                    <div class="user-info-row">
+                        <span class="label">姓名</span>
+                        <span class="value" id="userName">张三</span>
+                    </div>
+                    <div class="user-info-row">
+                        <span class="label">社会保障号</span>
+                        <span class="value" id="userIdCard">350***********1234</span>
+                    </div>
+                    <div class="user-info-row">
+                        <span class="label">累计缴费月数</span>
+                        <span class="value highlight" id="totalMonths">240个月（20.0年）</span>
+                    </div>
+                    <div class="user-info-row">
+                        <span class="label">平均缴费基数</span>
+                        <span class="value" id="avgBase">¥5,850</span>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleDetail('paymentList')">
+                        <span>📋 缴费明细（<span id="detailCount">240</span>条）</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div id="paymentList" class="detail-content">
+                        <div class="payment-list" id="paymentListContent">
+                            <!-- 缴费明细动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="goToPage('upload')">重新上传</button>
+                    <button class="btn-primary" onclick="goToPage('input')">下一步：补充信息</button>
+                </div>
+            </div>
+
+            <!-- 补充信息页 -->
+            <div id="page-input" class="page">
+                <div class="form-card">
+                    <div class="form-title">📝 请补充测算信息</div>
+
+                    <div class="form-item">
+                        <label class="form-label">人员类型</label>
+                        <div class="form-radio-group">
+                            <label class="radio-item active" onclick="selectPersonType('enterprise', this)">
+                                <span class="radio-dot"></span>
+                                <span>企业职工</span>
+                            </label>
+                            <label class="radio-item" onclick="selectPersonType('government', this)">
+                                <span class="radio-dot"></span>
+                                <span>机关事业单位</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <label class="form-label">性别</label>
+                        <div class="form-radio-group">
+                            <label class="radio-item active" onclick="selectGender('male', this)">
+                                <span class="radio-dot"></span>
+                                <span>男</span>
+                            </label>
+                            <label class="radio-item" onclick="selectGender('female', this)">
+                                <span class="radio-dot"></span>
+                                <span>女</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <label class="form-label">退休身份</label>
+                        <select class="form-select" id="retireType">
+                            <option value="worker">工人（男60/女50）</option>
+                            <option value="cadre">干部（男60/女55）</option>
+                            <option value="special">特殊工种（提前退休）</option>
+                        </select>
+                    </div>
+
+                    <div class="form-item">
+                        <label class="form-label">预期退休年龄</label>
+                        <input type="number" class="form-input" id="retireAge" value="60" min="45" max="70">
+                        <div class="form-tip">根据您的身份，系统已自动预填，可手动调整</div>
+                    </div>
+
+                    <div class="form-item">
+                        <label class="form-label">视同缴费年限（年）</label>
+                        <input type="number" class="form-input" id="visualYears" value="0" min="0" max="40" step="0.5">
+                        <div class="form-tip">建立个人账户前的连续工龄，没有请填0</div>
+                    </div>
+
+                    <div class="form-item">
+                        <label class="form-label">个人账户累计储存额（元）</label>
+                        <input type="number" class="form-input" id="personalAccount" placeholder="如不清楚可不填，系统将估算">
+                        <div class="form-tip">选填，可从社保缴费明细中获取</div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="goToPage('detail')">返回</button>
+                    <button class="btn-primary" onclick="startCalculate()">开始测算</button>
+                </div>
+            </div>
+
+            <!-- 测算结果页 -->
+            <div id="page-result" class="page">
+                <div class="result-header">
+                    <div class="result-icon">🎉</div>
+                    <div class="result-title">测算完成</div>
+                    <div class="result-subtitle">以下结果仅供参考，实际以社保经办机构核定为准</div>
+                </div>
+
+                <div class="result-main-card">
+                    <div class="result-label">预计月养老金</div>
+                    <div class="result-value" id="monthlyPension">¥4,580</div>
+                    <div class="result-desc">含基础养老金 + 个人账户养老金 + 过渡性养老金</div>
+                </div>
+
+                <div class="result-summary">
+                    <div class="summary-row">
+                        <div class="summary-item">
+                            <div class="summary-label">退休年龄</div>
+                            <div class="summary-value" id="resultAge">60岁</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">累计缴费年限</div>
+                            <div class="summary-value" id="resultYears">30.5年</div>
+                        </div>
+                    </div>
+                    <div class="summary-row">
+                        <div class="summary-item">
+                            <div class="summary-label">平均缴费指数</div>
+                            <div class="summary-value" id="resultIndex">0.85</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">计发月数</div>
+                            <div class="summary-value" id="resultMonths">139个月</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleDetail('breakdown')">
+                        <span>📊 待遇明细构成</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div id="breakdown" class="detail-content">
+                        <div class="breakdown-list">
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">基础养老金</span>
+                                <span class="breakdown-value" id="basicPension">¥2,850</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">个人账户养老金</span>
+                                <span class="breakdown-value" id="personalPension">¥1,450</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">过渡性养老金</span>
+                                <span class="breakdown-value" id="transitionalPension">¥280</span>
+                            </div>
+                            <div class="breakdown-item total">
+                                <span class="breakdown-label">合计</span>
+                                <span class="breakdown-value" id="totalPension">¥4,580</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleDetail('process')">
+                        <span>🔢 详细计算过程</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div id="process" class="detail-content" style="display:none;">
+                        <div class="process-content" id="processContent">
+                            <!-- 计算过程动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 多方案对比区域 -->
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleSchemeCompare()" style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);color:white;">
+                        <span>⚖️ 多方案对比</span>
+                        <span class="arrow" id="schemeArrow">▼</span>
+                    </div>
+                    <div id="schemeCompareContent" class="detail-content" style="padding:0;">
+                        <!-- 方案选择器 -->
+                        <div class="scheme-selector">
+                            <div class="scheme-btn active" id="scheme-self" onclick="selectScheme('self')">
+                                <div class="scheme-name">本人基数</div>
+                            </div>
+                            <div class="scheme-btn" id="scheme-60" onclick="selectScheme('60')">
+                                <div class="scheme-name">社平60%</div>
+                            </div>
+                            <div class="scheme-btn" id="scheme-100" onclick="selectScheme('100')">
+                                <div class="scheme-name">社平100%</div>
+                            </div>
+                            <div class="scheme-btn" id="scheme-300" onclick="selectScheme('300')">
+                                <div class="scheme-name">社平300%</div>
+                            </div>
+                        </div>
+
+                        <div class="compare-table">
+                            <div class="compare-row header">
+                                <div class="compare-cell">缴费档次</div>
+                                <div class="compare-cell">月待遇</div>
+                                <div class="compare-cell">年化收益率</div>
+                                <div class="compare-cell">回本年龄</div>
+                            </div>
+                            <div class="compare-row" id="row-self">
+                                <div class="compare-cell highlight">本人基数</div>
+                                <div class="compare-cell highlight">¥4,580</div>
+                                <div class="compare-cell highlight">5.2%</div>
+                                <div class="compare-cell highlight">71岁</div>
+                            </div>
+                            <div class="compare-row" id="row-60">
+                                <div class="compare-cell">社平60%</div>
+                                <div class="compare-cell">¥3,120</div>
+                                <div class="compare-cell good">6.8% ⭐</div>
+                                <div class="compare-cell good">68岁 ✅</div>
+                            </div>
+                            <div class="compare-row" id="row-100">
+                                <div class="compare-cell">社平100%</div>
+                                <div class="compare-cell">¥5,420</div>
+                                <div class="compare-cell">4.5%</div>
+                                <div class="compare-cell">73岁</div>
+                            </div>
+                            <div class="compare-row" id="row-300">
+                                <div class="compare-cell">社平300%</div>
+                                <div class="compare-cell">¥12,850</div>
+                                <div class="compare-cell warn">2.8%</div>
+                                <div class="compare-cell warn">79岁</div>
+                            </div>
+                        </div>
+
+                        <div class="compare-footer">
+                            <div class="compare-tip">💡 <strong>结论：</strong>社平60%缴费性价比最高，回本最快。社平300%适合预期寿命超过85岁人群。</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="saveResult()">保存结果</button>
+                    <button class="btn-primary" onclick="goToPage('home')">返回首页</button>
+                </div>
+            </div>
+
+            <!-- 历史记录页 -->
+            <div id="page-history" class="page">
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <div class="empty-icon">📋</div>
+                    <div class="empty-title">暂无测算记录</div>
+                    <div class="empty-desc">快去首页开始测算吧</div>
+                    <button class="btn-primary" onclick="goToPage('home')">开始测算</button>
+                </div>
+
+                <div id="historyList">
+                    <!-- 历史记录动态生成 -->
+                </div>
+            </div>
+
+            <!-- 退休办理指南页 -->
+            <div id="page-guide" class="page">
+                <div class="guide-header">
+                    <div class="guide-icon">📍</div>
+                    <div class="guide-title">福建省退休办理指南</div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-card-title">📋 办理条件</div>
+                    <div class="guide-card-content">
+                        <div class="guide-step-item">
+                            <div class="step-text">达到法定退休年龄（男60岁、女工人50岁、女干部55岁）</div>
+                        </div>
+                        <div class="guide-step-item">
+                            <div class="step-text">累计缴费年限满15年及以上</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-card-title">📝 办理材料</div>
+                    <div class="guide-card-content">
+                        <div class="guide-step-item">
+                            <div class="step-text">1. 身份证原件及复印件</div>
+                        </div>
+                        <div class="guide-step-item">
+                            <div class="step-text">2. 户口簿原件及复印件</div>
+                        </div>
+                        <div class="guide-step-item">
+                            <div class="step-text">3. 近期1寸免冠照片1张</div>
+                        </div>
+                        <div class="guide-step-item">
+                            <div class="step-text">4. 职工档案（企业职工需提供）</div>
+                        </div>
+                        <div class="guide-step-item">
+                            <div class="step-text">5. 《福建省参保人员基本养老金领取资格认定表》</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-card-title">🏢 各地市社保经办机构</div>
+                    <div class="office-list" id="officeList">
+                        <!-- 机构列表动态生成 -->
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-card-title">❓ 常见问题</div>
+                    <div class="faq-list">
+                        <div class="faq-item" onclick="toggleFaq(this)">
+                            <div class="faq-question">Q: 退休前断缴了怎么办？</div>
+                            <div class="faq-answer">A: 如果累计缴费已满15年，不影响办理退休，只是待遇会相应降低。如果未满15年，可以选择补缴或继续缴费至满15年。</div>
+                        </div>
+                        <div class="faq-item" onclick="toggleFaq(this)">
+                            <div class="faq-question">Q: 提前退休会影响待遇吗？</div>
+                            <div class="faq-answer">A: 提前退休会导致缴费年限减少，个人账户储存额减少，因此养老金待遇会相应降低。但特殊工种等政策规定的提前退休除外。</div>
+                        </div>
+                        <div class="faq-item" onclick="toggleFaq(this)">
+                            <div class="faq-question">Q: 多地缴费如何办理退休？</div>
+                            <div class="faq-answer">A: 可以选择在户籍所在地或最后一个缴费满10年的参保地办理退休，其他地区的缴费记录可以转移合并。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <div class="tab-bar">
+            <div class="tab-item active" onclick="switchTab('home')">
+                <span class="tab-icon">🏠</span>
+                <span>首页</span>
+            </div>
+            <div class="tab-item" onclick="switchTab('history')">
+                <span class="tab-icon">📋</span>
+                <span>历史</span>
+            </div>
+            <div class="tab-item" onclick="switchTab('mine')">
+                <span class="tab-icon">👤</span>
+                <span>我的</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast提示 -->
+    <div class="toast" id="toast"></div>
+
+    <!-- 加载遮罩 -->
+    <div class="loading-mask" id="loadingMask" style="display:none;">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">测算中，请稍候...</div>
+    </div>
+
+    <script src="utils/storage.js"></script>
+    <script src="utils/request.js"></script>
+    <script src="utils/common.js"></script>
+    <script src="api/user.js"></script>
+    <script src="api/pension.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/calculate.js"></script>
+    <script src="js/history.js"></script>
+    <script src="js/guide.js"></script>
+</body>
+</html>
