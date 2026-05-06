@@ -1,0 +1,104 @@
+/* pages/detail/detail.wxss */
+.user-card {
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+  margin-bottom: 32rpx;
+}
+
+.user-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.user-info-row:last-child {
+  border-bottom: none;
+}
+
+.user-info-row .label {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 28rpx;
+}
+
+.user-info-row .value {
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.user-info-row .value.highlight {
+  font-size: 32rpx;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.arrow {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.payment-list {
+  max-height: 600rpx;
+  overflow-y: auto;
+}
+
+.payment-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  font-size: 26rpx;
+}
+
+.payment-item:last-child {
+  border-bottom: none;
+}
+
+.payment-month {
+  color: #666;
+}
+
+.payment-base {
+  text-align: center;
+  color: #333;
+  font-weight: 500;
+}
+
+.payment-months {
+  text-align: right;
+  color: #10B981;
+}
+
+.load-more {
+  text-align: center;
+  padding: 24rpx;
+  color: #FF6B6B;
+  font-size: 26rpx;
+}
+
+.no-more {
+  text-align: center;
+  padding: 24rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.btn-group {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 32rpx;
+}
+
+.btn-group button {
+  flex: 1;
+}

@@ -1,0 +1,151 @@
+<!--pages/result/result.wxml-->
+<view class="container">
+  <!-- 结果头部 -->
+  <view class="result-header">
+    <view class="result-icon">🎉</view>
+    <view class="result-title">测算完成</view>
+    <view class="result-subtitle">以下结果仅供参考，实际以社保经办机构核定为准</view>
+  </view>
+
+  <!-- 主结果卡片 -->
+  <view class="result-main-card">
+    <view class="result-label">预计月养老金</view>
+    <view class="result-value">¥{{result.pensionDetails.totalMonthlyPension}}</view>
+    <view class="result-desc">含基础养老金 + 个人账户养老金 + 过渡性养老金</view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="result-summary">
+    <view class="summary-row">
+      <view class="summary-item">
+        <view class="summary-label">退休年龄</view>
+        <view class="summary-value">{{result.basicInfo.retireAge}}岁</view>
+      </view>
+      <view class="summary-item">
+        <view class="summary-label">累计缴费年限</view>
+        <view class="summary-value">{{result.basicInfo.totalPaymentYears}}年</view>
+      </view>
+    </view>
+    <view class="summary-row">
+      <view class="summary-item">
+        <view class="summary-label">平均缴费指数</view>
+        <view class="summary-value">{{result.basicInfo.avgPaymentIndex}}</view>
+      </view>
+      <view class="summary-item">
+        <view class="summary-label">计发月数</view>
+        <view class="summary-value">{{result.basicInfo.calculateMonths}}个月</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 待遇明细构成 -->
+  <view class="card">
+    <view class="detail-header" bindtap="toggleBreakdown">
+      <text>📊 待遇明细构成</text>
+      <text class="arrow">{{showBreakdown ? '▼' : '▶'}}</text>
+    </view>
+    <view class="breakdown-content" wx:if="{{showBreakdown}}">
+      <view class="breakdown-item">
+        <text class="breakdown-label">基础养老金</text>
+        <text class="breakdown-value">¥{{result.pensionDetails.basicPension}}</text>
+      </view>
+      <view class="breakdown-item">
+        <text class="breakdown-label">个人账户养老金</text>
+        <text class="breakdown-value">¥{{result.pensionDetails.personalAccountPension}}</text>
+      </view>
+      <view class="breakdown-item" wx:if="{{result.pensionDetails.transitionalPension > 0}}">
+        <text class="breakdown-label">过渡性养老金</text>
+        <text class="breakdown-value">¥{{result.pensionDetails.transitionalPension}}</text>
+      </view>
+      <view class="breakdown-item total">
+        <text class="breakdown-label">合计</text>
+        <text class="breakdown-value total">¥{{result.pensionDetails.totalMonthlyPension}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 计算过程 -->
+  <view class="card">
+    <view class="detail-header" bindtap="toggleProcess">
+      <text>🔢 详细计算过程</text>
+      <text class="arrow">{{showProcess ? '▼' : '▶'}}</text>
+    </view>
+    <view class="process-content" wx:if="{{showProcess}}">
+      <view class="process-step" wx:for="{{result.calculationProcess}}" wx:key="stepName">
+        <view class="process-step-title">{{item.stepName}}</view>
+        <view class="process-formula">公式：{{item.formula}}</view>
+        <view class="process-result">结果：¥{{item.result}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 多方案对比 -->
+  <view class="card">
+    <view class="detail-header" bindtap="toggleCompare" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: #fff; border-radius: 12rpx 12rpx 0 0; margin: -24rpx -24rpx 0; padding: 24rpx;">
+      <text>⚖️ 多方案对比</text>
+      <text class="arrow" style="color: #fff;">{{showCompare ? '▼' : '▶'}}</text>
+    </view>
+    <view class="compare-content" wx:if="{{showCompare}}" style="margin: 0 -24rpx -24rpx; padding-top: 24rpx;">
+      <!-- 方案选择器 -->
+      <view class="scheme-selector">
+        <view class="scheme-btn {{selectedScheme === 'self' ? 'active' : ''}}" bindtap="selectScheme" data-scheme="self">
+          <text class="scheme-name">本人基数</text>
+        </view>
+        <view class="scheme-btn {{selectedScheme === 'base60' ? 'active' : ''}}" bindtap="selectScheme" data-scheme="base60">
+          <text class="scheme-name">社平60%</text>
+        </view>
+        <view class="scheme-btn {{selectedScheme === 'base100' ? 'active' : ''}}" bindtap="selectScheme" data-scheme="base100">
+          <text class="scheme-name">社平100%</text>
+        </view>
+        <view class="scheme-btn {{selectedScheme === 'base300' ? 'active' : ''}}" bindtap="selectScheme" data-scheme="base300">
+          <text class="scheme-name">社平300%</text>
+        </view>
+      </view>
+
+      <!-- 对比表格 -->
+      <view class="compare-table">
+        <view class="compare-row header">
+          <view class="compare-cell">缴费档次</view>
+          <view class="compare-cell">月待遇</view>
+          <view class="compare-cell">年化收益率</view>
+          <view class="compare-cell">回本年龄</view>
+        </view>
+        <view class="compare-row">
+          <view class="compare-cell {{selectedScheme === 'self' ? 'highlight' : ''}}">本人基数</view>
+          <view class="compare-cell {{selectedScheme === 'self' ? 'highlight' : ''}}">¥{{result.pensionDetails.totalMonthlyPension}}</view>
+          <view class="compare-cell {{selectedScheme === 'self' ? 'highlight' : ''}}">5.2%</view>
+          <view class="compare-cell {{selectedScheme === 'self' ? 'highlight' : ''}}">71岁</view>
+        </view>
+        <view class="compare-row">
+          <view class="compare-cell {{selectedScheme === 'base60' ? 'highlight' : ''}}">社平60%</view>
+          <view class="compare-cell {{selectedScheme === 'base60' ? 'highlight' : ''}}">¥{{Math.round(result.pensionDetails.totalMonthlyPension * 0.7)}}</view>
+          <view class="compare-cell {{selectedScheme === 'base60' ? 'highlight good' : 'good'}}">6.8% ⭐</view>
+          <view class="compare-cell {{selectedScheme === 'base60' ? 'highlight good' : 'good'}}">68岁 ✅</view>
+        </view>
+        <view class="compare-row">
+          <view class="compare-cell {{selectedScheme === 'base100' ? 'highlight' : ''}}">社平100%</view>
+          <view class="compare-cell {{selectedScheme === 'base100' ? 'highlight' : ''}}">¥{{Math.round(result.pensionDetails.totalMonthlyPension * 1.1)}}</view>
+          <view class="compare-cell {{selectedScheme === 'base100' ? 'highlight' : ''}}">4.5%</view>
+          <view class="compare-cell {{selectedScheme === 'base100' ? 'highlight' : ''}}">73岁</view>
+        </view>
+        <view class="compare-row">
+          <view class="compare-cell {{selectedScheme === 'base300' ? 'highlight' : ''}}">社平300%</view>
+          <view class="compare-cell {{selectedScheme === 'base300' ? 'highlight' : ''}}">¥{{Math.round(result.pensionDetails.totalMonthlyPension * 2.1)}}</view>
+          <view class="compare-cell {{selectedScheme === 'base300' ? 'highlight warn' : 'warn'}}">2.8%</view>
+          <view class="compare-cell {{selectedScheme === 'base300' ? 'highlight warn' : 'warn'}}">79岁</view>
+        </view>
+      </view>
+
+      <!-- 结论 -->
+      <view class="compare-footer">
+        <view class="compare-tip">💡 <strong>结论：</strong>社平60%缴费性价比最高，回本最快。社平300%适合预期寿命超过85岁人群。</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 按钮组 -->
+  <view class="btn-group">
+    <button class="btn-secondary" bindtap="saveResult">保存结果</button>
+    <button class="btn-primary" bindtap="goHome">返回首页</button>
+  </view>
+</view>

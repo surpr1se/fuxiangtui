@@ -1,0 +1,53 @@
+<!--pages/detail/detail.wxml-->
+<view class="container">
+  <!-- 个人信息卡片 -->
+  <view class="user-card">
+    <view class="user-info-row">
+      <text class="label">姓名</text>
+      <text class="value">{{personalInfo.name || '-'}}</text>
+    </view>
+    <view class="user-info-row">
+      <text class="label">社会保障号</text>
+      <text class="value">{{idCardMasked}}</text>
+    </view>
+    <view class="user-info-row">
+      <text class="label">累计缴费月数</text>
+      <text class="value highlight">{{summary.totalMonths}}个月（{{(summary.totalMonths/12).toFixed(1)}}年）</text>
+    </view>
+    <view class="user-info-row">
+      <text class="label">平均缴费基数</text>
+      <text class="value">¥{{summary.avgPaymentBase}}</text>
+    </view>
+  </view>
+
+  <!-- 缴费明细 -->
+  <view class="card" bindtap="toggleDetail">
+    <view class="detail-header">
+      <text>📋 缴费明细（共{{paymentDetails.length}}条）</text>
+      <text class="arrow">{{showDetail ? '▼' : '▶'}}</text>
+    </view>
+    
+    <view class="detail-content" wx:if="{{showDetail}}">
+      <view class="payment-list">
+        <view class="payment-item" wx:for="{{displayList}}" wx:key="yearMonth">
+          <view class="payment-month">{{item.yearMonth}}</view>
+          <view class="payment-base">¥{{item.paymentBase}}</view>
+          <view class="payment-months">{{item.paymentMonths}}个月</view>
+        </view>
+      </view>
+      
+      <view class="load-more" wx:if="{{hasMore}}" bindtap="loadMore">
+        加载更多
+      </view>
+      <view class="no-more" wx:if="{{!hasMore && displayList.length > 0}}">
+        已显示全部
+      </view>
+    </view>
+  </view>
+
+  <!-- 按钮组 -->
+  <view class="btn-group">
+    <button class="btn-secondary" bindtap="reUpload">重新上传</button>
+    <button class="btn-primary" bindtap="goNext">下一步：补充信息</button>
+  </view>
+</view>

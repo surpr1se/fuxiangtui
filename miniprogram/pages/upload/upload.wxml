@@ -1,0 +1,56 @@
+<!--pages/upload/upload.wxml-->
+<view class="container">
+  <!-- 头部说明 -->
+  <view class="upload-header">
+    <view class="upload-icon">📄</view>
+    <view class="upload-title">上传缴费明细PDF</view>
+    <view class="upload-desc">请上传从福建省社保网上办事大厅下载的《基本养老个人历年缴费明细》PDF文件</view>
+  </view>
+
+  <!-- 上传区域 -->
+  <view class="upload-area" bindtap="chooseFile">
+    <view class="upload-area-icon">⬆️</view>
+    <view class="upload-area-title">点击选择文件</view>
+    <view class="upload-area-desc">支持PDF格式，文件大小不超过10MB</view>
+  </view>
+
+  <!-- 文件信息 -->
+  <view class="file-info" wx:if="{{fileInfo.name}}">
+    <view class="file-name">📄 {{fileInfo.name}}</view>
+    <view class="file-size">文件大小：{{fileInfo.size}}</view>
+  </view>
+
+  <!-- 上传进度 -->
+  <view class="upload-progress" wx:if="{{showProgress}}">
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progress}}%"></view>
+    </view>
+    <view class="progress-text">正在解析文件，请稍候...</view>
+  </view>
+
+  <!-- 温馨提示 -->
+  <view class="tips-card">
+    <view class="tips-title">📌 温馨提示</view>
+    <view class="tips-list">
+      <view class="tip-item">1. 请确保PDF文件完整，未损坏或加密</view>
+      <view class="tip-item">2. 系统将自动提取您的缴费明细，无需手动录入</view>
+      <view class="tip-item">3. 解析完成后，您可以核对并编辑缴费数据</view>
+      <view class="tip-item">4. 您的数据仅用于测算，我们不会存储您的PDF文件</view>
+    </view>
+  </view>
+
+  <!-- 开始解析按钮 -->
+  <button 
+    class="btn-primary btn-full" 
+    wx:if="{{fileInfo.name}}"
+    bindtap="startParse"
+    loading="{{isParsing}}"
+  >
+    开始解析
+  </button>
+
+  <!-- 使用示例数据 -->
+  <view class="demo-entry" bindtap="useDemoData">
+    🎯 没有PDF？使用示例数据体验测算
+  </view>
+</view>

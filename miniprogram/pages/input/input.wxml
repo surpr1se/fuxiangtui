@@ -1,0 +1,92 @@
+<!--pages/input/input.wxml-->
+<view class="container">
+  <view class="card">
+    <view class="form-title">📝 请补充测算信息</view>
+
+    <!-- 人员类型 -->
+    <view class="form-item">
+      <text class="form-label">人员类型</text>
+      <view class="radio-group">
+        <view class="radio-item {{personType === 'enterprise' ? 'active' : ''}}" bindtap="selectPersonType" data-type="enterprise">
+          <view class="radio-dot"></view>
+          <text>企业职工</text>
+        </view>
+        <view class="radio-item {{personType === 'government' ? 'active' : ''}}" bindtap="selectPersonType" data-type="government">
+          <view class="radio-dot"></view>
+          <text>机关事业单位</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 性别 -->
+    <view class="form-item">
+      <text class="form-label">性别</text>
+      <view class="radio-group">
+        <view class="radio-item {{gender === 'male' ? 'active' : ''}}" bindtap="selectGender" data-gender="male">
+          <view class="radio-dot"></view>
+          <text>男</text>
+        </view>
+        <view class="radio-item {{gender === 'female' ? 'active' : ''}}" bindtap="selectGender" data-gender="female">
+          <view class="radio-dot"></view>
+          <text>女</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 退休身份 -->
+    <view class="form-item">
+      <text class="form-label">退休身份</text>
+      <picker bindchange="onRetireTypeChange" value="{{retireTypeIndex}}" range="{{retireTypeOptions}}">
+        <view class="form-select">
+          {{retireTypeOptions[retireTypeIndex]}}
+          <text class="arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 预期退休年龄 -->
+    <view class="form-item">
+      <text class="form-label">预期退休年龄</text>
+      <input 
+        class="form-input" 
+        type="number" 
+        value="{{retireAge}}" 
+        bindinput="onRetireAgeInput"
+        placeholder="请输入退休年龄"
+      />
+      <text class="form-tip">根据您的身份，系统已自动预填，可手动调整</text>
+    </view>
+
+    <!-- 视同缴费年限 -->
+    <view class="form-item">
+      <text class="form-label">视同缴费年限（年）</text>
+      <input 
+        class="form-input" 
+        type="digit" 
+        value="{{visualYears}}" 
+        bindinput="onVisualYearsInput"
+        placeholder="没有请填0"
+      />
+      <text class="form-tip">建立个人账户前的连续工龄，没有请填0</text>
+    </view>
+
+    <!-- 个人账户储存额 -->
+    <view class="form-item">
+      <text class="form-label">个人账户累计储存额（元）</text>
+      <input 
+        class="form-input" 
+        type="digit" 
+        value="{{personalAccount}}" 
+        bindinput="onPersonalAccountInput"
+        placeholder="不清楚可不填，系统将估算"
+      />
+      <text class="form-tip">选填，可从社保缴费明细中获取</text>
+    </view>
+  </view>
+
+  <!-- 按钮组 -->
+  <view class="btn-group">
+    <button class="btn-secondary" bindtap="goBack">返回</button>
+    <button class="btn-primary" bindtap="startCalculate" loading="{{isCalculating}}">开始测算</button>
+  </view>
+</view>
