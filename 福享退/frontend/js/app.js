@@ -21,7 +21,7 @@ let appData = {
  */
 async function initApp() {
     // 自动登录（创建游客用户）
-    await UserApi.login();
+    await UserApi.autoLogin();
     
     // 初始化指南数据
     initGuideData();
