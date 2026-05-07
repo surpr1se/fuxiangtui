@@ -111,11 +111,12 @@
                     </div>
                 </div>
                 
-                <div class="upload-area" onclick="startUpload()">
+                <div class="upload-area" onclick="document.getElementById('pdfFileInput').click()">
                     <div class="upload-icon">📤</div>
                     <div class="upload-title">点击上传PDF文件</div>
                     <div class="upload-desc">仅支持PDF格式，文件不超过20MB</div>
                 </div>
+                <input type="file" id="pdfFileInput" accept=".pdf,application/pdf" style="display:none;" onchange="handleFileSelect(event)">
                 
                 <div class="tips-card">
                     <div class="tips-title">💡 上传提示</div>

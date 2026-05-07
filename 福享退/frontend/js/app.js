@@ -348,15 +348,45 @@ document.addEventListener('DOMContentLoaded', async function() {
 // ==================== 核心业务函数 ====================
 
 /**
+ * 处理文件选择
+ */
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // 检查文件类型
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        showToast('请选择PDF格式的文件');
+        event.target.value = '';
+        return;
+    }
+    
+    // 检查文件大小（20MB）
+    if (file.size > 20 * 1024 * 1024) {
+        showToast('文件大小不能超过20MB');
+        event.target.value = '';
+        return;
+    }
+    
+    console.log('📄 已选择文件:', file.name, (file.size / 1024 / 1024).toFixed(2) + 'MB');
+    
+    // 开始上传解析
+    startUpload(file);
+    
+    // 清空input，允许重复选择同一文件
+    event.target.value = '';
+}
+
+/**
  * 开始PDF上传解析
  */
-async function startUpload() {
+async function startUpload(file) {
     try {
         const loadingEl = document.getElementById('loading');
         loadingEl.classList.add('show');
         
-        // 模拟文件上传进度
-        const result = await PensionApi.uploadAndParse(null, (progress) => {
+        // 上传解析
+        const result = await PensionApi.uploadAndParse(file, (progress) => {
             console.log('📤 上传进度:', progress + '%');
         });
         
@@ -375,6 +405,7 @@ async function startUpload() {
     } catch (error) {
         console.error('上传失败:', error);
         showToast('上传失败: ' + error.message);
+        document.getElementById('loading').classList.remove('show');
     }
 }
 

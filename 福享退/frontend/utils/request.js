@@ -274,11 +274,15 @@ const Request = {
         formData.append('file', file);
 
         try {
+            const token = localStorage.getItem('token');
+            const headers = {};
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
             const response = await fetch(this.BASE_URL + '/pdf/upload-and-parse', {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
+                headers: headers,
                 body: formData
             });
             return await response.json();
