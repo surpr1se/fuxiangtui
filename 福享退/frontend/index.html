@@ -3,32 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>福享退 - 福建养老保险待遇测算</title>
-    <link rel="stylesheet" href="css/common.css">
+    <title>福享退 - 小程序原型</title>
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <!-- 手机容器 -->
+    
     <div class="phone">
-        <!-- 状态栏 -->
         <div class="status-bar">
-            <span>福享退</span>
-            <span>16:30</span>
+            <span>9:41</span>
+            <span>📶 🔋</span>
         </div>
-
-        <!-- 导航栏 -->
+        
         <div class="nav-bar" id="navBar">
-            <span class="nav-back" id="navBack" onclick="goBack()" style="display:none;">←</span>
-            <span id="navTitle">福享退</span>
+            <span class="nav-back" onclick="goBack()" style="display:none;">&lt;</span>
+            <span id="pageTitle">福享退</span>
         </div>
-
-        <!-- 内容区域 -->
-        <div class="content" id="content">
+        
+        <div class="content">
             <!-- 首页 -->
             <div id="page-home" class="page active">
                 <div class="logo-area">
-                    <div class="logo">
-                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <div class="logo" style="background:none;">
+                        <svg width="64" height="64" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stop-color="#FF6B6B"/>
@@ -36,7 +32,9 @@
                                     <stop offset="100%" stop-color="#FEC89A"/>
                                 </linearGradient>
                             </defs>
-                            <circle cx="100" cy="100" r="90" fill="url(#logoGrad)"/>
+                            <circle cx="100" cy="100" r="90" fill="url(#logoGrad)" />
+                            <circle cx="100" cy="68" r="22" fill="white" opacity="0.3" />
+                            <circle cx="100" cy="68" r="15" fill="white" opacity="0.5" />
                             <path d="M100 75 C80 58 55 72 55 92 C55 118 100 145 100 145 C100 145 145 118 145 92 C145 72 120 58 100 75" fill="white" opacity="0.95" />
                             <circle cx="100" cy="95" r="6" fill="url(#logoGrad)" opacity="0.6" />
                             <path d="M55 150 Q75 160 100 160 Q125 160 145 150" stroke="white" stroke-width="4" fill="none" opacity="0.6" stroke-linecap="round" />
@@ -45,7 +43,7 @@
                     <div class="logo-title">福享退</div>
                     <div class="logo-desc">企业职工养老待遇测算</div>
                 </div>
-
+                
                 <div class="menu-grid">
                     <div class="menu-item" onclick="goToPage('upload')">
                         <div class="menu-icon primary">
@@ -91,436 +89,1224 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- PDF上传页 -->
             <div id="page-upload" class="page">
-                <div class="upload-header">
-                    <div class="upload-icon">📄</div>
-                    <div class="upload-title">上传缴费明细PDF</div>
-                    <div class="upload-desc">请上传从福建省社保网上办事大厅下载的《基本养老个人历年缴费明细》PDF文件</div>
-                </div>
-
-                <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-                    <div class="upload-area-icon">⬆️</div>
-                    <div class="upload-area-title">点击选择文件</div>
-                    <div class="upload-area-desc">支持PDF格式，文件大小不超过10MB</div>
-                    <input type="file" id="fileInput" accept=".pdf" style="display:none;" onchange="handleFileSelect(event)">
-                </div>
-
-                <div class="file-info" id="fileInfo" style="display:none;">
-                    <div class="file-name">📄 <span id="fileName"></span></div>
-                    <div class="file-size">文件大小：<span id="fileSize"></span></div>
-                </div>
-
-                <div class="upload-progress" id="uploadProgress" style="display:none;">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
+                <div class="step-bar">
+                    <div class="step-item active">
+                        <div class="step-num">1</div>
+                        <div class="step-text">上传PDF</div>
                     </div>
-                    <div class="progress-text">正在解析文件，请稍候...</div>
+                    <div class="step-item">
+                        <div class="step-num">2</div>
+                        <div class="step-text">核对明细</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div class="step-text">信息补全</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">4</div>
+                        <div class="step-text">计算结果</div>
+                    </div>
                 </div>
-
+                
+                <div class="upload-area" onclick="mockUpload()">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-title">点击上传PDF文件</div>
+                    <div class="upload-desc">仅支持PDF格式，文件不超过20MB</div>
+                </div>
+                
                 <div class="tips-card">
-                    <div class="tips-title">📌 温馨提示</div>
-                    <div class="tips-list">
-                        <div class="tip-item">1. 请确保PDF文件完整，未损坏或加密</div>
-                        <div class="tip-item">2. 系统将自动提取您的缴费明细，无需手动录入</div>
-                        <div class="tip-item">3. 解析完成后，您可以核对并编辑缴费数据</div>
-                        <div class="tip-item">4. 您的数据仅用于测算，我们不会存储您的PDF文件</div>
+                    <div class="tips-title">💡 上传提示</div>
+                    <div style="padding:12px 0;">
+                        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;">
+                            <span style="color:#10B981;font-weight:bold;">✓</span>
+                            <span style="font-size:14px;color:#333;line-height:1.6;">请使用"福建社保"微信公众号下载的完整缴费明细，功能路径为：业务办理-服务大厅-个人缴费信息</span>
+                        </div>
+                        <div style="display:flex;align-items:flex-start;gap:10px;">
+                            <span style="color:#10B981;font-weight:bold;">✓</span>
+                            <span style="font-size:14px;color:#333;line-height:1.6;">系统会自动识别并提取缴费数据，如识别不准，可在下一步手动修改</span>
+                        </div>
                     </div>
-                </div>
-
-                <button class="btn-primary btn-full" id="uploadBtn" onclick="startUpload()" style="display:none;">
-                    开始解析
-                </button>
-
-                <div class="demo-entry" onclick="useDemoData()">
-                    🎯 没有PDF？使用示例数据体验测算
                 </div>
             </div>
-
+            
             <!-- 缴费明细页 -->
             <div id="page-payment" class="page">
-                <div class="user-info-card">
-                    <div class="user-info-row">
-                        <span class="label">姓名</span>
-                        <span class="value" id="userName">张三</span>
+                <div class="step-bar">
+                    <div class="step-item finish">
+                        <div class="step-num">✓</div>
+                        <div class="step-text">上传PDF</div>
                     </div>
-                    <div class="user-info-row">
-                        <span class="label">社会保障号</span>
-                        <span class="value" id="userIdCard">350***********1234</span>
+                    <div class="step-item active">
+                        <div class="step-num">2</div>
+                        <div class="step-text">核对明细</div>
                     </div>
-                    <div class="user-info-row">
-                        <span class="label">累计缴费月数</span>
-                        <span class="value highlight" id="totalMonths">240个月（20.0年）</span>
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div class="step-text">信息补全</div>
                     </div>
-                    <div class="user-info-row">
-                        <span class="label">平均缴费基数</span>
-                        <span class="value" id="avgBase">¥5,850</span>
-                    </div>
-                </div>
-
-                <div class="detail-card">
-                    <div class="detail-header" onclick="toggleDetail('paymentList')">
-                        <span>📋 缴费明细（<span id="detailCount">240</span>条）</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div id="paymentList" class="detail-content">
-                        <div class="payment-list" id="paymentListContent">
-                            <!-- 缴费明细动态生成 -->
-                        </div>
+                    <div class="step-item">
+                        <div class="step-num">4</div>
+                        <div class="step-text">计算结果</div>
                     </div>
                 </div>
-
-                <div class="button-group">
-                    <button class="btn-secondary" onclick="goToPage('upload')">重新上传</button>
-                    <button class="btn-primary" onclick="goToPage('input')">下一步：补充信息</button>
-                </div>
-            </div>
-
-            <!-- 补充信息页 -->
-            <div id="page-input" class="page">
-                <div class="form-card">
-                    <div class="form-title">📝 请补充测算信息</div>
-
-                    <div class="form-item">
-                        <label class="form-label">人员类型</label>
-                        <div class="form-radio-group">
-                            <label class="radio-item active" onclick="selectPersonType('enterprise', this)">
-                                <span class="radio-dot"></span>
-                                <span>企业职工</span>
-                            </label>
-                            <label class="radio-item" onclick="selectPersonType('government', this)">
-                                <span class="radio-dot"></span>
-                                <span>机关事业单位</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-item">
-                        <label class="form-label">性别</label>
-                        <div class="form-radio-group">
-                            <label class="radio-item active" onclick="selectGender('male', this)">
-                                <span class="radio-dot"></span>
-                                <span>男</span>
-                            </label>
-                            <label class="radio-item" onclick="selectGender('female', this)">
-                                <span class="radio-dot"></span>
-                                <span>女</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-item">
-                        <label class="form-label">退休身份</label>
-                        <select class="form-select" id="retireType">
-                            <option value="worker">工人（男60/女50）</option>
-                            <option value="cadre">干部（男60/女55）</option>
-                            <option value="special">特殊工种（提前退休）</option>
+                
+                <div class="table-card">
+                    <div class="table-header">
+                        <span class="table-title">缴费明细（共 180 个月）</span>
+                        <select class="year-select">
+                            <option>全部年份</option>
+                            <option>2024年</option>
+                            <option>2023年</option>
+                            <option>2022年</option>
                         </select>
                     </div>
-
-                    <div class="form-item">
-                        <label class="form-label">预期退休年龄</label>
-                        <input type="number" class="form-input" id="retireAge" value="60" min="45" max="70">
-                        <div class="form-tip">根据您的身份，系统已自动预填，可手动调整</div>
+                    
+                    <div class="table-row" id="row-2024">
+                        <div class="row-left">
+                            <div class="row-year">2024年 <span class="modified-tag" id="tag-2024" style="display:inline-block;background:#FEF3C7;color:#D97706;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:8px;">已修改</span></div>
+                            <div class="row-base" id="base-2024">缴费基数：<span style="text-decoration:line-through;color:#999;">6000</span> > <span style="color:#FF6B6B;font-weight:600;">6150</span> 元</div>
+                        </div>
+                        <div class="row-right">
+                            <div class="row-money">¥ 14,760</div>
+                            <div class="row-month">12个月</div>
+                            <button class="edit-btn" onclick="openEditModal(2024)">编辑</button>
+                        </div>
                     </div>
-
-                    <div class="form-item">
-                        <label class="form-label">视同缴费年限（年）</label>
-                        <input type="number" class="form-input" id="visualYears" value="0" min="0" max="40" step="0.5">
-                        <div class="form-tip">建立个人账户前的连续工龄，没有请填0</div>
+                    
+                    <div class="table-row" id="row-2023">
+                        <div class="row-left">
+                            <div class="row-year">2023年</div>
+                            <div class="row-base" id="base-2023">缴费基数：5800元</div>
+                        </div>
+                        <div class="row-right">
+                            <div class="row-money">¥ 13,920</div>
+                            <div class="row-month">12个月</div>
+                            <button class="edit-btn" onclick="openEditModal(2023)">编辑</button>
+                        </div>
                     </div>
-
-                    <div class="form-item">
-                        <label class="form-label">个人账户累计储存额（元）</label>
-                        <input type="number" class="form-input" id="personalAccount" placeholder="如不清楚可不填，系统将估算">
-                        <div class="form-tip">选填，可从社保缴费明细中获取</div>
+                    
+                    <div class="table-row" id="row-2022">
+                        <div class="row-left">
+                            <div class="row-year">2022年</div>
+                            <div class="row-base" id="base-2022">缴费基数：5500元</div>
+                        </div>
+                        <div class="row-right">
+                            <div class="row-money">¥ 13,200</div>
+                            <div class="row-month">12个月</div>
+                            <button class="edit-btn" onclick="openEditModal(2022)">编辑</button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="button-group">
-                    <button class="btn-secondary" onclick="goToPage('detail')">返回</button>
-                    <button class="btn-primary" onclick="startCalculate()">开始测算</button>
+                
+                <div class="summary-card">
+                    <div class="summary-title">累计缴费总额</div>
+                    <div class="summary-number">¥ 215,680</div>
+                    <div class="summary-unit">（个人缴费部分）</div>
+                    <div class="summary-row">
+                        <div class="summary-item">
+                            <div class="summary-label">缴费月数</div>
+                            <div class="summary-value">180个月</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">平均基数</div>
+                            <div class="summary-value">¥ 5,980</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">平均指数</div>
+                            <div class="summary-value">0.85</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-buttons">
+                    <button class="step-btn-prev" onclick="goToPage('upload')">&lt; 上一步</button>
+                    <button class="step-btn-next" onclick="goToPage('info')">下一步 ></button>
                 </div>
             </div>
-
-            <!-- 测算结果页 -->
+            
+            <!-- 补充信息页 -->
+            <div id="page-info" class="page">
+                <div class="step-bar">
+                    <div class="step-item finish">
+                        <div class="step-num">✓</div>
+                        <div class="step-text">上传PDF</div>
+                    </div>
+                    <div class="step-item finish">
+                        <div class="step-num">✓</div>
+                        <div class="step-text">核对明细</div>
+                    </div>
+                    <div class="step-item active">
+                        <div class="step-num">3</div>
+                        <div class="step-text">信息补全</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">4</div>
+                        <div class="step-text">计算结果</div>
+                    </div>
+                </div>
+                
+                <div class="form-card">
+                    <div class="form-item">
+                        <label class="form-label">
+                            <span class="required">*</span> 退休年龄
+                        </label>
+                        <input type="number" class="form-input" value="60" placeholder="请输入退休年龄">
+                        <div class="form-tip">男性60岁，女性工人50岁、干部55岁</div>
+                        <div style="background:#FEF3C7;border-radius:8px;padding:10px;margin-top:10px;">
+                            <div style="font-size:13px;font-weight:600;color:#92400E;margin-bottom:6px;">⏰ 延迟退休影响参考</div>
+                            <div style="font-size:12px;color:#B45309;line-height:1.6;">
+                                按最新政策，您预计将延迟3年至63岁退休<br>
+                                多缴3年，多领约 12%，预计回本年龄：71岁 → 72岁
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-item">
+                        <label class="form-label">
+                            <span class="required">*</span> 退休年份
+                        </label>
+                        <input type="number" class="form-input" value="2030" placeholder="请输入退休年份">
+                    </div>
+                    
+                    <div class="form-item">
+                        <label class="form-label">
+                            <span class="required">*</span> 个人账户累计金额
+                        </label>
+                        <input type="number" class="form-input" value="215680" placeholder="请输入个人账户总额">
+                        <div class="form-tip">系统已自动计算，如有误差可手动调整</div>
+                    </div>
+                    
+                    <div class="form-item">
+                        <label class="form-label">上年社会平均工资</label>
+                        <input type="number" class="form-input" value="8500" placeholder="请输入社平工资">
+                        <div class="form-tip">系统已自动填入最新数据</div>
+                    </div>
+                </div>
+                
+                <!-- 未来缴费预测选择 -->
+                <div class="future-section">
+                    <div class="future-title">🔮 未来缴费预测</div>
+                    <div class="future-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div class="future-option selected" onclick="selectFutureOption(this, 'real')">
+                            <div class="future-percent" style="font-size:14px;">本人基数</div>
+                            <div class="future-desc">按最新缴费基数</div>
+                        </div>
+                        <div class="future-option" onclick="selectFutureOption(this, 60)">
+                            <div class="future-percent">60%</div>
+                            <div class="future-desc">按社平60%</div>
+                        </div>
+                        <div class="future-option" onclick="selectFutureOption(this, 100)">
+                            <div class="future-percent">100%</div>
+                            <div class="future-desc">按社平100%</div>
+                        </div>
+                        <div class="future-option" onclick="selectFutureOption(this, 300)">
+                            <div class="future-percent">300%</div>
+                            <div class="future-desc">按社平300%</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 预测结果预览 -->
+                    <div class="future-preview">
+                        <div class="preview-title" onclick="toggleFutureDetail()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                            <span>✓ 已自动生成缴费明细</span>
+                            <span id="futureToggleIcon" style="font-size:12px;">▼</span>
+                        </div>
+                        <div class="preview-row">
+                            <span>预测缴费年限</span>
+                            <span>6年（2025-2030）</span>
+                        </div>
+                        <div class="preview-row">
+                            <span>预测缴费基数</span>
+                            <span>逐年按社平5%增长</span>
+                        </div>
+                        <div class="preview-row">
+                            <span>预计个人账户增加</span>
+                            <span id="futureTotalAmount">¥ 38,726</span>
+                        </div>
+                        
+                        <!-- 年度明细（默认折叠） -->
+                        <div id="futureYearDetail" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(16,185,129,0.2);">
+                            <div style="font-size:12px;color:#065F46;font-weight:600;margin-bottom:8px;">📋 年度缴费基数明细</div>
+                            <div id="futureYearList" style="font-size:12px;color:#065F46;">
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2025年</span><span>¥ 6,150（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2026年</span><span>¥ 6,458（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2027年</span><span>¥ 6,781（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2028年</span><span>¥ 7,120（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2029年</span><span>¥ 7,476（本人基数）</span></div>
+                                <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>2030年</span><span>¥ 7,850（本人基数）</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-buttons">
+                    <button class="step-btn-prev" onclick="goToPage('payment')">&lt; 上一步</button>
+                    <button class="step-btn-next" onclick="goToPage('result')">开始计算 ></button>
+                </div>
+            </div>
+            
+            <!-- 计算结果页 -->
             <div id="page-result" class="page">
-                <div class="result-header">
-                    <div class="result-icon">🎉</div>
-                    <div class="result-title">测算完成</div>
-                    <div class="result-subtitle">以下结果仅供参考，实际以社保经办机构核定为准</div>
-                </div>
-
-                <div class="result-main-card">
-                    <div class="result-label">预计月养老金</div>
-                    <div class="result-value" id="monthlyPension">¥4,580</div>
-                    <div class="result-desc">含基础养老金 + 个人账户养老金 + 过渡性养老金</div>
-                </div>
-
-                <div class="result-summary">
-                    <div class="summary-row">
-                        <div class="summary-item">
-                            <div class="summary-label">退休年龄</div>
-                            <div class="summary-value" id="resultAge">60岁</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">累计缴费年限</div>
-                            <div class="summary-value" id="resultYears">30.5年</div>
+                <div class="result-card">
+                    <div class="result-label">预计每月领取养老金</div>
+                    <div style="display:flex;align-items:flex-end;justify-content:center;line-height:1;">
+                        <span class="result-number">¥3,850</span>
+                        <span style="font-size:20px;font-weight:500;margin-left:4px;margin-bottom:6px;">/月</span>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;margin-top:12px;">
+                        <div style="font-size:13px;color:white;display:flex;align-items:center;gap:6px;">
+                            <span>💰</span>
+                            <span>预计到 <strong style="font-size:15px;">72岁</strong> 时，累计领取额超过个人缴费总额（回本）</span>
                         </div>
                     </div>
-                    <div class="summary-row">
-                        <div class="summary-item">
-                            <div class="summary-label">平均缴费指数</div>
-                            <div class="summary-value" id="resultIndex">0.85</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">计发月数</div>
-                            <div class="summary-value" id="resultMonths">139个月</div>
-                        </div>
-                    </div>
+                    <div class="result-desc" style="margin-top:10px;">* 以上为模拟测算结果，仅供参考，实际以社保局核定为准</div>
                 </div>
-
+                
+                <!-- 📈 待遇调整预测（新增功能） -->
                 <div class="detail-card">
-                    <div class="detail-header" onclick="toggleDetail('breakdown')">
-                        <span>📊 待遇明细构成</span>
-                        <span class="arrow">▼</span>
+                    <div class="detail-header" onclick="toggleDetail('adjustPrediction')" style="background:linear-gradient(135deg, #F59E0B, #D97706);color:white;">
+                        <span>📈 待遇调整预测（按每年4.5%增长）</span>
+                        <span>▼</span>
                     </div>
-                    <div id="breakdown" class="detail-content">
-                        <div class="breakdown-list">
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">基础养老金</span>
-                                <span class="breakdown-value" id="basicPension">¥2,850</span>
+                    <div id="adjustPrediction" class="detail-content" style="display:none;background:#FFFBEB;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
+                            <div style="text-align:center;padding:10px;background:white;border-radius:8px;">
+                                <div style="font-size:12px;color:#666;">65岁</div>
+                                <div style="font-size:16px;font-weight:700;color:#FF6B6B;">¥ 4,790</div>
+                                <div style="font-size:10px;color:#999;">月领取</div>
                             </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">个人账户养老金</span>
-                                <span class="breakdown-value" id="personalPension">¥1,450</span>
+                            <div style="text-align:center;padding:10px;background:white;border-radius:8px;">
+                                <div style="font-size:12px;color:#666;">70岁</div>
+                                <div style="font-size:16px;font-weight:700;color:#FF6B6B;">¥ 5,970</div>
+                                <div style="font-size:10px;color:#999;">月领取</div>
                             </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">过渡性养老金</span>
-                                <span class="breakdown-value" id="transitionalPension">¥280</span>
+                            <div style="text-align:center;padding:10px;background:white;border-radius:8px;">
+                                <div style="font-size:12px;color:#666;">75岁</div>
+                                <div style="font-size:16px;font-weight:700;color:#FF6B6B;">¥ 7,440</div>
+                                <div style="font-size:10px;color:#999;">月领取</div>
                             </div>
-                            <div class="breakdown-item total">
-                                <span class="breakdown-label">合计</span>
-                                <span class="breakdown-value" id="totalPension">¥4,580</span>
-                            </div>
+                        </div>
+                        <div style="font-size:12px;color:#92400E;line-height:1.6;background:white;padding:10px;border-radius:8px;">
+                            💡 <strong>累计领取金额：</strong><br>
+                            • 70岁时累计：约 128 万元<br>
+                            • 80岁时累计：约 256 万元<br>
+                            • 90岁时累计：约 438 万元
                         </div>
                     </div>
                 </div>
-
+                
+                <!-- ⚖️ 多方案对比（4种缴费档次） -->
                 <div class="detail-card">
-                    <div class="detail-header" onclick="toggleDetail('process')">
-                        <span>🔢 详细计算过程</span>
-                        <span class="arrow">▼</span>
+                    <div class="detail-header" onclick="toggleSchemeCompare()" style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);color:white;cursor:pointer;">
+                        <span>⚖️ 多方案对比（4种缴费档次）</span>
+                        <span id="scheme-compare-arrow" style="font-size:12px;">▼</span>
                     </div>
-                    <div id="process" class="detail-content" style="display:none;">
-                        <div class="process-content" id="processContent">
-                            <!-- 计算过程动态生成 -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 多方案对比区域 -->
-                <div class="detail-card">
-                    <div class="detail-header" onclick="toggleSchemeCompare()" style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);color:white;">
-                        <span>⚖️ 多方案对比</span>
-                        <span class="arrow" id="schemeArrow">▼</span>
-                    </div>
-                    <div id="schemeCompareContent" class="detail-content" style="padding:0;">
+                    
+                    <!-- 展开内容区域 -->
+                    <div id="scheme-compare-content" class="detail-content" style="padding:0;display:block;">
                         <!-- 方案选择器 -->
-                        <div class="scheme-selector">
-                            <div class="scheme-btn active" id="scheme-self" onclick="selectScheme('self')">
-                                <div class="scheme-name">本人基数</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;padding:12px 12px 8px;background:#F5F3FF;border-bottom:1px solid #DDD6FE;">
+                            <div onclick="selectCurrentScheme('self')" id="current-scheme-self" style="background:#ECFDF5;border:2px solid #10B981;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;">
+                                <div style="font-size:11px;font-weight:700;color:#065F46;">本人基数</div>
+                                <div style="font-size:9px;color:#047857;margin-top:2px;">¥5,980/月</div>
                             </div>
-                            <div class="scheme-btn" id="scheme-60" onclick="selectScheme('60')">
-                                <div class="scheme-name">社平60%</div>
+                            <div onclick="selectCurrentScheme('60')" id="current-scheme-60" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;">
+                                <div style="font-size:11px;font-weight:600;color:#374151;">社平60%</div>
+                                <div style="font-size:9px;color:#6B7280;margin-top:2px;">¥4,200/月</div>
                             </div>
-                            <div class="scheme-btn" id="scheme-100" onclick="selectScheme('100')">
-                                <div class="scheme-name">社平100%</div>
+                            <div onclick="selectCurrentScheme('100')" id="current-scheme-100" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;">
+                                <div style="font-size:11px;font-weight:600;color:#374151;">社平100%</div>
+                                <div style="font-size:9px;color:#6B7280;margin-top:2px;">¥7,000/月</div>
                             </div>
-                            <div class="scheme-btn" id="scheme-300" onclick="selectScheme('300')">
-                                <div class="scheme-name">社平300%</div>
-                            </div>
-                        </div>
-
-                        <div class="compare-table">
-                            <div class="compare-row header">
-                                <div class="compare-cell">缴费档次</div>
-                                <div class="compare-cell">月待遇</div>
-                                <div class="compare-cell">年化收益率</div>
-                                <div class="compare-cell">回本年龄</div>
-                            </div>
-                            <div class="compare-row" id="row-self">
-                                <div class="compare-cell highlight">本人基数</div>
-                                <div class="compare-cell highlight">¥4,580</div>
-                                <div class="compare-cell highlight">5.2%</div>
-                                <div class="compare-cell highlight">71岁</div>
-                            </div>
-                            <div class="compare-row" id="row-60">
-                                <div class="compare-cell">社平60%</div>
-                                <div class="compare-cell">¥3,120</div>
-                                <div class="compare-cell good">6.8% ⭐</div>
-                                <div class="compare-cell good">68岁 ✅</div>
-                            </div>
-                            <div class="compare-row" id="row-100">
-                                <div class="compare-cell">社平100%</div>
-                                <div class="compare-cell">¥5,420</div>
-                                <div class="compare-cell">4.5%</div>
-                                <div class="compare-cell">73岁</div>
-                            </div>
-                            <div class="compare-row" id="row-300">
-                                <div class="compare-cell">社平300%</div>
-                                <div class="compare-cell">¥12,850</div>
-                                <div class="compare-cell warn">2.8%</div>
-                                <div class="compare-cell warn">79岁</div>
+                            <div onclick="selectCurrentScheme('300')" id="current-scheme-300" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;">
+                                <div style="font-size:11px;font-weight:600;color:#374151;">社平300%</div>
+                                <div style="font-size:9px;color:#6B7280;margin-top:2px;">¥21,000/月</div>
                             </div>
                         </div>
-
-                        <div class="compare-footer">
-                            <div class="compare-tip">💡 <strong>结论：</strong>社平60%缴费性价比最高，回本最快。社平300%适合预期寿命超过85岁人群。</div>
+                        
+                        <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:4px;">
+                            <!-- 表头 -->
+                            <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                缴费档次
+                            </div>
+                            <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                月待遇
+                            </div>
+                            <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                年化收益率
+                            </div>
+                            <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                回本年龄
+                            </div>
+                            
+                            <!-- 方案1：按本人基数 -->
+                            <div id="row-self" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;">
+                                <div style="font-weight:600;color:#065F46;font-size:12px;">本人基数</div>
+                                <div style="font-size:10px;color:#10B981;">¥5,980/月</div>
+                            </div>
+                            <div id="row-self-1" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:700;color:#065F46;font-size:14px;">
+                                ¥3,850
+                            </div>
+                            <div id="row-self-2" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                                5.2%
+                            </div>
+                            <div id="row-self-3" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                                71岁
+                            </div>
+                            
+                            <!-- 方案2：按社平60% -->
+                            <div id="row-60" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                                <div style="font-weight:600;color:#333;font-size:12px;">社平60%</div>
+                                <div style="font-size:10px;color:#666;">¥4,200/月</div>
+                            </div>
+                            <div id="row-60-1" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                                ¥3,120
+                            </div>
+                            <div id="row-60-2" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                                6.8%
+                            </div>
+                            <div id="row-60-3" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                                68岁
+                            </div>
+                            
+                            <!-- 方案3：按社平100% -->
+                            <div id="row-100" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                                <div style="font-weight:600;color:#333;font-size:12px;">社平100%</div>
+                                <div style="font-size:10px;color:#666;">¥7,000/月</div>
+                            </div>
+                            <div id="row-100-1" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                                ¥4,580
+                            </div>
+                            <div id="row-100-2" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                                4.5%
+                            </div>
+                            <div id="row-100-3" style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                                73岁
+                            </div>
+                            
+                            <!-- 方案4：按社平300% -->
+                            <div id="row-300" style="padding:10px 8px;text-align:center;">
+                                <div style="font-weight:600;color:#333;font-size:12px;">社平300%</div>
+                                <div style="font-size:10px;color:#666;">¥21,000/月</div>
+                            </div>
+                            <div id="row-300-1" style="padding:10px 8px;text-align:center;font-weight:600;color:#333;font-size:14px;">
+                                ¥8,950
+                            </div>
+                            <div id="row-300-2" style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                                2.8%
+                            </div>
+                            <div id="row-300-3" style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                                79岁
+                            </div>
+                        </div>
+                        
+                        <div style="background:#F9FAFB;padding:10px 12px;border-top:1px solid #E5E7EB;">
+                            <div style="font-size:11px;color:#374151;line-height:1.5;">
+                                💡 <strong>结论：</strong>社平60%缴费性价比最高，回本最快。社平300%适合预期寿命超过85岁人群。
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="button-group">
-                    <button class="btn-secondary" onclick="saveResult()">保存结果</button>
-                    <button class="btn-primary" onclick="goToPage('home')">返回首页</button>
+                
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleDetail('detail1')">
+                        <span>📊 计算明细</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="detail1" class="detail-content">
+                        <div class="detail-row">
+                            <span class="detail-label">基础养老金</span>
+                            <span class="detail-value highlight">¥ 2,320</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">个人账户养老金</span>
+                            <span class="detail-value highlight">¥ 1,530</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">过渡性养老金</span>
+                            <span class="detail-value">¥ 0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">每月合计</span>
+                            <span class="detail-value highlight">¥ 3,850</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <div class="detail-header" onclick="toggleDetail('detail2')">
+                        <span>📝 计算公式说明</span>
+                        <span>▼</span>
+                    </div>
+                    <div id="detail2" class="detail-content">
+                        <div class="detail-row">
+                            <span class="detail-label">基础养老金</span>
+                            <span class="detail-value">(社平工资+指数化工资)/2 × 缴费年限%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">个人账户养老金</span>
+                            <span class="detail-value">个人账户累计 / 计发月数</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">计发月数(60岁)</span>
+                            <span class="detail-value">139个月</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="goToPage('info')">&lt; 修改参数</button>
+                    <button class="btn-primary" onclick="alert('模拟：已保存到历史记录')">保存结果</button>
                 </div>
             </div>
-
+            
             <!-- 历史记录页 -->
             <div id="page-history" class="page">
-                <div class="empty-state" id="emptyState" style="display:none;">
-                    <div class="empty-icon">📋</div>
-                    <div class="empty-title">暂无测算记录</div>
-                    <div class="empty-desc">快去首页开始测算吧</div>
-                    <button class="btn-primary" onclick="goToPage('home')">开始测算</button>
-                </div>
-
-                <div id="historyList">
-                    <!-- 历史记录动态生成 -->
-                </div>
-            </div>
-
-            <!-- 退休办理指南页 -->
-            <div id="page-guide" class="page">
-                <div class="guide-header">
-                    <div class="guide-icon">📍</div>
-                    <div class="guide-title">福建省退休办理指南</div>
-                </div>
-
-                <div class="guide-card">
-                    <div class="guide-card-title">📋 办理条件</div>
-                    <div class="guide-card-content">
-                        <div class="guide-step-item">
-                            <div class="step-text">达到法定退休年龄（男60岁、女工人50岁、女干部55岁）</div>
-                        </div>
-                        <div class="guide-step-item">
-                            <div class="step-text">累计缴费年限满15年及以上</div>
-                        </div>
+                <div class="history-item" onclick="goToPage('result')">
+                    <div class="history-header">
+                        <span class="history-date">2024年4月27日 15:30</span>
+                        <span class="history-result">¥ 3,850/月</span>
+                    </div>
+                    <div class="history-info">
+                        <span>缴费年限：15年</span>
+                        <span>平均基数：¥ 5,980</span>
                     </div>
                 </div>
-
-                <div class="guide-card">
-                    <div class="guide-card-title">📝 办理材料</div>
-                    <div class="guide-card-content">
-                        <div class="guide-step-item">
-                            <div class="step-text">1. 身份证原件及复印件</div>
-                        </div>
-                        <div class="guide-step-item">
-                            <div class="step-text">2. 户口簿原件及复印件</div>
-                        </div>
-                        <div class="guide-step-item">
-                            <div class="step-text">3. 近期1寸免冠照片1张</div>
-                        </div>
-                        <div class="guide-step-item">
-                            <div class="step-text">4. 职工档案（企业职工需提供）</div>
-                        </div>
-                        <div class="guide-step-item">
-                            <div class="step-text">5. 《福建省参保人员基本养老金领取资格认定表》</div>
-                        </div>
+                
+                <div class="history-item" onclick="goToPage('result')">
+                    <div class="history-header">
+                        <span class="history-date">2024年4月20日 10:15</span>
+                        <span class="history-result">¥ 4,200/月</span>
+                    </div>
+                    <div class="history-info">
+                        <span>缴费年限：18年</span>
+                        <span>平均基数：¥ 6,500</span>
                     </div>
                 </div>
-
-                <div class="guide-card">
-                    <div class="guide-card-title">🏢 各地市社保经办机构</div>
-                    <div class="office-list" id="officeList">
-                        <!-- 机构列表动态生成 -->
+                
+                <div class="history-item" onclick="goToPage('result')">
+                    <div class="history-header">
+                        <span class="history-date">2024年4月10日 16:42</span>
+                        <span class="history-result">¥ 3,580/月</span>
                     </div>
-                </div>
-
-                <div class="guide-card">
-                    <div class="guide-card-title">❓ 常见问题</div>
-                    <div class="faq-list">
-                        <div class="faq-item" onclick="toggleFaq(this)">
-                            <div class="faq-question">Q: 退休前断缴了怎么办？</div>
-                            <div class="faq-answer">A: 如果累计缴费已满15年，不影响办理退休，只是待遇会相应降低。如果未满15年，可以选择补缴或继续缴费至满15年。</div>
-                        </div>
-                        <div class="faq-item" onclick="toggleFaq(this)">
-                            <div class="faq-question">Q: 提前退休会影响待遇吗？</div>
-                            <div class="faq-answer">A: 提前退休会导致缴费年限减少，个人账户储存额减少，因此养老金待遇会相应降低。但特殊工种等政策规定的提前退休除外。</div>
-                        </div>
-                        <div class="faq-item" onclick="toggleFaq(this)">
-                            <div class="faq-question">Q: 多地缴费如何办理退休？</div>
-                            <div class="faq-answer">A: 可以选择在户籍所在地或最后一个缴费满10年的参保地办理退休，其他地区的缴费记录可以转移合并。</div>
-                        </div>
+                    <div class="history-info">
+                        <span>缴费年限：15年</span>
+                        <span>平均基数：¥ 5,600</span>
                     </div>
                 </div>
             </div>
-
+            
             <!-- 个人中心页 -->
             <div id="page-profile" class="page">
                 <div class="profile-header">
-                    <div class="avatar">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <div class="avatar" style="width:64px;height:64px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="profile-name" id="profileName">未登录</div>
-                    <div class="profile-desc">登录后可同步测算记录</div>
+                    <div class="user-name" style="font-size:18px;margin-top:12px;">微信用户</div>
                 </div>
-
-                <div class="menu-list">
-                    <div class="menu-list-item" onclick="showToast('功能开发中')">
-                        <div class="menu-list-icon">📋</div>
-                        <div class="menu-list-content">
-                            <div class="menu-list-title">我的测算记录</div>
-                            <div class="menu-list-desc">查看所有历史测算结果</div>
+                
+                <!-- 数据统计卡片 -->
+                <div class="summary-card" style="margin:20px 16px 16px;border-radius:12px;padding:16px;">
+                    <div style="display:flex;">
+                        <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">
+                            <div style="font-size:24px;font-weight:700;">12</div>
+                            <div style="font-size:12px;opacity:0.8;margin-top:4px;">测算次数</div>
                         </div>
-                        <div class="menu-list-arrow">›</div>
+                        <div style="flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.2);">
+                            <div style="font-size:24px;font-weight:700;">¥3.2k</div>
+                            <div style="font-size:12px;opacity:0.8;margin-top:4px;">平均待遇</div>
+                        </div>
+                        <div style="flex:1;text-align:center;">
+                            <div style="font-size:24px;font-weight:700;">18</div>
+                            <div style="font-size:12px;opacity:0.8;margin-top:4px;">累计缴费月</div>
+                        </div>
                     </div>
-                    <div class="menu-list-item" onclick="showToast('功能开发中')">
-                        <div class="menu-list-icon">⚙️</div>
-                        <div class="menu-list-content">
-                            <div class="menu-list-title">设置</div>
-                            <div class="menu-list-desc">系统设置与偏好</div>
-                        </div>
-                        <div class="menu-list-arrow">›</div>
+                </div>
+                
+                <!-- 我的计算记录 -->
+                <div style="padding:0 16px;margin-bottom:16px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;" onclick="goToPage('history')">
+                        <span style="font-size:15px;font-weight:600;color:#333;display:flex;align-items:center;gap:6px;">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+                                <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14 2V8H20" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            我的计算记录
+                        </span>
+                        <span style="font-size:12px;color:#FF6B6B;">查看全部 ></span>
                     </div>
-                    <div class="menu-list-item" onclick="showToast('功能开发中')">
-                        <div class="menu-list-icon">❓</div>
-                        <div class="menu-list-content">
-                            <div class="menu-list-title">帮助与反馈</div>
-                            <div class="menu-list-desc">使用帮助和意见反馈</div>
+                    <div class="history-item" onclick="goToPage('result')" style="margin:0;padding:12px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.05);cursor:pointer;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="font-size:13px;color:#666;">2024年4月28日 10:30</span>
+                            <span style="font-size:18px;font-weight:700;color:#FF6B6B;">¥ 3,850/月</span>
                         </div>
-                        <div class="menu-list-arrow">›</div>
+                        <div style="display:flex;gap:12px;font-size:11px;color:#999;">
+                            <span>缴费年限：15年</span>
+                            <span>平均基数：¥ 5,980</span>
+                        </div>
                     </div>
-                    <div class="menu-list-item" onclick="showToast('功能开发中')">
-                        <div class="menu-list-icon">ℹ️</div>
-                        <div class="menu-list-content">
-                            <div class="menu-list-title">关于福享退</div>
-                            <div class="menu-list-desc">版本信息与免责声明</div>
+                </div>
+                
+                <!-- 政策说明 -->
+                <div style="padding:0 16px;margin-bottom:16px;">
+                    <div style="font-size:15px;font-weight:600;color:#333;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+                            <path d="M4 19.5C4 19.1022 4.15804 18.7206 4.43934 18.4393C4.72064 18.158 5.10218 18 5.5 18H18.5C18.8978 18 19.2794 18.158 19.5607 18.4393C19.842 18.7206 20 19.1022 20 19.5C20 19.8978 19.842 20.2794 19.5607 20.5607C19.2794 20.842 18.8978 21 18.5 21H5.5C5.10218 21 4.72064 20.842 4.43934 20.5607C4.15804 20.2794 4 19.8978 4 19.5Z" fill="#666"/>
+                            <path d="M4 15H20" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M5.5 15L6.35 3.59C6.39117 3.01342 6.88312 2.56696 7.46 2.56696H16.54C17.1169 2.56696 17.6088 3.01342 17.65 3.59L18.5 15" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        政策说明
+                    </div>
+                    <div class="menu-list">
+                        <div class="menu-list-item" style="border-radius:10px 10px 0 0;cursor:pointer;" onclick="goToPage('policy-1')">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14 2V8H20" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                <span class="menu-list-text">养老保险政策解读</span>
+                            </div>
+                            <span class="menu-list-arrow">></span>
                         </div>
-                        <div class="menu-list-arrow">›</div>
+                        <div class="menu-list-item" style="border-radius:0;cursor:pointer;" onclick="goToPage('policy-2')">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 20H4" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M4 4H6V20H4" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M8 12H10V20H8V12Z" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 9H14V20H12V9Z" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M16 5H18V20H16V5Z" stroke="url(#grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                <span class="menu-list-text">待遇计算公式说明</span>
+                            </div>
+                            <span class="menu-list-arrow">></span>
+                        </div>
+                        <div class="menu-list-item" style="border-radius:0 0 10px 10px;cursor:pointer;" onclick="goToPage('policy-3')">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="url(#grad3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="url(#grad3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                <span class="menu-list-text">福建省社保政策</span>
+                            </div>
+                            <span class="menu-list-arrow">></span>
+                        </div>
+                        <div class="menu-list-item" style="border-radius:0 0 10px 10px;cursor:pointer;" onclick="goToPage('policy-6')">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 16V22M8 22H16M9 2H15C15.5304 2 16.0391 2.21071 16.4142 2.58579C16.7893 2.96086 17 3.46957 17 4V14C17 14.5304 16.7893 15.0391 16.4142 15.4142C16.0391 15.7893 15.5304 16 15 16H9C8.46957 16 7.96086 15.7893 7.58579 15.4142C7.21071 15.0391 7 14.5304 7 14V4C7 3.46957 7.21071 2.96086 7.58579 2.58579C7.96086 2.21071 8.46957 2 9 2Z" stroke="url(#grad6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                <span class="menu-list-text">退休手续办理指南</span>
+                            </div>
+                            <span class="menu-list-arrow">></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 其他功能 -->
+                <div style="padding:0 16px;margin-bottom:16px;">
+                    <div style="font-size:15px;font-weight:600;color:#333;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+                            <circle cx="12" cy="12" r="3" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 1V4" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 20V23" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.22 4.22L6.34 6.34" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17.66 17.66L19.78 19.78" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 12H4" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 12H23" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.22 19.78L6.34 17.66" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17.66 6.34L19.78 4.22" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        其他
+                    </div>
+                    <div class="menu-list">
+                        <div class="menu-list-item" style="border-radius:10px;cursor:pointer;" onclick="goToPage('policy-4')">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="url(#grad4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M18.5 2.5L21.5 5.5L15.5 11.5L12.5 12.5L13.5 9.5L18.5 2.5Z" stroke="url(#grad4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                <span class="menu-list-text">用户协议</span>
+                            </div>
+                            <span class="menu-list-arrow">></span>
+                        </div>
+                        <div class="menu-list-item" style="border-radius:0;cursor:pointer;" onclick="goToPage('policy-5')">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="url(#grad5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke="url(#grad5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" stroke="url(#grad5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <defs>
+                                            <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                                <stop offset="100%" stop-color="#FF8E53"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </span>
+                                <span class="menu-list-text">隐私政策</span>
+                            </div>
+                            <span class="menu-list-arrow">></span>
+                        </div>
+                        <div class="menu-list-item" style="border-radius:0 0 10px 10px;background:#FFF5F5;cursor:pointer;" onclick="alert('模拟：确认退出登录')">
+                            <div class="menu-list-left">
+                                <span class="menu-list-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M16 17L21 12L16 7" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M21 12H9" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                                <span class="menu-list-text" style="color:#E53E3E;">退出登录</span>
+                            </div>
+                            <span class="menu-list-arrow">></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align:center;padding:8px 16px 16px;font-size:12px;color:#999;">
+                    福享退 v1.0.0
+                </div>
+            </div>
+            
+            <!-- 养老保险政策解读页面 -->
+            <div id="page-policy-1" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14 2V8H20" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    养老保险政策解读
+                </h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">一、养老保险体系概述</div>
+                    <p style="font-size:14px;color:#666;line-height:1.8;margin:0;">我国养老保险分为三类：企业职工基本养老保险、机关事业单位养老保险、城乡居民基本养老保险，分别覆盖不同人群，保障退休后基本生活。</p>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">二、参保范围</div>
+                    <p style="font-size:14px;color:#666;line-height:1.8;margin:0;">✅ 企业职工：各类企业、社会团体、民办非企业单位等组织的职工<br>✅ 灵活就业人员：未在用人单位参保的非全日制从业人员<br>✅ 机关事业单位：公务员、事业单位编制内工作人员<br>✅ 城乡居民：年满16周岁（不含在校学生），非国家机关和事业单位工作人员及不属于职工基本养老保险制度覆盖范围的城乡居民</p>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">三、缴费比例</div>
+                    <div style="background:#FFF8F0;border-radius:8px;padding:12px;">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                            <span style="font-size:13px;color:#666;">单位缴费</span>
+                            <span style="font-size:14px;font-weight:600;color:#333;">16%</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                            <span style="font-size:13px;color:#666;">个人缴费</span>
+                            <span style="font-size:14px;font-weight:600;color:#333;">8%</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;">
+                            <span style="font-size:13px;color:#666;">计入个人账户</span>
+                            <span style="font-size:14px;font-weight:600;color:#FF6B6B;">全部个人缴费</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">四、退休年龄</div>
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead>
+                            <tr style="background:#FFF8F0;">
+                                <th style="padding:8px;text-align:left;border:1px solid #FFE0D0;">人群</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #FFE0D0;">男性</th>
+                                <th style="padding:8px;text-align:center;border:1px solid #FFE0D0;">女性</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding:8px;border:1px solid #FFE0D0;color:#666;">企业工人</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">60岁</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">50岁</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;border:1px solid #FFE0D0;color:#666;">干部/管理岗</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">60岁</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">55岁</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;border:1px solid #FFE0D0;color:#666;">城乡居民</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">60岁</td>
+                                <td style="padding:8px;border:1px solid #FFE0D0;text-align:center;color:#333;">60岁</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 待遇计算公式说明页面 -->
+            <div id="page-policy-2" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 1V3" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 21V23" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.22 4.22L5.64 5.64" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18.36 18.36L19.78 19.78" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M1 12H3" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 12H23" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.22 19.78L5.64 18.36" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18.36 5.64L19.78 4.22" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    待遇计算公式说明
+                </h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">企业职工养老金 = 基础养老金 + 个人账户养老金</div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">一、基础养老金</div>
+                    <div style="background:#FFF8F0;border-radius:8px;padding:12px;margin-bottom:12px;">
+                        <p style="font-size:14px;color:#333;line-height:1.8;margin:0;text-align:center;font-weight:500;">(退休时本省上年度在岗职工月平均工资 + 本人指数化月平均缴费工资) ÷ 2 × 累计缴费年限 × 1%</p>
+                    </div>
+                    <p style="font-size:13px;color:#666;line-height:1.7;margin:0;">💡 本人指数化月平均缴费工资 = 退休时上年度全省在岗职工月平均工资 × 本人平均缴费工资指数</p>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">二、个人账户养老金</div>
+                    <div style="background:#FFF8F0;border-radius:8px;padding:12px;margin-bottom:12px;">
+                        <p style="font-size:14px;color:#333;line-height:1.8;margin:0;text-align:center;font-weight:500;">退休时个人账户累计储存额 ÷ 计发月数</p>
+                    </div>
+                    <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:8px;">📌 常用计发月数参考：</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <div style="background:#F8FAFC;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#666;">50岁退休</div>
+                            <div style="font-size:16px;font-weight:700;color:#FF6B6B;">195个月</div>
+                        </div>
+                        <div style="background:#F8FAFC;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#666;">55岁退休</div>
+                            <div style="font-size:16px;font-weight:700;color:#FF6B6B;">170个月</div>
+                        </div>
+                        <div style="background:#F8FAFC;border-radius:6px;padding:8px;text-align:center;grid-column:span 2;">
+                            <div style="font-size:12px;color:#666;">60岁退休</div>
+                            <div style="font-size:16px;font-weight:700;color:#FF6B6B;">139个月</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">三、重要概念说明</div>
+                    <div style="border-bottom:1px solid #F5F5F5;padding:10px 0;">
+                        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:4px;">缴费工资指数</div>
+                        <p style="font-size:13px;color:#666;line-height:1.6;margin:0;">本人当年缴费基数 ÷ 上年度全省在岗职工月平均工资，取值范围 0.6 ~ 3.0</p>
+                    </div>
+                    <div style="border-bottom:1px solid #F5F5F5;padding:10px 0;">
+                        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:4px;">平均缴费指数</div>
+                        <p style="font-size:13px;color:#666;line-height:1.6;margin:0;">各年度缴费指数的平均值，反映整个缴费期间缴费水平高低</p>
+                    </div>
+                    <div style="padding:10px 0 0;">
+                        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:4px;">视同缴费年限</div>
+                        <p style="font-size:13px;color:#666;line-height:1.6;margin:0;">实行个人缴费制度前，按国家规定可计算为连续工龄的工作年限</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 福建省社保政策页面 -->
+            <div id="page-policy-3" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    福建省社保政策
+                </h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">一、重点政策文件</div>
+                    <div style="background:#F8FAFC;border-radius:8px;padding:10px;margin-bottom:8px;">
+                        <div style="font-size:13px;font-weight:600;color:#333;">闽政〔2006〕24号</div>
+                        <p style="font-size:12px;color:#666;margin:4px 0 0;">福建省企业职工基本养老保险省级统筹实施意见</p>
+                    </div>
+                    <div style="background:#F8FAFC;border-radius:8px;padding:10px;margin-bottom:8px;">
+                        <div style="font-size:13px;font-weight:600;color:#333;">闽政〔2015〕48号</div>
+                        <p style="font-size:12px;color:#666;margin:4px 0 0;">完善机关事业单位养老保险制度改革实施意见</p>
+                    </div>
+                    <div style="background:#F8FAFC;border-radius:8px;padding:10px;">
+                        <div style="font-size:13px;font-weight:600;color:#333;">闽人社文〔2019〕236号</div>
+                        <p style="font-size:12px;color:#666;margin:4px 0 0;">规范机关事业单位养老保险待遇计发办法</p>
+                    </div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">二、灵活就业人员参保</div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F5F5F5;">
+                        <span style="font-size:14px;color:#666;">缴费基数</span>
+                        <span style="font-size:14px;font-weight:600;color:#333;">全省全口径平均工资 60% ~ 300%</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F5F5F5;">
+                        <span style="font-size:14px;color:#666;">缴费比例</span>
+                        <span style="font-size:14px;font-weight:600;color:#FF6B6B;">20%</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+                        <span style="font-size:14px;color:#666;">计入个人账户</span>
+                        <span style="font-size:14px;font-weight:600;color:#333;">8%</span>
+                    </div>
+                </div>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">三、城乡居民保缴费档次</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">200元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">300元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">500元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">1000元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">2000元</div>
+                        </div>
+                        <div style="background:#FFF8F0;border-radius:6px;padding:8px;text-align:center;">
+                            <div style="font-size:12px;color:#FF6B6B;font-weight:600;">3000元</div>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;color:#999;margin-top:10px;text-align:center;">政府补贴：缴费200元补贴40元，每提高一档增加5元</p>
+                </div>
+            </div>
+            
+            <!-- 用户协议页面 -->
+            <div id="page-policy-4" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18.5 2.5L21.5 5.5L15.5 11.5L12.5 12.5L13.5 9.5L18.5 2.5Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    用户服务协议
+                </h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:14px;color:#666;line-height:1.8;">
+                        <p style="margin-top:0;">欢迎您使用福享退养老金测算服务！在使用本服务前，请您仔细阅读以下条款：</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">一、服务说明</h4>
+                        <p style="margin:0 0 12px;">福享退是一款养老金测算工具，通过用户输入的缴费基数、缴费年限等信息，按照国家及福建省养老保险政策公式，自动计算预估养老金待遇。</p>
+                        <p style="background:#FFF8F0;border-radius:8px;padding:12px;margin:0 0 12px;color:#D97706;font-size:13px;">
+                            ⚠️ <strong>重要提示：</strong>本工具测算结果仅供参考，不代表社保经办机构最终核定结果，实际待遇以社保部门核算为准。
+                        </p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">二、账号管理</h4>
+                        <p style="margin:0 0 12px;">用户通过微信授权登录，需妥善保管账号信息。用户对账号下的所有行为承担法律责任。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">三、行为规范</h4>
+                        <p style="margin:0 0 12px;">用户在使用本服务时，不得发布违法信息、恶意攻击系统、进行虚假测算或其他违反法律法规的行为。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">四、知识产权</h4>
+                        <p style="margin:0 0 12px;">本软件所有内容（包括但不限于文字、图片、图标、软件代码）均受知识产权法保护，未经授权不得复制、传播或用于商业用途。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">五、免责声明</h4>
+                        <p style="margin:0 0 12px;">1. 测算结果仅供参考，不作为任何待遇主张依据<br>2. 因政策调整、参数变动导致测算结果与实际不符的，不承担责任<br>3. 因用户提供信息不准确导致结果有误的，由用户自行承担</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">六、争议解决</h4>
+                        <p style="margin:0;">因本服务引起的争议，双方应友好协商解决，协商不成的，提交福建省福州市有管辖权的法院诉讼解决。</p>
+                    </div>
+                </div>
+                <div style="text-align:center;padding:12px;font-size:12px;color:#999;">
+                    最后更新日期：2026年4月28日
+                </div>
+            </div>
+            
+            <!-- 隐私政策页面 -->
+            <div id="page-policy-5" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    隐私政策
+                </h3>
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:14px;color:#666;line-height:1.8;">
+                        <p style="margin-top:0;">福享退深知个人信息对您的重要性，我们严格按照《个人信息保护法》等法律法规要求，保护您的个人隐私。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">一、信息收集</h4>
+                        <p style="margin:0 0 12px;">我们收集的信息包括：<br>✅ 微信授权信息（昵称、头像）<br>✅ 您主动输入的社保缴费信息（缴费基数、缴费年限等）<br>✅ 上传的PDF缴费凭证文件<br>✅ 设备信息及操作日志</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">二、信息使用</h4>
+                        <p style="margin:0 0 12px;">收集的信息仅用于：<br>1. 为您提供养老金测算服务<br>2. 保存您的测算历史记录<br>3. 优化改进产品功能<br>4. 保障账户安全</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">三、信息存储与保护</h4>
+                        <p style="margin:0 0 12px;">✅ 数据加密存储，采用AES-256加密算法<br>✅ 服务器部署在腾讯云福州节点，符合数据本地化要求<br>✅ PDF文件自上传之日起30天后自动删除<br>✅ 建立完善的数据安全管理制度，定期进行安全审计</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">四、信息共享与披露</h4>
+                        <p style="margin:0 0 12px;">我们不会出售您的个人信息。仅在以下情况下可能共享您的信息：<br>1. 获得您的明确同意<br>2. 法律法规要求或行政、司法机关依法要求<br>3. 为完成测算所必需的第三方服务提供商（如OCR识别服务）</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">五、您的权利</h4>
+                        <p style="margin:0 0 12px;">您依法享有以下权利：<br>1. 访问、更正您的个人信息<br>2. 删除您的测算记录及个人数据<br>3. 注销您的账号<br>4. 撤回已同意的授权</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">六、未成年人保护</h4>
+                        <p style="margin:0 0 12px;">本服务仅面向年满16周岁的用户。如果您是未成年人，请在监护人陪同下阅读本政策，并在监护人同意后使用。</p>
+                        <h4 style="font-size:15px;font-weight:600;color:#333;margin:16px 0 8px;">七、政策更新</h4>
+                        <p style="margin:0;">我们可能会适时更新本隐私政策。重大变更会通过APP内通知方式告知您。如您继续使用本服务，即表示同意更新后的政策。</p>
+                    </div>
+                </div>
+                <div style="text-align:center;padding:12px;font-size:12px;color:#999;">
+                    最后更新日期：2026年4月28日
+                </div>
+            </div>
+            
+            <!-- 退休手续办理指南页面 -->
+            <div id="page-policy-6" class="page">
+                <h3 style="font-size:18px;font-weight:700;color:#333;margin:0 0 16px;display:flex;align-items:center;gap:8px;">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M12 16V22M8 22H16M9 2H15C15.5304 2 16.0391 2.21071 16.4142 2.58579C16.7893 2.96086 17 3.46957 17 4V14C17 14.5304 16.7893 15.0391 16.4142 15.4142C16.0391 15.7893 15.5304 16 15 16H9C8.46957 16 7.96086 15.7893 7.58579 15.4142C7.21071 15.0391 7 14.5304 7 14V4C7 3.46957 7.21071 2.96086 7.58579 2.58579C7.96086 2.21071 8.46957 2 9 2Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    退休手续办理指南
+                </h3>
+                
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">📋 办理流程</div>
+                    <div style="position:relative;padding-left:24px;">
+                        <div style="position:absolute;left:8px;top:0;bottom:0;width:2px;background:#E5E7EB;"></div>
+                        
+                        <div style="position:relative;margin-bottom:20px;">
+                            <div style="position:absolute;left:-20px;top:2px;width:18px;height:18px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;">1</div>
+                            <div style="font-weight:600;color:#333;margin-bottom:4px;">单位/个人提交申请</div>
+                            <div style="font-size:12px;color:#666;line-height:1.5;">达到法定退休年龄前1个月，由单位或个人向社保经办机构提交退休申请</div>
+                        </div>
+                        
+                        <div style="position:relative;margin-bottom:20px;">
+                            <div style="position:absolute;left:-20px;top:2px;width:18px;height:18px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;">2</div>
+                            <div style="font-weight:600;color:#333;margin-bottom:4px;">材料审核</div>
+                            <div style="font-size:12px;color:#666;line-height:1.5;">社保经办机构审核人事档案、缴费记录等材料，确认退休资格及待遇标准</div>
+                        </div>
+                        
+                        <div style="position:relative;margin-bottom:20px;">
+                            <div style="position:absolute;left:-20px;top:2px;width:18px;height:18px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;">3</div>
+                            <div style="font-weight:600;color:#333;margin-bottom:4px;">待遇核算</div>
+                            <div style="font-size:12px;color:#666;line-height:1.5;">系统核算养老待遇金额，生成待遇核定表，本人签字确认</div>
+                        </div>
+                        
+                        <div style="position:relative;">
+                            <div style="position:absolute;left:-20px;top:2px;width:18px;height:18px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:600;">4</div>
+                            <div style="font-weight:600;color:#333;margin-bottom:4px;">领取养老金</div>
+                            <div style="font-size:12px;color:#666;line-height:1.5;">办理退休手续次月起，养老金按月发放至个人社保卡金融账户</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">📎 所需材料清单</div>
+                    <div style="font-size:13px;color:#333;line-height:2;">
+                        ✅ 身份证原件及复印件（正反面）<br>
+                        ✅ 户口簿原件及复印件（首页+本人页）<br>
+                        ✅ 本人社保卡（确保金融功能已激活）<br>
+                        ✅ 近期1寸免冠彩照1张<br>
+                        ✅ 人事档案（有视同缴费年限人员需提供）<br>
+                        ✅ 其他特殊材料（独生子女证、军转证明等）
+                    </div>
+                </div>
+                
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">🏢 各地市社保经办机构</div>
+                    <div style="padding:10px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-weight:500;color:#333;font-size:13px;">福州市社保局</div>
+                            <div style="font-size:11px;color:#999;margin-top:2px;">鼓楼区古田路128号</div>
+                        </div>
+                    </div>
+                    <div style="padding:10px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-weight:500;color:#333;font-size:13px;">厦门市社保局</div>
+                            <div style="font-size:11px;color:#999;margin-top:2px;">思明区长青路191号</div>
+                        </div>
+                    </div>
+                    <div style="padding:10px 0;border-bottom:1px solid #F3F4F6;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-weight:500;color:#333;font-size:13px;">泉州市社保局</div>
+                            <div style="font-size:11px;color:#999;margin-top:2px;">丰泽区坪山路355号</div>
+                        </div>
+                    </div>
+                    <div style="padding:10px 0;display:flex;justify-content:space-between;align-items:center;">
+                        <div>
+                            <div style="font-weight:500;color:#333;font-size:13px;">查看全部9个地市 →</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background:white;border-radius:12px;padding:16px;margin:0 0 12px;">
+                    <div style="font-size:15px;font-weight:600;color:#FF6B6B;margin-bottom:12px;">❓ 常见问题</div>
+                    <div style="margin-bottom:12px;">
+                        <div style="font-weight:500;color:#333;font-size:13px;margin-bottom:4px;">Q: 退休年龄如何确定？</div>
+                        <div style="font-size:12px;color:#666;line-height:1.5;">A: 企业职工男60周岁、女干部55周岁、女工人50周岁。灵活就业人员男60周岁、女55周岁。</div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <div style="font-weight:500;color:#333;font-size:13px;margin-bottom:4px;">Q: 缴费不满15年怎么办？</div>
+                        <div style="font-size:12px;color:#666;line-height:1.5;">A: 可选择延长缴费至满15年，或转入城乡居民养老保险，或一次性领取个人账户储存额。</div>
+                    </div>
+                    <div>
+                        <div style="font-weight:500;color:#333;font-size:13px;margin-bottom:4px;">Q: 养老金一般什么时候发放？</div>
+                        <div style="font-size:12px;color:#666;line-height:1.5;">A: 福建省养老金发放日为每月15日，遇节假日提前。</div>
+                    </div>
+                </div>
+                
+                <div style="text-align:center;padding:8px 16px;">
+                    <button style="padding:14px 40px;background:linear-gradient(135deg, #FF6B6B, #FF8E53);border:none;border-radius:12px;color:white;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 4px 12px rgba(255,107,107,0.3);">
+                        📞 联系社保客服
+                    </button>
+                    <div style="font-size:11px;color:#999;margin-top:8px;">服务热线：12333（工作日 9:00-17:00）</div>
+                </div>
+            </div>
+            
+            <!-- 多方案对比详情页面（已简化） -->
+            <div id="page-scheme-compare" class="page">
+                <div class="content" style="padding:12px;">
+                    <div style="background:linear-gradient(135deg, #8B5CF6, #7C3AED);border-radius:16px;padding:16px;color:white;margin-bottom:16px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                            <span style="font-size:20px;">⚖️</span>
+                            <span style="font-size:17px;font-weight:700;">多方案对比分析</span>
+                        </div>
+                        <div style="font-size:12px;opacity:0.9;line-height:1.5;">
+                            基于您的社保缴费数据，系统自动测算4种常见缴费方案
+                        </div>
+                    </div>
+                    
+                    <!-- 方案选择器 -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
+                        <div onclick="selectScheme('self')" id="scheme-self" style="background:#ECFDF5;border:2px solid #10B981;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
+                            <div style="font-size:13px;font-weight:700;color:#065F46;">本人基数</div>
+                            <div style="font-size:11px;color:#047857;margin-top:2px;">¥5,980/月</div>
+                            <div style="font-size:9px;background:#10B981;color:white;padding:2px 6px;border-radius:8px;margin-top:4px;display:inline-block;">当前选择</div>
+                        </div>
+                        <div onclick="selectScheme('60')" id="scheme-60" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
+                            <div style="font-size:13px;font-weight:600;color:#374151;">社平60%</div>
+                            <div style="font-size:11px;color:#6B7280;margin-top:2px;">¥4,200/月</div>
+                        </div>
+                        <div onclick="selectScheme('100')" id="scheme-100" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
+                            <div style="font-size:13px;font-weight:600;color:#374151;">社平100%</div>
+                            <div style="font-size:11px;color:#6B7280;margin-top:2px;">¥7,000/月</div>
+                        </div>
+                        <div onclick="selectScheme('300')" id="scheme-300" style="background:#F3F4F6;border:2px solid #E5E7EB;border-radius:12px;padding:10px;text-align:center;cursor:pointer;">
+                            <div style="font-size:13px;font-weight:600;color:#374151;">社平300%</div>
+                            <div style="font-size:11px;color:#6B7280;margin-top:2px;">¥21,000/月</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 对比表格 -->
+                    <div class="detail-card">
+                        <div class="detail-content" style="padding:0;">
+                            <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:4px;">
+                                <!-- 表头 -->
+                                <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                    缴费档次
+                                </div>
+                                <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                    月待遇
+                                </div>
+                                <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                    年化收益率
+                                </div>
+                                <div style="background:#FAFAFA;padding:10px 8px;text-align:center;font-weight:600;color:#374151;font-size:11px;border-bottom:1px solid #E5E7EB;">
+                                    回本年龄
+                                </div>
+                                
+                                <!-- 方案1：按本人基数 -->
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;">
+                                    <div style="font-weight:600;color:#065F46;font-size:12px;">本人基数</div>
+                                    <div style="font-size:10px;color:#10B981;">¥5,980/月</div>
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:700;color:#065F46;font-size:14px;">
+                                    ¥3,850
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                                    5.2%
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;background:#ECFDF5;font-weight:600;color:#065F46;font-size:12px;">
+                                    71岁
+                                </div>
+                                
+                                <!-- 方案2：按社平60% -->
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                                    <div style="font-weight:600;color:#333;font-size:12px;">社平60%</div>
+                                    <div style="font-size:10px;color:#666;">¥4,200/月</div>
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                                    ¥3,120
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                                    6.8%
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#10B981;font-size:12px;">
+                                    68岁
+                                </div>
+                                
+                                <!-- 方案3：按社平100% -->
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;">
+                                    <div style="font-weight:600;color:#333;font-size:12px;">社平100%</div>
+                                    <div style="font-size:10px;color:#666;">¥7,000/月</div>
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#333;font-size:14px;">
+                                    ¥4,580
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                                    4.5%
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;border-bottom:1px solid #F3F4F6;font-weight:600;color:#F59E0B;font-size:12px;">
+                                    73岁
+                                </div>
+                                
+                                <!-- 方案4：按社平300% -->
+                                <div style="padding:10px 8px;text-align:center;">
+                                    <div style="font-weight:600;color:#333;font-size:12px;">社平300%</div>
+                                    <div style="font-size:10px;color:#666;">¥21,000/月</div>
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;font-weight:600;color:#333;font-size:14px;">
+                                    ¥8,950
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                                    2.8%
+                                </div>
+                                <div style="padding:10px 8px;text-align:center;font-weight:600;color:#EF4444;font-size:12px;">
+                                    79岁
+                                </div>
+                            </div>
+                            
+                            <div style="background:#F9FAFB;padding:10px 12px;border-top:1px solid #E5E7EB;">
+                                <div style="font-size:11px;color:#374151;line-height:1.5;">
+                                    💡 <strong>结论：</strong>社平60%缴费性价比最高，回本最快。社平300%适合预期寿命超过85岁人群。
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- 底部导航栏 -->
+        
         <div class="tab-bar">
-            <div class="tab-item active" onclick="switchTab('home')">
+            <div class="tab-item active" onclick="goToPage('home')">
                 <span class="tab-icon">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
                         <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -534,8 +1320,8 @@
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
                         <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <rect x="8" y="6" width="8" height="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <line x1="8" y1="14" x2="16" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <line x1="8" y1="18" x2="16" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="8" y1="14" x2="16" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="8" y1="18" x2="16" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </span>
                 <span>测算</span>
@@ -550,25 +1336,116 @@
                 <span>我的</span>
             </div>
         </div>
+        
+        <div class="loading-overlay" id="loading">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">正在解析PDF，请稍候...</div>
+        </div>
+        
+        <!-- 缴费明细编辑弹窗 -->
+        <div class="modal-overlay" id="editModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" id="editModalTitle">编辑2024年缴费明细</span>
+                    <span class="modal-close" onclick="closeEditModal()">×</span>
+                </div>
+                <div class="modal-body">
+                    <!-- 变更提示（修改后显示） -->
+                    <div class="change-notice" id="changeNotice" style="display:none;">
+                        <div class="change-title">⚠️ 本年度数据已修改</div>
+                        <div class="change-row">
+                            <span>原年度平均基数</span>
+                            <span class="change-old">¥ 6000</span>
+                        </div>
+                        <div class="change-row">
+                            <span>新年度平均基数</span>
+                            <span class="change-new">¥ 6200</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 按月编辑表格 -->
+                    <div class="month-grid">
+                        <div class="month-item">
+                            <label class="month-label">1月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">2月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">3月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">4月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">5月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">6月</label>
+                            <input type="number" class="month-input" value="6000" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">7月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">8月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">9月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">10月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">11月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                        <div class="month-item">
+                            <label class="month-label">12月</label>
+                            <input type="number" class="month-input" value="6200" onchange="calculateYearAvg()">
+                        </div>
+                    </div>
+                    
+                    <!-- 年度统计 -->
+                    <div class="stats-box">
+                        <div class="stats-row">
+                            <span class="stats-label">本年度月平均缴费基数</span>
+                            <span class="stats-value highlight" id="yearAvgBase">¥ 6,100</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">当年度月社平工资</span>
+                            <span class="stats-value">¥ 8,500</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">缴费指数</span>
+                            <span class="stats-value">0.718</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">本年度缴费总额</span>
+                            <span class="stats-value highlight">¥ 73,200</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn-cancel" onclick="closeEditModal()">取消</button>
+                    <button class="modal-btn-confirm" onclick="saveEditModal()">保存修改</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- Toast提示 -->
-    <div class="toast" id="toast"></div>
-
-    <!-- 加载遮罩 -->
-    <div class="loading-mask" id="loadingMask" style="display:none;">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">测算中，请稍候...</div>
-    </div>
-
-    <script src="utils/storage.js"></script>
+    
     <script src="utils/request.js"></script>
-    <script src="utils/common.js"></script>
     <script src="api/user.js"></script>
     <script src="api/pension.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/calculate.js"></script>
-    <script src="js/history.js"></script>
-    <script src="js/guide.js"></script>
 </body>
 </html>

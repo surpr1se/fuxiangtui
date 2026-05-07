@@ -6,7 +6,39 @@ const Request = {
     BASE_URL: 'http://14.103.38.180:8080/api/v1',
 
     // 是否使用Mock数据（true=使用mock，false=对接真实后端）
-    USE_MOCK: false,
+    USE_MOCK: true,
+
+    /**
+     * GET请求快捷方法
+     */
+    async get(url, params = {}) {
+        const queryString = Object.keys(params)
+            .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+            .join('&');
+        const fullUrl = queryString ? `${url}?${queryString}` : url;
+        return this.request(fullUrl, { method: 'GET' });
+    },
+
+    /**
+     * POST请求快捷方法
+     */
+    async post(url, data = {}) {
+        return this.request(url, { method: 'POST', data });
+    },
+
+    /**
+     * PUT请求快捷方法
+     */
+    async put(url, data = {}) {
+        return this.request(url, { method: 'PUT', data });
+    },
+
+    /**
+     * DELETE请求快捷方法
+     */
+    async delete(url, data = {}) {
+        return this.request(url, { method: 'DELETE', data });
+    },
 
     /**
      * 通用请求方法
