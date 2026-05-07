@@ -296,3 +296,224 @@
                 }
             }
         }
+
+// ==================== 业务数据 ====================
+window.appData = {
+    // 当前用户
+    user: null,
+    userId: null,
+    
+    // 缴费明细数据
+    paymentDetails: [],
+    
+    // 个人信息
+    personalInfo: {},
+    
+    // 测算参数
+    calculateParams: {
+        retirementIdentity: '工人',
+        retirementAge: 60,
+        retirementYear: new Date().getFullYear() + 1,
+        visualYears: 0,
+        personalAccountAmount: null
+    },
+    
+    // 测算结果
+    calculateResult: null,
+    
+    // 历史记录
+    historyList: []
+};
+
+// ==================== 页面初始化 ====================
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🚀 福享退页面初始化...');
+    
+    try {
+        // 1. 自动登录
+        const loginResult = await UserApi.autoLogin();
+        if (loginResult.code === 0) {
+            appData.userId = localStorage.getItem('userId');
+            console.log('✅ 用户已登录，userId:', appData.userId);
+        }
+        
+        // 2. 加载历史记录
+        await loadHistory();
+        
+    } catch (error) {
+        console.error('❌ 初始化失败:', error);
+    }
+});
+
+// ==================== 核心业务函数 ====================
+
+/**
+ * 开始PDF上传解析
+ */
+async function startUpload() {
+    try {
+        const loadingEl = document.getElementById('loading');
+        loadingEl.classList.add('show');
+        
+        // 模拟文件上传进度
+        const result = await PensionApi.uploadAndParse(null, (progress) => {
+            console.log('📤 上传进度:', progress + '%');
+        });
+        
+        loadingEl.classList.remove('show');
+        
+        if (result.code === 0) {
+            // 保存解析结果
+            appData.paymentDetails = result.data.paymentDetails || [];
+            appData.personalInfo = result.data.personalInfo || {};
+            
+            showToast('PDF解析成功');
+            setTimeout(() => goToPage('payment'), 500);
+        } else {
+            showToast(result.message || '解析失败');
+        }
+    } catch (error) {
+        console.error('上传失败:', error);
+        showToast('上传失败: ' + error.message);
+    }
+}
+
+/**
+ * 开始测算养老金
+ */
+async function startCalculate() {
+    try {
+        showLoading('测算中，请稍候...');
+        
+        const result = await PensionApi.calculate({
+            paymentDetails: appData.paymentDetails,
+            personalInfo: appData.personalInfo,
+            retirementIdentity: appData.calculateParams.retirementIdentity,
+            retirementAge: appData.calculateParams.retirementAge,
+            retirementYear: appData.calculateParams.retirementYear,
+            visualYears: appData.calculateParams.visualYears,
+            personalAccountAmount: appData.calculateParams.personalAccountAmount
+        });
+        
+        hideLoading();
+        
+        if (result.code === 0) {
+            appData.calculateResult = result.data;
+            showToast('测算完成');
+            setTimeout(() => goToPage('result'), 500);
+        } else {
+            showToast(result.message || '测算失败');
+        }
+    } catch (error) {
+        hideLoading();
+        console.error('测算失败:', error);
+        showToast('测算失败: ' + error.message);
+    }
+}
+
+/**
+ * 加载历史记录
+ */
+async function loadHistory() {
+    try {
+        const result = await PensionApi.getHistoryList();
+        if (result.code === 0) {
+            appData.historyList = result.data.list || [];
+            renderHistoryList();
+        }
+    } catch (error) {
+        console.error('加载历史记录失败:', error);
+    }
+}
+
+/**
+ * 渲染历史记录列表
+ */
+function renderHistoryList() {
+    const container = document.getElementById('historyList');
+    if (!container) return;
+    
+    if (appData.historyList.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:40px 20px;color:#999;">
+                <div style="font-size:48px;margin-bottom:16px;">📋</div>
+                <div>暂无测算记录</div>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = appData.historyList.map(item => `
+        <div class="history-item" onclick="viewHistoryDetail('${item.calculateNo}')">
+            <div class="history-item-title">${item.userName || '养老金测算'}</div>
+            <div class="history-item-info">
+                <span>${item.calculateTime}</span>
+                <span>预计 ¥${item.monthlyPension?.toLocaleString() || 0}/月</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+/**
+ * 查看历史详情
+ */
+function viewHistoryDetail(calculateNo) {
+    showToast('功能开发中');
+}
+
+// ==================== 工具函数 ====================
+
+/**
+ * 显示Toast提示
+ */
+function showToast(message, duration = 2000) {
+    // 先移除旧的
+    const oldToast = document.querySelector('.toast-message');
+    if (oldToast) oldToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast-message';
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.75);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        z-index: 10000;
+        font-size: 14px;
+        animation: fadeIn 0.2s ease;
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.2s';
+        setTimeout(() => toast.remove(), 200);
+    }, duration);
+}
+
+/**
+ * 显示加载中
+ */
+function showLoading(text = '加载中...') {
+    const loading = document.getElementById('loading');
+    if (loading) {
+        loading.querySelector('div').textContent = text;
+        loading.classList.add('show');
+    }
+}
+
+/**
+ * 隐藏加载中
+ */
+function hideLoading() {
+    const loading = document.getElementById('loading');
+    if (loading) {
+        loading.classList.remove('show');
+    }
+}
+
