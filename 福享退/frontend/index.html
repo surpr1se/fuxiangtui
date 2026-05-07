@@ -28,86 +28,66 @@
             <div id="page-home" class="page active">
                 <div class="logo-area">
                     <div class="logo">
-                        <span>福</span>
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FF6B6B"/>
+                                    <stop offset="50%" stop-color="#FF8E53"/>
+                                    <stop offset="100%" stop-color="#FEC89A"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="90" fill="url(#logoGrad)"/>
+                            <path d="M100 75 C80 58 55 72 55 92 C55 118 100 145 100 145 C100 145 145 118 145 92 C145 72 120 58 100 75" fill="white" opacity="0.95" />
+                            <circle cx="100" cy="95" r="6" fill="url(#logoGrad)" opacity="0.6" />
+                            <path d="M55 150 Q75 160 100 160 Q125 160 145 150" stroke="white" stroke-width="4" fill="none" opacity="0.6" stroke-linecap="round" />
+                        </svg>
                     </div>
                     <div class="logo-title">福享退</div>
-                    <div class="logo-desc">福建省养老保险待遇智能测算平台</div>
+                    <div class="logo-desc">企业职工养老待遇测算</div>
                 </div>
 
-                <!-- 核心测算功能 -->
-                <div class="section-title">
-                    <span>🔥 核心测算</span>
-                </div>
                 <div class="menu-grid">
                     <div class="menu-item" onclick="goToPage('upload')">
                         <div class="menu-icon primary">
-                            <span>📄</span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 10L12 15L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 15V3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <div class="menu-title">PDF测算</div>
-                        <div class="menu-desc">上传缴费明细自动计算</div>
+                        <div class="menu-title">PDF上传</div>
                     </div>
-                    <div class="menu-item" onclick="goToPage('manual')">
+                    <div class="menu-item" onclick="goToPage('payment')">
                         <div class="menu-icon blue">
-                            <span>✏️</span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 20H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 4V20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 11V20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 15V20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 20H4.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <div class="menu-title">手动测算</div>
-                        <div class="menu-desc">手动填写缴费信息</div>
+                        <div class="menu-title">缴费明细</div>
                     </div>
-                </div>
-
-                <!-- 扩展分析功能 -->
-                <div class="section-title">
-                    <span>📊 扩展分析</span>
-                </div>
-                <div class="menu-grid">
-                    <div class="menu-item" onclick="showToast('V1.1版本开放，敬请期待')">
-                        <div class="menu-icon green">
-                            <span>📈</span>
-                        </div>
-                        <div class="menu-title">待遇调整预测</div>
-                        <div class="menu-desc">预测未来养老金增长</div>
-                    </div>
-                    <div class="menu-item" onclick="showToast('V1.1版本开放，敬请期待')">
-                        <div class="menu-icon purple">
-                            <span>💰</span>
-                        </div>
-                        <div class="menu-title">回本年计算</div>
-                        <div class="menu-desc">计算投资回报周期</div>
-                    </div>
-                    <div class="menu-item" onclick="showToast('V1.1版本开放，敬请期待')">
-                        <div class="menu-icon blue">
-                            <span>⏰</span>
-                        </div>
-                        <div class="menu-title">延迟退休影响</div>
-                        <div class="menu-desc">延迟退休方案对比</div>
-                    </div>
-                    <div class="menu-item" onclick="showToast('V2.0版本开放，敬请期待')">
-                        <div class="menu-icon green">
-                            <span>👑</span>
-                        </div>
-                        <div class="menu-title">批量测算</div>
-                        <div class="menu-desc">企业HR专业版</div>
-                    </div>
-                </div>
-
-                <!-- 其他功能 -->
-                <div class="section-title">
-                    <span>📋 其他服务</span>
-                </div>
-                <div class="menu-grid">
                     <div class="menu-item" onclick="goToPage('history')">
-                        <div class="menu-icon blue">
-                            <span>📋</span>
+                        <div class="menu-icon green">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14 2V8H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 13H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 17H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
                         <div class="menu-title">历史记录</div>
-                        <div class="menu-desc">查看历史测算结果</div>
                     </div>
-                    <div class="menu-item" onclick="goToPage('guide')">
-                        <div class="menu-icon green">
-                            <span>📍</span>
+                    <div class="menu-item" onclick="goToPage('profile')">
+                        <div class="menu-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <div class="menu-title">退休办理指南</div>
-                        <div class="menu-desc">福建各地办事流程</div>
+                        <div class="menu-title">个人中心</div>
                     </div>
                 </div>
             </div>
@@ -159,7 +139,7 @@
             </div>
 
             <!-- 缴费明细页 -->
-            <div id="page-detail" class="page">
+            <div id="page-payment" class="page">
                 <div class="user-info-card">
                     <div class="user-info-row">
                         <span class="label">姓名</span>
@@ -487,20 +467,86 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 个人中心页 -->
+            <div id="page-profile" class="page">
+                <div class="profile-header">
+                    <div class="avatar">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="profile-name" id="profileName">未登录</div>
+                    <div class="profile-desc">登录后可同步测算记录</div>
+                </div>
+
+                <div class="menu-list">
+                    <div class="menu-list-item" onclick="showToast('功能开发中')">
+                        <div class="menu-list-icon">📋</div>
+                        <div class="menu-list-content">
+                            <div class="menu-list-title">我的测算记录</div>
+                            <div class="menu-list-desc">查看所有历史测算结果</div>
+                        </div>
+                        <div class="menu-list-arrow">›</div>
+                    </div>
+                    <div class="menu-list-item" onclick="showToast('功能开发中')">
+                        <div class="menu-list-icon">⚙️</div>
+                        <div class="menu-list-content">
+                            <div class="menu-list-title">设置</div>
+                            <div class="menu-list-desc">系统设置与偏好</div>
+                        </div>
+                        <div class="menu-list-arrow">›</div>
+                    </div>
+                    <div class="menu-list-item" onclick="showToast('功能开发中')">
+                        <div class="menu-list-icon">❓</div>
+                        <div class="menu-list-content">
+                            <div class="menu-list-title">帮助与反馈</div>
+                            <div class="menu-list-desc">使用帮助和意见反馈</div>
+                        </div>
+                        <div class="menu-list-arrow">›</div>
+                    </div>
+                    <div class="menu-list-item" onclick="showToast('功能开发中')">
+                        <div class="menu-list-icon">ℹ️</div>
+                        <div class="menu-list-content">
+                            <div class="menu-list-title">关于福享退</div>
+                            <div class="menu-list-desc">版本信息与免责声明</div>
+                        </div>
+                        <div class="menu-list-arrow">›</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 底部导航栏 -->
         <div class="tab-bar">
             <div class="tab-item active" onclick="switchTab('home')">
-                <span class="tab-icon">🏠</span>
+                <span class="tab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 22V14H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
                 <span>首页</span>
             </div>
-            <div class="tab-item" onclick="switchTab('history')">
-                <span class="tab-icon">📋</span>
-                <span>历史</span>
+            <div class="tab-item" onclick="goToPage('upload')">
+                <span class="tab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="8" y="6" width="8" height="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="8" y1="14" x2="16" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="8" y1="18" x2="16" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span>测算</span>
             </div>
-            <div class="tab-item" onclick="switchTab('mine')">
-                <span class="tab-icon">👤</span>
+            <div class="tab-item" onclick="goToPage('profile')">
+                <span class="tab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                        <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
                 <span>我的</span>
             </div>
         </div>

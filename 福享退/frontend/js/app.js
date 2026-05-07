@@ -34,18 +34,9 @@ async function initApp() {
  * 切换Tab
  */
 function switchTab(tab) {
-    document.querySelectorAll('.tab-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    event.currentTarget.classList.add('active');
-    
-    // 跳转到对应页面
+    // 首页Tab直接跳转
     if (tab === 'home') {
         goToPage('home', false);
-    } else if (tab === 'history') {
-        goToPage('history', false);
-    } else if (tab === 'mine') {
-        showToast('个人中心功能开发中');
     }
 }
 
@@ -67,6 +58,9 @@ function goToPage(page, pushStack = true) {
     // 更新导航栏
     updateNavBar(page);
     
+    // 更新底部Tab激活状态
+    updateTabActive(page);
+    
     // 更新页面栈
     if (pushStack && currentPage !== page) {
         pageStack.push(page);
@@ -77,6 +71,25 @@ function goToPage(page, pushStack = true) {
     // 页面特定初始化
     if (page === 'history') {
         loadHistory();
+    }
+}
+
+/**
+ * 更新底部Tab激活状态
+ */
+function updateTabActive(page) {
+    const tabs = document.querySelectorAll('.tab-item');
+    tabs.forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // 根据页面设置对应Tab激活
+    if (page === 'home') {
+        tabs[0].classList.add('active');
+    } else if (['upload', 'payment', 'input', 'result', 'manual'].includes(page)) {
+        tabs[1].classList.add('active');
+    } else if (page === 'profile') {
+        tabs[2].classList.add('active');
     }
 }
 
@@ -101,11 +114,12 @@ function updateNavBar(page) {
     const titleMap = {
         'home': '福享退',
         'upload': '上传缴费明细',
-        'detail': '缴费明细',
+        'payment': '缴费明细',
         'input': '补充信息',
         'result': '测算结果',
         'history': '历史记录',
         'guide': '退休办理指南',
+        'profile': '个人中心',
         'manual': '手动测算'
     };
     
@@ -178,7 +192,7 @@ async function startUpload() {
             // 跳转到明细页
             setTimeout(() => {
                 renderPaymentDetail(result.data);
-                goToPage('detail');
+                goToPage('payment');
             }, 500);
         } else {
             showToast(result.message || '解析失败');
@@ -221,7 +235,7 @@ function useDemoData() {
         
         renderPaymentDetail(mockData);
         hideLoading();
-        goToPage('detail');
+        goToPage('payment');
     }, 1000);
 }
 
