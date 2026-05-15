@@ -165,9 +165,9 @@
                         </select>
                     </div>
                     
-                    <div class="table-row" id="row-2024">
+                    <div class="table-row" id="row-2024" onclick="toggleDetail('detail-2024')">
                         <div class="row-left">
-                            <div class="row-year">2024年 <span class="modified-tag" id="tag-2024" style="display:inline-block;background:#FEF3C7;color:#D97706;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:8px;">已修改</span></div>
+                            <div class="row-year" style="cursor:pointer;">2024年 <span class="modified-tag" id="tag-2024" style="display:inline-block;background:#FEF3C7;color:#D97706;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:8px;">已修改</span></div>
                             <div class="row-base" id="base-2024">缴费基数：<span style="text-decoration:line-through;color:#999;">6000</span> > <span style="color:#FF6B6B;font-weight:600;">6150</span> 元</div>
                         </div>
                         <div class="row-right">
@@ -177,9 +177,9 @@
                         </div>
                     </div>
                     
-                    <div class="table-row" id="row-2023">
+                    <div class="table-row" id="row-2023" onclick="toggleDetail('detail-2023')">
                         <div class="row-left">
-                            <div class="row-year">2023年</div>
+                            <div class="row-year" style="cursor:pointer;">2023年</div>
                             <div class="row-base" id="base-2023">缴费基数：5800元</div>
                         </div>
                         <div class="row-right">
@@ -189,9 +189,9 @@
                         </div>
                     </div>
                     
-                    <div class="table-row" id="row-2022">
+                    <div class="table-row" id="row-2022" onclick="toggleDetail('detail-2022')">
                         <div class="row-left">
-                            <div class="row-year">2022年</div>
+                            <div class="row-year" style="cursor:pointer;">2022年</div>
                             <div class="row-base" id="base-2022">缴费基数：5500元</div>
                         </div>
                         <div class="row-right">
@@ -1447,6 +1447,7 @@
     <script src="utils/request.js?v=1778728391"></script>
     <script src="api/user.js?v=1778728391"></script>
     <script src="api/pension.js?v=1778728391"></script>
+    <script src="js/render.js?v=1778728391"></script>
     <script src="js/app.js?v=1778728391"></script>
 </body>
 </html>

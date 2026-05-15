@@ -105,7 +105,7 @@ function renderPaymentDetails() {
             
             let detailHtml = '<div style="padding:0 16px 16px;background:#F9FAFB;">';
             detailHtml += '<div style="font-size:12px;color:#666;font-weight:600;margin-bottom:8px;">📋 ' + year + '年度每月缴费明细</div>';
-            detailHtml += '<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;">';
+            detailHtml += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">';
             
             // 按月份排序
             items.sort((a, b) => a.yearMonth.localeCompare(b.yearMonth));
@@ -155,3 +155,34 @@ function renderPaymentDetails() {
 }
 
 window.renderPaymentDetails = renderPaymentDetails;
+
+/**
+* 年份筛选
+*/
+function filterByYear(yearValue) {
+    const targetYear = yearValue.replace('年', '');
+    const allRows = document.querySelectorAll('.table-row');
+    const allDetails = document.querySelectorAll('.detail-content');
+    
+    if (targetYear === '全部年份') {
+        allRows.forEach(row => row.style.display = 'flex');
+        allDetails.forEach(detail => detail.style.display = 'none');
+    } else {
+        allRows.forEach(row => {
+            if (row.dataset.year === targetYear) {
+                row.style.display = 'flex';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        allDetails.forEach(detail => {
+            if (detail.dataset.year === targetYear) {
+                detail.style.display = 'block';
+            } else {
+                detail.style.display = 'none';
+            }
+        });
+    }
+}
+
+window.filterByYear = filterByYear;
