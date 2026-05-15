@@ -1,7 +1,7 @@
 /**
  * 养老金测算相关API
  */
-const PensionApi = {
+const PensionApi = window.PensionApi = {
     /**
      * 上传并解析PDF文件
      */

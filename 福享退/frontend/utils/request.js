@@ -1,13 +1,13 @@
 /**
  * 请求工具类
  */
-const Request = {
+const Request = window.Request = {
     // API基础地址
-    BASE_URL: 'http://14.103.38.180:8080/api/v1',
+    BASE_URL: 'http://14.103.38.180:8081/api/v1',
 
     // 是否使用Mock数据（true=使用mock，false=对接真实后端）
     // 待后端接口完全就绪后切换为 false
-    USE_MOCK: true,
+    USE_MOCK: false,
 
     /**
      * GET请求快捷方法

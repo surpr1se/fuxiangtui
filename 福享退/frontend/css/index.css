@@ -329,20 +329,21 @@
         }
         
         .table-card {
-            background: white;
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFFAFA 100%);
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 16px rgba(255, 107, 107, 0.1);
             overflow: hidden;
             margin-bottom: 16px;
+            border: 1px solid rgba(255, 107, 107, 0.1);
         }
         
         .table-header {
-            background: #F8FAFC;
-            padding: 12px 16px;
+            background: white;
+            padding: 10px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #f0f0f0;
         }
         
         .table-title {
@@ -352,19 +353,26 @@
         }
         
         .year-select {
-            padding: 6px 12px;
+            padding: 5px 8px;
             border: 1px solid #ddd;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 12px;
             background: white;
+            color: #666;
         }
         
         .table-row {
-            padding: 14px 16px;
+            padding: 10px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #f5f5f5;
+            border-bottom: 1px solid #f0f0f0;
+            background: linear-gradient(135deg, #FFFEFE 0%, #FFF5F5 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .table-row:hover {
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFE8E8 100%);
         }
         
         .table-row:last-child {
@@ -377,14 +385,16 @@
         
         .row-year {
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             color: #333;
+            display: flex;
+            align-items: center;
         }
         
         .row-base {
             font-size: 12px;
             color: #999;
-            margin-top: 4px;
+            margin-top: 3px;
         }
         
         .row-right {
@@ -392,7 +402,7 @@
         }
         
         .row-money {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: #FF6B6B;
         }
@@ -400,42 +410,44 @@
         .row-month {
             font-size: 12px;
             color: #999;
-            margin-top: 4px;
+            margin-top: 3px;
         }
         
         .edit-btn {
-            padding: 6px 12px;
-            background: #F1F5F9;
+            padding: 4px 10px;
+            background: #f5f5f5;
             border: none;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 11px;
             color: #666;
-            margin-top: 8px;
+            margin-top: 6px;
             cursor: pointer;
         }
         
         .summary-card {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-            border-radius: 16px;
-            padding: 20px;
+            background: linear-gradient(135deg, #FF7B6B 0%, #FF6B6B 100%);
+            border-radius: 12px;
+            padding: 16px;
             color: white;
             margin-bottom: 16px;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .summary-title {
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.9;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .summary-number {
-            font-size: 32px;
+            font-size: 22px;
             font-weight: 700;
         }
         
         .summary-unit {
-            font-size: 14px;
-            opacity: 0.8;
+            font-size: 11px;
+            opacity: 0.7;
         }
         
         .summary-row {
@@ -452,12 +464,12 @@
         }
         
         .summary-label {
-            font-size: 12px;
-            opacity: 0.8;
+            font-size: 11px;
+            opacity: 0.7;
         }
         
         .summary-value {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 600;
             margin-top: 4px;
         }

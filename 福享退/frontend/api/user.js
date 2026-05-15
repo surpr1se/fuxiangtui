@@ -1,7 +1,7 @@
 /**
  * 用户相关API
  */
-const UserApi = {
+const UserApi = window.UserApi = {
     /**
      * 微信登录
      */
