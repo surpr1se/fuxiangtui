@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>福享退 - 小程序原型</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/index.css?v=1778999999">
 </head>
 <body>
     
@@ -165,39 +165,39 @@
                         </select>
                     </div>
                     
-                    <div class="table-row" id="row-2024" onclick="toggleDetail('detail-2024')">
+                    <div class="table-row" id="row-2024">
                         <div class="row-left">
-                            <div class="row-year" style="cursor:pointer;">2024年 <span class="modified-tag" id="tag-2024" style="display:inline-block;background:#FEF3C7;color:#D97706;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:8px;">已修改</span></div>
+                            <div class="row-year">2024年 <span class="modified-tag" id="tag-2024" style="display:inline-block;background:#FEF3C7;color:#D97706;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:8px;">已修改</span></div>
                             <div class="row-base" id="base-2024">缴费基数：<span style="text-decoration:line-through;color:#999;">6000</span> > <span style="color:#FF6B6B;font-weight:600;">6150</span> 元</div>
                         </div>
                         <div class="row-right">
                             <div class="row-money">¥ 14,760</div>
                             <div class="row-month">12个月</div>
-                            <button class="edit-btn" onclick="event.stopPropagation(); openEditModal(2024)">编辑</button>
+                            <button class="edit-btn" onclick="window.openEditModal(2024)">编辑</button>
                         </div>
                     </div>
                     
-                    <div class="table-row" id="row-2023" onclick="toggleDetail('detail-2023')">
+                    <div class="table-row" id="row-2023">
                         <div class="row-left">
-                            <div class="row-year" style="cursor:pointer;">2023年</div>
+                            <div class="row-year">2023年</div>
                             <div class="row-base" id="base-2023">缴费基数：5800元</div>
                         </div>
                         <div class="row-right">
                             <div class="row-money">¥ 13,920</div>
                             <div class="row-month">12个月</div>
-                            <button class="edit-btn" onclick="event.stopPropagation(); openEditModal(2023)">编辑</button>
+                            <button class="edit-btn" onclick="window.openEditModal(2023)">编辑</button>
                         </div>
                     </div>
                     
-                    <div class="table-row" id="row-2022" onclick="toggleDetail('detail-2022')">
+                    <div class="table-row" id="row-2022">
                         <div class="row-left">
-                            <div class="row-year" style="cursor:pointer;">2022年</div>
+                            <div class="row-year">2022年</div>
                             <div class="row-base" id="base-2022">缴费基数：5500元</div>
                         </div>
                         <div class="row-right">
                             <div class="row-money">¥ 13,200</div>
                             <div class="row-month">12个月</div>
-                            <button class="edit-btn" onclick="event.stopPropagation(); openEditModal(2022)">编辑</button>
+                            <button class="edit-btn" onclick="window.openEditModal(2022)">编辑</button>
                         </div>
                     </div>
                 </div>
@@ -1444,10 +1444,22 @@
         </div>
     </div>
     
-    <script src="utils/request.js?v=1778728391"></script>
-    <script src="api/user.js?v=1778728391"></script>
-    <script src="api/pension.js?v=1778728391"></script>
-    <script src="js/render.js?v=1778728391"></script>
-    <script src="js/app.js?v=1778728391"></script>
+    <script>
+        // 强制定义所有全局对象，确保100%能访问
+        window.PensionApi = window.PensionApi || {};
+        window.Request = window.Request || {};
+        window.UserApi = window.UserApi || {};
+        console.log('✅ 全局对象已预定义');
+    </script>
+    <script src="utils/request.js?v=1778731500"></script>
+    <script src="api/user.js?v=1778731500"></script>
+    <script src="api/pension.js?v=1778731500"></script>
+    <script src="js/render.js?v=1778731500"></script>
+    <script src="js/app.js?v=1778731500"></script>
+    <script>
+        // 最后确认所有函数都在window上
+        console.log('✅ PensionApi:', !!window.PensionApi);
+        console.log('✅ openEditModal:', !!window.openEditModal);
+    </script>
 </body>
 </html>

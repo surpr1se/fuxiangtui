@@ -381,6 +381,8 @@
         
         .row-left {
             flex: 1;
+            position: relative;
+            z-index: 1;
         }
         
         .row-year {
@@ -399,6 +401,9 @@
         
         .row-right {
             text-align: right;
+            position: relative;
+            z-index: 9999 !important;
+            pointer-events: auto !important;
         }
         
         .row-money {
@@ -414,14 +419,23 @@
         }
         
         .edit-btn {
-            padding: 4px 10px;
-            background: #f5f5f5;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
             border: none;
-            border-radius: 6px;
-            font-size: 11px;
-            color: #666;
+            border-radius: 8px;
+            font-size: 12px;
+            color: white;
+            font-weight: 600;
             margin-top: 6px;
-            cursor: pointer;
+            cursor: pointer !important;
+            position: relative;
+            z-index: 99999 !important;
+            pointer-events: auto !important;
+            isolation: isolate;
+        }
+        
+        .edit-btn:active {
+            transform: scale(0.95);
         }
         
         .summary-card {
