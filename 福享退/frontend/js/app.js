@@ -1,3 +1,6 @@
+console.log('✅ app.js 已加载！');
+window.testClick = function() { alert('按钮点击成功！'); };
+
 let currentPage = 'home';
 let pageHistory = ['home'];
 
@@ -65,7 +68,9 @@ goPage('payment');
 
 function toggleDetail(id) {
 const el = document.getElementById(id);
+if (el) {
 el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
 }
 
 document.querySelectorAll('.detail-content').forEach(el => {
@@ -81,9 +86,16 @@ const originalBase = {
 };
 
 function openEditModal(year) {
+console.log('=== openEditModal 被调用 ===', year);
 currentEditYear = year;
-document.getElementById('editModalTitle').textContent = '编辑' + year + '年缴费明细';
-document.getElementById('editModal').classList.add('show');
+const titleEl = document.getElementById('editModalTitle');
+const modalEl = document.getElementById('editModal');
+
+if (titleEl) titleEl.textContent = '编辑' + year + '年缴费明细';
+if (modalEl) {
+    modalEl.classList.add('show');
+    console.log('✅ 弹窗已显示');
+}
 
 // 根据年份设置不同的初始数据（模拟部分月份已修改）
 const inputs = document.querySelectorAll('.month-input');

@@ -93,7 +93,7 @@ function renderPaymentDetails() {
                 '<div class="row-right">' +
                     '<div class="row-money">¥ ' + (yearTotal * 0.08).toLocaleString() + '</div>' +
                     '<div class="row-month">' + items.length + '个月</div>' +
-                    '<button class="edit-btn" onclick="event.stopPropagation(); openEditModal(' + year + ')">编辑</button>' +
+                    '<button class="edit-btn" onclick="console.log(\'点击编辑按钮，年份:\', ' + year + ');window.openEditModal(' + year + ');event.stopPropagation();">编辑</button>' +
                 '</div>';
             tableCard.appendChild(yearRow);
             

@@ -67,3 +67,4 @@ const PensionApi = window.PensionApi = {
         return Request.get('/system/parameter/list', { paramType });
     }
 };
+window.PensionApi = PensionApi;
