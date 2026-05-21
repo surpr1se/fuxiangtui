@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>超三倍以上缴费退费</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 24px 32px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 32px;
+        }
+
+        /* 查询条件区域 */
+        .query-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: #3b82f6;
+            border-radius: 2px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+
+        /* 表格区域 */
+        .table-section {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: #f8fafc;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-icon {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+
+        thead {
+            background: #f1f5f9;
+        }
+
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 16px;
+            font-size: 14px;
+            color: #334155;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state .icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        /* 状态标签 */
+        .status-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-tag.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-tag.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-tag.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* 分页 */
+        .pagination {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn {
+            padding: 8px 14px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .page-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .page-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>超三倍以上缴费退费</h1>
+            <p>机关事业单位养老保险系统 - 人员缴费信息查询</p>
+        </div>
+
+        <div class="content">
+            <!-- 查询条件 -->
+            <div class="query-section">
+                <div class="section-title">查询条件</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>个人管理码</label>
+                        <input type="text" id="personalCode" placeholder="请输入个人管理码">
+                    </div>
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input type="text" id="name" placeholder="请输入姓名">
+                    </div>
+                    <div class="form-group">
+                        <label>公民身份号码</label>
+                        <input type="text" id="idCard" placeholder="请输入身份证号码">
+                    </div>
+                    <div class="form-group">
+                        <label>单位管理码</label>
+                        <input type="text" id="unitCode" placeholder="请输入单位管理码">
+                    </div>
+                    <div class="form-group">
+                        <label>单位名称</label>
+                        <input type="text" id="unitName" placeholder="请输入单位名称">
+                    </div>
+                    <div class="form-group">
+                        <label>离退休状态</label>
+                        <select id="retireStatus">
+                            <option value="">请选择</option>
+                            <option value="0">在职</option>
+                            <option value="1">离退休</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>变动开始年月</label>
+                        <input type="month" id="startMonth">
+                    </div>
+                    <div class="form-group">
+                        <label>变动终止年月</label>
+                        <input type="month" id="endMonth">
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="resetForm()">
+                        <span>🔄</span> 重置
+                    </button>
+                    <button class="btn btn-primary" onclick="search()">
+                        <span>🔍</span> 查询
+                    </button>
+                </div>
+            </div>
+
+            <!-- 人员缴费信息查询 -->
+            <div class="table-section">
+                <div class="table-header">
+                    <div class="table-title">人员缴费信息查询</div>
+                    <div class="table-actions">
+                        <button class="btn btn-icon btn-success" onclick="exportData()">
+                            📥 导出
+                        </button>
+                        <button class="btn btn-icon btn-warning" onclick="printData()">
+                            🖨️ 打印
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>个人管理码</th>
+                                <th>单位管理码</th>
+                                <th>姓名</th>
+                                <th>单位名称</th>
+                                <th>公民身份号码</th>
+                                <th>离退休标志</th>
+                                <th>变动开始年月</th>
+                                <th>变动终止年月</th>
+                                <th>机关养老保险<br>历史缴费基数</th>
+                                <th>机关养老保险<br>新缴费基数</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- 数据会通过JS填充 -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="emptyState">
+                        <div class="icon">📊</div>
+                        <p>暂无数据，请输入查询条件后点击查询</p>
+                    </div>
+                </div>
+                <div class="pagination" id="pagination" style="display: none;">
+                    <div class="pagination-info">
+                        共 <span id="totalCount">0</span> 条记录，第 <span id="currentPage">1</span>/<span id="totalPages">1</span> 页
+                    </div>
+                    <div class="pagination-buttons">
+                        <button class="page-btn" id="prevBtn" onclick="prevPage()" disabled>上一页</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn" id="nextBtn" onclick="nextPage()" disabled>下一页</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟数据
+        const mockData = [
+            {
+                id: 1,
+                personalCode: 'P20240001',
+                unitCode: 'U001',
+                name: '张三',
+                unitName: '福建省人力资源和社会保障厅',
+                idCard: '350102198001011234',
+                retireStatus: '在职',
+                startMonth: '202401',
+                endMonth: '202406',
+                oldBase: 25000,
+                newBase: 20000
+            },
+            {
+                id: 2,
+                personalCode: 'P20240002',
+                unitCode: 'U002',
+                name: '李四',
+                unitName: '福州市财政局',
+                idCard: '350103197505055678',
+                retireStatus: '退休',
+                startMonth: '202401',
+                endMonth: '202412',
+                oldBase: 28000,
+                newBase: 22000
+            },
+            {
+                id: 3,
+                personalCode: 'P20240003',
+                unitCode: 'U003',
+                name: '王五',
+                unitName: '厦门市教育局',
+                idCard: '350203198808089012',
+                retireStatus: '在职',
+                startMonth: '202403',
+                endMonth: '202409',
+                oldBase: 30000,
+                newBase: 24000
+            }
+        ];
+
+        let currentPage = 1;
+        let pageSize = 10;
+        let currentData = [];
+
+        // 格式化年月显示
+        function formatYearMonth(ym) {
+            if (!ym) return '-';
+            return ym.substring(0, 4) + '年' + ym.substring(4, 6) + '月';
+        }
+
+        // 格式化金额
+        function formatMoney(num) {
+            return num.toLocaleString('zh-CN', { style: 'currency', currency: 'CNY' });
+        }
+
+        // 渲染表格
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyState');
+            const pagination = document.getElementById('pagination');
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                pagination.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            pagination.style.display = 'flex';
+
+            // 分页处理
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+            const pageData = data.slice(start, end);
+            const totalPages = Math.ceil(data.length / pageSize);
+
+            // 更新分页信息
+            document.getElementById('totalCount').textContent = data.length;
+            document.getElementById('currentPage').textContent = currentPage;
+            document.getElementById('totalPages').textContent = totalPages;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+
+            tbody.innerHTML = pageData.map((item, index) => `
+                <tr>
+                    <td>${start + index + 1}</td>
+                    <td>${item.personalCode}</td>
+                    <td>${item.unitCode}</td>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${item.unitName}</td>
+                    <td>${item.idCard}</td>
+                    <td><span class="status-tag ${item.retireStatus === '在职' ? 'info' : 'success'}">${item.retireStatus}</span></td>
+                    <td>${formatYearMonth(item.startMonth)}</td>
+                    <td>${formatYearMonth(item.endMonth)}</td>
+                    <td style="color: #dc2626; font-weight: 500;">${formatMoney(item.oldBase)}</td>
+                    <td style="color: #16a34a; font-weight: 500;">${formatMoney(item.newBase)}</td>
+                    <td>
+                        <button style="background: #eff6ff; color: #2563eb; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-right: 4px;" onclick="viewDetail(${item.id})">查看</button>
+                        <button style="background: #fef3c7; color: #d97706; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;" onclick="handleRefund(${item.id})">退费</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 查询功能
+        function search() {
+            const personalCode = document.getElementById('personalCode').value.trim();
+            const name = document.getElementById('name').value.trim();
+            const idCard = document.getElementById('idCard').value.trim();
+            const unitCode = document.getElementById('unitCode').value.trim();
+            const unitName = document.getElementById('unitName').value.trim();
+            const retireStatus = document.getElementById('retireStatus').value;
+            const startMonth = document.getElementById('startMonth').value.replace('-', '');
+            const endMonth = document.getElementById('endMonth').value.replace('-', '');
+
+            // 模拟筛选
+            currentData = mockData.filter(item => {
+                if (personalCode && !item.personalCode.includes(personalCode)) return false;
+                if (name && !item.name.includes(name)) return false;
+                if (idCard && !item.idCard.includes(idCard)) return false;
+                if (unitCode && !item.unitCode.includes(unitCode)) return false;
+                if (unitName && !item.unitName.includes(unitName)) return false;
+                if (retireStatus && (retireStatus === '0' ? '在职' : '离退休') !== item.retireStatus) return false;
+                if (startMonth && item.startMonth < startMonth) return false;
+                if (endMonth && item.endMonth > endMonth) return false;
+                return true;
+            });
+
+            currentPage = 1;
+            renderTable(currentData);
+
+            // 显示查询结果提示
+            if (currentData.length > 0) {
+                showToast(`查询成功，共找到 ${currentData.length} 条记录`, 'success');
+            } else {
+                showToast('未找到符合条件的数据', 'warning');
+            }
+        }
+
+        // 重置表单
+        function resetForm() {
+            document.querySelectorAll('input, select').forEach(el => el.value = '');
+            currentData = [];
+            currentPage = 1;
+            renderTable([]);
+            showToast('表单已重置', 'info');
+        }
+
+        // 上一页
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(currentData);
+            }
+        }
+
+        // 下一页
+        function nextPage() {
+            const totalPages = Math.ceil(currentData.length / pageSize);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(currentData);
+            }
+        }
+
+        // 查看详情
+        function viewDetail(id) {
+            const item = mockData.find(d => d.id === id);
+            if (item) {
+                alert(`查看详情：${item.name}\n个人管理码：${item.personalCode}\n身份证：${item.idCard}`);
+            }
+        }
+
+        // 处理退费
+        function handleRefund(id) {
+            const item = mockData.find(d => d.id === id);
+            if (item) {
+                const refundAmount = (item.oldBase - item.newBase) * 6;
+                if (confirm(`确认对 ${item.name} 进行退费处理？\n预计退费金额：${formatMoney(refundAmount)}`)) {
+                    showToast(`已提交 ${item.name} 的退费申请`, 'success');
+                }
+            }
+        }
+
+        // 导出数据
+        function exportData() {
+            if (currentData.length === 0) {
+                showToast('没有数据可导出', 'warning');
+                return;
+            }
+            showToast('数据导出成功，文件已保存', 'success');
+        }
+
+        // 打印数据
+        function printData() {
+            if (currentData.length === 0) {
+                showToast('没有数据可打印', 'warning');
+                return;
+            }
+            window.print();
+        }
+
+        // Toast 提示
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                background: ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+                color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                font-size: 14px;
+                font-weight: 500;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // 添加动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 初始化显示空状态
+        renderTable([]);
+    </script>
+</body>
+</html>
