@@ -378,6 +378,20 @@
             border-bottom: none;
         }
         
+        /* 两列布局 */
+        .two-column-layout {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .column-left, .column-right {
+            flex: 1;
+        }
+        
+        .column-left .table-card, .column-right .table-card {
+            margin-bottom: 0;
+        }
+        
         .row-left {
             flex: 1;
         }
@@ -1270,45 +1284,90 @@
                         <span class="table-title">缴费明细（共 180 个月）</span>
                         <select class="year-select">
                             <option>全部年份</option>
+                            <option>2026年</option>
+                            <option>2025年</option>
                             <option>2024年</option>
                             <option>2023年</option>
                             <option>2022年</option>
                         </select>
                     </div>
                     
-                    <div class="table-row" id="row-2024">
-                        <div class="row-left">
-                            <div class="row-year">2024年 <span class="modified-tag" id="tag-2024" style="display:inline-block;background:#FEF3C7;color:#D97706;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:8px;">已修改</span></div>
-                            <div class="row-base" id="base-2024">缴费基数：<span style="text-decoration:line-through;color:#999;">6000</span> > <span style="color:#FF6B6B;font-weight:600;">6150</span> 元</div>
+                    <div class="two-column-layout">
+                        <!-- 左列 -->
+                        <div class="column-left">
+                            <div class="table-row" id="row-2024">
+                                <div class="row-left">
+                                    <div class="row-year">2024年 <span class="modified-tag" id="tag-2024" style="display:inline-block;background:#FEF3C7;color:#D97706;font-size:11px;padding:2px 6px;border-radius:4px;margin-left:8px;">已修改</span></div>
+                                    <div class="row-base" id="base-2024">缴费基数：<span style="text-decoration:line-through;color:#999;">6000</span> > <span style="color:#FF6B6B;font-weight:600;">6150</span> 元</div>
+                                </div>
+                                <div class="row-right">
+                                    <div class="row-money">¥ 14,760</div>
+                                    <div class="row-month">12个月</div>
+                                    <button class="edit-btn" onclick="openEditModal(2024)">编辑</button>
+                                </div>
+                            </div>
+                            
+                            <div class="table-row" id="row-2023">
+                                <div class="row-left">
+                                    <div class="row-year">2023年</div>
+                                    <div class="row-base" id="base-2023">缴费基数：5800元</div>
+                                </div>
+                                <div class="row-right">
+                                    <div class="row-money">¥ 13,920</div>
+                                    <div class="row-month">12个月</div>
+                                    <button class="edit-btn" onclick="openEditModal(2023)">编辑</button>
+                                </div>
+                            </div>
+                            
+                            <div class="table-row" id="row-2022">
+                                <div class="row-left">
+                                    <div class="row-year">2022年</div>
+                                    <div class="row-base" id="base-2022">缴费基数：5500元</div>
+                                </div>
+                                <div class="row-right">
+                                    <div class="row-money">¥ 13,200</div>
+                                    <div class="row-month">12个月</div>
+                                    <button class="edit-btn" onclick="openEditModal(2022)">编辑</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row-right">
-                            <div class="row-money">¥ 14,760</div>
-                            <div class="row-month">12个月</div>
-                            <button class="edit-btn" onclick="openEditModal(2024)">编辑</button>
-                        </div>
-                    </div>
-                    
-                    <div class="table-row" id="row-2023">
-                        <div class="row-left">
-                            <div class="row-year">2023年</div>
-                            <div class="row-base" id="base-2023">缴费基数：5800元</div>
-                        </div>
-                        <div class="row-right">
-                            <div class="row-money">¥ 13,920</div>
-                            <div class="row-month">12个月</div>
-                            <button class="edit-btn" onclick="openEditModal(2023)">编辑</button>
-                        </div>
-                    </div>
-                    
-                    <div class="table-row" id="row-2022">
-                        <div class="row-left">
-                            <div class="row-year">2022年</div>
-                            <div class="row-base" id="base-2022">缴费基数：5500元</div>
-                        </div>
-                        <div class="row-right">
-                            <div class="row-money">¥ 13,200</div>
-                            <div class="row-month">12个月</div>
-                            <button class="edit-btn" onclick="openEditModal(2022)">编辑</button>
+                        
+                        <!-- 右列 -->
+                        <div class="column-right">
+                            <div class="table-row" id="row-2026">
+                                <div class="row-left">
+                                    <div class="row-year">2026年</div>
+                                    <div class="row-base" id="base-2026">缴费基数：4043元</div>
+                                </div>
+                                <div class="row-right">
+                                    <div class="row-money">¥ 970</div>
+                                    <div class="row-month">3个月</div>
+                                    <button class="edit-btn" onclick="openEditModal(2026)">编辑</button>
+                                </div>
+                            </div>
+                            
+                            <div class="table-row" id="row-2025">
+                                <div class="row-left">
+                                    <div class="row-year">2025年</div>
+                                    <div class="row-base" id="base-2025">缴费基数：4043元</div>
+                                </div>
+                                <div class="row-right">
+                                    <div class="row-money">¥ 3,881</div>
+                                    <div class="row-month">12个月</div>
+                                    <button class="edit-btn" onclick="openEditModal(2025)">编辑</button>
+                                </div>
+                            </div>
+                            
+                            <div class="table-row" id="row-2024-short">
+                                <div class="row-left">
+                                    <div class="row-year">2024年</div>
+                                    <div class="row-base">缴费基数：3300元</div>
+                                </div>
+                                <div class="row-right">
+                                    <div class="row-money">¥ 1,848</div>
+                                    <div class="row-month">7个月</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2633,6 +2692,8 @@
         // 编辑缴费明细弹窗功能
         let currentEditYear = 2024;
         const originalBase = {
+            2026: 4043,
+            2025: 4043,
             2024: 6000,
             2023: 5800,
             2022: 5500

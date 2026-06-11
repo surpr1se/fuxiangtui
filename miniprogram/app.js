@@ -4,61 +4,61 @@ App({
     userInfo: null,
     openid: null,
     token: null,
-    paymentDetails: [],
-    calculateParams: null,
-    lastResult: null
-  },
-
-  onLaunch() {
-    // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        console.log('微信登录code:', res.code)
-        this.login(res.code)
-      }
-    })
-  },
-
-  // 登录接口
-  login(code) {
-    wx.request({
-      url: this.globalData.baseUrl + '/api/user/wx-login',
-      method: 'POST',
-      data: { code },
-      success: (res) => {
-        if (res.data.code === 0) {
-          this.globalData.openid = res.data.data.openid
-          this.globalData.token = res.data.data.token
-          this.globalData.userInfo = res.data.data.userInfo
-          wx.setStorageSync('token', res.data.data.token)
-          console.log('登录成功')
-        }
-      },
-      fail: () => {
-        // 开发模式下使用模拟用户ID
-        const userId = 'guest_' + Date.now()
-        this.globalData.openid = userId
-        wx.setStorageSync('token', userId)
-        console.log('使用模拟用户:', userId)
-      }
-    })
-  },
-
-  globalData: {
-    userInfo: null,
-    openid: null,
-    token: null,
-    baseUrl: '', // 后端API地址
+    baseUrl: 'http://14.103.38.180:8080/api/v1',
     paymentDetails: [],
     calculateParams: null,
     lastResult: null,
     // 社平工资
     socialAvgWage: 7500
+  },
+
+  onLaunch() {
+    const logs = wx.getStorageSync('logs') || []
+    logs.unshift(Date.now())
+    wx.setStorageSync('logs', logs)
+
+    wx.login({
+      success: res => {
+        console.log('微信登录code:', res.code)
+        this.login(res.code)
+      },
+      fail: err => {
+        console.error('wx.login失败:', err)
+      }
+    })
+  },
+
+  // 微信登录接口：POST /api/v1/user/wxlogin
+  login(code, userInfo = {}) {
+    wx.request({
+      url: this.globalData.baseUrl + '/user/wxlogin',
+      method: 'POST',
+      data: {
+        code,
+        nickName: userInfo.nickName || '微信用户',
+        avatarUrl: userInfo.avatarUrl || ''
+      },
+      header: {
+        'Content-Type': 'application/json'
+      },
+      success: (res) => {
+        const body = res.data || {}
+        if (body.code === 0 || body.code === 200) {
+          const data = body.data || {}
+          this.globalData.openid = data.openId || data.openid || data.open_id
+          this.globalData.token = data.token || data.accessToken
+          this.globalData.userInfo = data.userInfo || data
+          if (data.userId || data.id) wx.setStorageSync('userId', data.userId || data.id)
+          if (this.globalData.openid) wx.setStorageSync('openId', this.globalData.openid)
+          if (this.globalData.token) wx.setStorageSync('token', this.globalData.token)
+          console.log('登录成功')
+        } else {
+          console.error('微信登录接口失败:', body.message || body)
+        }
+      },
+      fail: (err) => {
+        console.error('微信登录请求失败:', err)
+      }
+    })
   }
 })

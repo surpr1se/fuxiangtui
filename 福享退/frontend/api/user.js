@@ -1,73 +1,67 @@
 /**
  * 用户相关API
  */
-const UserApi = window.UserApi = {
+window.UserApi = {
     /**
-     * 微信登录
+     * 账号密码登录
+     * POST /api/v1/user/login
      */
-    async wxLogin(code, userInfo = {}) {
-        // Web端游客模式：先用真实后端，失败则降级到mock
-        if (!code || code === 'web-anonymous') {
-            try {
-                const result = await Request.post('/user/wx-login', {
-                    code: 'web-anonymous',
-                    nickName: userInfo.nickName || '游客用户',
-                    ...userInfo
-                });
-
-                if (result.code === 0 && result.data) {
-                    localStorage.setItem('userId', result.data.userId);
-                    localStorage.setItem('token', result.data.token);
-                    localStorage.setItem('openId', result.data.openId);
-                    return result;
-                }
-            } catch (e) {
-                console.log('后端登录失败，降级到Mock模式');
-            }
-
-            // 降级：Mock模式
-            const mockResult = {
-                code: 0,
-                message: 'success',
-                data: {
-                    userId: Date.now(),
-                    openId: `mock_openid_${Date.now()}`,
-                    nickName: '游客用户',
-                    token: `mock_token_${Date.now()}`
-                }
-            };
-            localStorage.setItem('userId', mockResult.data.userId);
-            localStorage.setItem('token', mockResult.data.token);
-            localStorage.setItem('openId', mockResult.data.openId);
-            return mockResult;
-        }
-
-        // 小程序正常微信登录
-        const result = await Request.post('/user/wx-login', {
-            code,
-            ...userInfo
-        });
-
-        if (result.code === 0 && result.data) {
-            localStorage.setItem('userId', result.data.userId);
-            localStorage.setItem('token', result.data.token);
-            localStorage.setItem('openId', result.data.openId);
-        }
+    async login(username, password) {
+        const result = await Request.post('/user/login', { username, password });
+        this.saveLoginResult(result);
         return result;
     },
 
     /**
-     * 获取用户信息
+     * 微信登录
+     * POST /api/v1/user/wxlogin
+     * Swagger 定义 requestBody 为 Map<String,String>，当前后端至少需要 code。
      */
-    async getUserProfile() {
-        return Request.get('/user/profile');
+    async wxLogin(code, userInfo = {}) {
+        const payload = {
+            code: String(code || ''),
+            nickName: userInfo.nickName || userInfo.nickname || '微信用户',
+            avatarUrl: userInfo.avatarUrl || userInfo.avatar || ''
+        };
+
+        const result = await Request.post('/user/wxlogin', payload);
+        this.saveLoginResult(result);
+        return result;
     },
 
     /**
-     * 更新用户信息
+     * 保存登录态，兼容 userId/id、openId/open_id 等字段
+     */
+    saveLoginResult(result) {
+        if (!result || (result.code !== 0 && result.code !== 200) || !result.data) return false;
+        const data = result.data;
+        const userId = data.userId ?? data.id;
+        const token = data.token || data.accessToken;
+        const openId = data.openId || data.open_id || data.openid;
+        const nickName = data.nickName || data.nickname || data.userInfo?.nickName;
+        const avatarUrl = data.avatarUrl || data.avatar || data.userInfo?.avatarUrl;
+        if (userId !== undefined && userId !== null) localStorage.setItem('userId', userId);
+        if (token) localStorage.setItem('token', token);
+        if (openId) localStorage.setItem('openId', openId);
+        if (nickName) localStorage.setItem('nickName', nickName);
+        if (avatarUrl) localStorage.setItem('avatarUrl', avatarUrl);
+        return true;
+    },
+
+    /**
+     * 获取用户信息
+     * GET /api/v1/user/info
+     */
+    async getUserProfile() {
+        return Request.get('/user/info');
+    },
+
+    /**
+     * 更新用户信息：本轮接口清单未提供更新接口，保留安全降级
      */
     async updateUserProfile(userInfo) {
-        return Request.put('/user/profile', userInfo);
+        console.warn('当前后端接口清单未提供用户信息更新接口，已跳过提交', userInfo);
+        return { code: 0, message: '当前版本暂不支持更新用户信息', data: userInfo };
     },
 
     /**
@@ -79,8 +73,17 @@ const UserApi = window.UserApi = {
             return { code: 0, message: '已登录', data: { isLoggedIn: true } };
         }
 
-        // Web端自动创建游客用户
-        return this.wxLogin('web-anonymous');
+        if (typeof wx !== 'undefined' && wx.login) {
+            return new Promise((resolve) => {
+                wx.login({
+                    success: async (res) => resolve(await this.wxLogin(res.code)),
+                    fail: () => resolve({ code: -1, message: '微信登录失败', data: null })
+                });
+            });
+        }
+
+        // H5 预览环境没有 wx.login，只返回未登录态，不再伪造 mock token。
+        return { code: -1, message: '当前环境无法获取微信登录 code', data: null };
     },
 
     /**

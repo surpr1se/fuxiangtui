@@ -1,9 +1,9 @@
 /**
  * 请求工具类
  */
-const Request = window.Request = {
+window.Request = {
     // API基础地址
-    BASE_URL: 'http://14.103.38.180:8081/api/v1',
+    BASE_URL: 'http://14.103.38.180:8080/api/v1',
 
     // 是否使用Mock数据（true=使用mock，false=对接真实后端）
     // 待后端接口完全就绪后切换为 false
@@ -100,7 +100,7 @@ const Request = window.Request = {
         await new Promise(resolve => setTimeout(resolve, 500));
 
         // 模拟登录
-        if (url.includes('/user/wx-login')) {
+        if (url.includes('/user/wxlogin') || url.includes('/user/wx-login') || url.includes('/user/login')) {
             const userId = Date.now();
             localStorage.setItem('userId', userId);
             localStorage.setItem('token', `mock_token_${userId}`);
@@ -117,7 +117,7 @@ const Request = window.Request = {
         }
 
         // 模拟PDF上传解析
-        if (url.includes('/pdf/upload-and-parse')) {
+        if (url.includes('/pdf/upload') || url.includes('/pdf/upload-and-parse')) {
             return {
                 code: 0,
                 message: 'success',
@@ -202,7 +202,7 @@ const Request = window.Request = {
         }
 
         // 模拟历史记录
-        if (url.includes('/pension/result/list')) {
+        if (url.includes('/calculate-result/my-list') || url.includes('/pension/result/list')) {
             const history = JSON.parse(localStorage.getItem('calculateHistory') || '[]');
             return {
                 code: 0,
@@ -266,7 +266,7 @@ const Request = window.Request = {
                 await new Promise(resolve => setTimeout(resolve, 200));
                 if (onProgress) onProgress(i);
             }
-            return this.mockRequest('/pdf/upload-and-parse', 'POST', {});
+            return this.mockRequest('/pdf/upload', 'POST', {});
         }
 
         // 真实上传
@@ -280,12 +280,25 @@ const Request = window.Request = {
                 headers['Authorization'] = `Bearer ${token}`;
             }
             
-            const response = await fetch(this.BASE_URL + '/pdf/upload-and-parse', {
+            const response = await fetch(this.BASE_URL + '/pdf/upload', {
                 method: 'POST',
                 headers: headers,
                 body: formData
             });
-            return await response.json();
+            const result = await response.json();
+
+            // 统一兼容 PDF 解析返回结构，确保前端读取到正确的缴费基数。
+            if ((result.code === 0 || result.code === 200) && result.data) {
+                result.data.paymentDetails = this.normalizePaymentDetails(result.data.paymentDetails || []);
+                result.data.personalInfo = result.data.personalInfo || {};
+                if (result.data.summary) {
+                    const bases = result.data.paymentDetails.map(item => Number(item.paymentBase || 0)).filter(Boolean);
+                    if (bases.length > 0) {
+                        result.data.summary.averagePaymentBase = (bases.reduce((sum, val) => sum + val, 0) / bases.length).toFixed(2);
+                    }
+                }
+            }
+            return result;
         } catch (error) {
             console.error('PDF上传失败:', error);
             return {
@@ -294,6 +307,26 @@ const Request = window.Request = {
                 data: null
             };
         }
+    },
+
+    /**
+     * 归一化缴费明细。
+     * 兼容后端历史解析逻辑中 paymentBase/paymentMonths 字段放反的情况：
+     * - paymentBase 返回 1
+     * - paymentMonths 返回 4043/3300 等真实缴费基数
+     */
+    normalizePaymentDetails(details = []) {
+        return (Array.isArray(details) ? details : []).map(item => {
+            const normalized = { ...item };
+            const base = Number(normalized.paymentBase ?? normalized.base ?? 0);
+            const months = Number(normalized.paymentMonths ?? normalized.months ?? 0);
+            const looksSwapped = base > 0 && base <= 12 && months >= 1000;
+
+            normalized.yearMonth = normalized.yearMonth || normalized.paymentMonth || normalized.month || '';
+            normalized.paymentBase = looksSwapped ? months : base;
+            normalized.paymentMonths = looksSwapped ? base : (months || 1);
+            return normalized;
+        });
     },
 
     /**

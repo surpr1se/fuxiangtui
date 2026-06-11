@@ -91,6 +91,7 @@
         
         .page {
             display: none;
+            position: relative;
         }
         
         .page.active {
@@ -854,6 +855,8 @@
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
             background: rgba(0,0,0,0.5) !important;
             display: none !important;
             align-items: center !important;
@@ -863,6 +866,10 @@
         
         .modal-overlay.show {
             display: flex !important;
+        }
+        
+        .modal-content {
+            margin: auto !important;
         }
         
         .modal-content {

@@ -77,7 +77,7 @@ const Request = {
     await new Promise(resolve => setTimeout(resolve, 500));
 
     // 登录
-    if (url.includes('/user/wx-login')) {
+    if (url.includes('/user/wxlogin')) {
       const userId = Date.now();
       wx.setStorageSync('userId', userId);
       wx.setStorageSync('token', `mock_token_${userId}`);

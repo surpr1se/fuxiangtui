@@ -78,7 +78,8 @@ function renderPaymentDetails() {
             }
             const avgBase = Math.round(yearTotal / items.length);
             const original = window.originalBase[year] || avgBase;
-            const hasModified = avgBase !== original;
+            window.modifiedYears = window.modifiedYears || {};
+            const hasModified = window.modifiedYears[year] === true;
             
             const yearRow = document.createElement('div');
             yearRow.className = 'table-row';
@@ -91,7 +92,7 @@ function renderPaymentDetails() {
                     '</div>' +
                 '</div>' +
                 '<div class="row-right">' +
-                    '<div class="row-money">¥ ' + (yearTotal * 0.08).toLocaleString() + '</div>' +
+                    '<div class="row-money">¥ ' + (yearTotal * 0.08).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '</div>' +
                     '<div class="row-month">' + items.length + '个月</div>' +
                     '<button class="edit-btn" onclick="console.log(\'点击编辑按钮，年份:\', ' + year + ');window.openEditModal(' + year + ');event.stopPropagation();">编辑</button>' +
                 '</div>';
@@ -125,7 +126,7 @@ function renderPaymentDetails() {
     }
     
     // 更新底部统计 - 完全替换硬编码内容
-    const personalTotal = Math.round(totalAmount * 0.08);
+    const personalTotal = (totalAmount * 0.08).toFixed(2);
     const avgBase = Math.round(totalAmount / totalMonths);
     const avgIndex = (avgBase / 6000).toFixed(2); // 简化计算，假设社平工资6000
     
@@ -133,7 +134,7 @@ function renderPaymentDetails() {
     if (summaryCard) {
         summaryCard.innerHTML = 
             '<div class="summary-title">累计缴费总额</div>' +
-            '<div class="summary-number">¥ ' + personalTotal.toLocaleString() + '</div>' +
+            '<div class="summary-number">¥ ' + personalTotal.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</div>' +
             '<div class="summary-unit">（个人缴费部分）</div>' +
             '<div class="summary-row">' +
                 '<div class="summary-item">' +
@@ -185,4 +186,5 @@ function filterByYear(yearValue) {
     }
 }
 
+window.renderPaymentDetails = renderPaymentDetails;
 window.filterByYear = filterByYear;
