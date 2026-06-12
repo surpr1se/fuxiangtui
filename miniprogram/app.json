@@ -9,6 +9,7 @@
     "pages/history/history",
     "pages/policy/policy"
   ],
+  "subPackages": [],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#FF6B6B",
