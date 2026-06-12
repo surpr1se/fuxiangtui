@@ -1,0 +1,9 @@
+<view class="page">
+  <view class="hero"><view class="hero-title">养老金测算</view><view class="hero-desc">请上传福建省社保缴费明细 PDF，系统将自动解析并测算</view></view>
+  <view class="upload-card" bindtap="chooseFile"><view class="upload-icon">⬆️</view><view class="upload-title">点击选择PDF文件</view><view class="upload-desc">支持 PDF，大小不超过 20MB</view></view>
+  <view class="card" wx:if="{{fileInfo}}"><view class="row"><text>文件名</text><text>{{fileInfo.name}}</text></view><view class="row"><text>大小</text><text>{{fileInfo.size}}</text></view></view>
+  <view class="progress" wx:if="{{uploading}}"><view style="width:{{progress}}%"></view></view>
+  <button class="btn-primary" wx:if="{{fileInfo}}" loading="{{uploading}}" bindtap="startUpload">开始解析</button>
+  <view class="demo" bindtap="useDemo">没有PDF？使用示例数据体验</view>
+  <view class="card"><view class="section-title">温馨提示</view><view class="tip">1. PDF文件需完整、未加密</view><view class="tip">2. 解析后可核对并编辑缴费基数</view><view class="tip">3. 测算结果仅供参考，以社保经办机构核定为准</view></view>
+</view>

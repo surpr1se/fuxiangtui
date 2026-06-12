@@ -1,87 +1,10 @@
-<!--pages/index/index.wxml-->
-<view class="container">
-  <!-- Logo区域 -->
-  <view class="logo-area">
-    <view class="logo">
-      <text class="logo-text">福</text>
-    </view>
-    <view class="logo-title">福享退</view>
-    <view class="logo-desc">福建省养老保险待遇智能测算平台</view>
+<view class="page">
+  <view class="hero"><view class="hero-title">福享退</view><view class="hero-desc">企业职工养老待遇测算<br/>上传缴费明细，自动测算退休待遇</view></view>
+  <view class="grid2">
+    <view class="menu-card primary" bindtap="goCalculate"><view class="menu-icon">📄</view><view class="menu-title">PDF上传测算</view><view class="menu-desc">导入缴费明细自动测算</view></view>
+    <view class="menu-card" bindtap="goHistory"><view class="menu-icon">📊</view><view class="menu-title">历史记录</view><view class="menu-desc">查看过往测算结果</view></view>
+    <view class="menu-card" bindtap="goProfile"><view class="menu-icon">👤</view><view class="menu-title">个人中心</view><view class="menu-desc">登录与数据统计</view></view>
+    <view class="menu-card" bindtap="goPolicy"><view class="menu-icon">📚</view><view class="menu-title">政策说明</view><view class="menu-desc">退休政策与办理指南</view></view>
   </view>
-
-  <!-- 核心测算功能 -->
-  <view class="section-title">🔥 核心测算</view>
-  <view class="grid-2">
-    <view class="menu-item" bindtap="goToUpload">
-      <view class="menu-icon primary">
-        <text>📄</text>
-      </view>
-      <view class="menu-title">PDF测算</view>
-      <view class="menu-desc">上传缴费明细自动计算</view>
-    </view>
-    
-    <view class="menu-item" bindtap="goToInput">
-      <view class="menu-icon blue">
-        <text>✍️</text>
-      </view>
-      <view class="menu-title">手动测算</view>
-      <view class="menu-desc">手动填写缴费信息</view>
-    </view>
-  </view>
-
-  <!-- 扩展分析功能 -->
-  <view class="section-title">📊 扩展分析</view>
-  <view class="grid-2">
-    <view class="menu-item" bindtap="showComingSoon">
-      <view class="menu-icon green">
-        <text>📈</text>
-      </view>
-      <view class="menu-title">待遇调整预测</view>
-      <view class="menu-desc">预测未来养老金增长</view>
-    </view>
-    
-    <view class="menu-item" bindtap="showComingSoon">
-      <view class="menu-icon purple">
-        <text>💰</text>
-      </view>
-      <view class="menu-title">回本年龄计算</view>
-      <view class="menu-desc">计算投资回报周期</view>
-    </view>
-    
-    <view class="menu-item" bindtap="showComingSoon">
-      <view class="menu-icon blue">
-        <text>⏰</text>
-      </view>
-      <view class="menu-title">延迟退休影响</view>
-      <view class="menu-desc">延迟退休方案对比</view>
-    </view>
-    
-    <view class="menu-item" bindtap="showComingSoon">
-      <view class="menu-icon green">
-        <text>👑</text>
-      </view>
-      <view class="menu-title">批量测算</view>
-      <view class="menu-desc">企业HR专业版</view>
-    </view>
-  </view>
-
-  <!-- 其他功能 -->
-  <view class="section-title">📋 其他服务</view>
-  <view class="grid-2">
-    <view class="menu-item" bindtap="goToHistory">
-      <view class="menu-icon blue">
-        <text>📋</text>
-      </view>
-      <view class="menu-title">历史记录</view>
-      <view class="menu-desc">查看历史测算结果</view>
-    </view>
-    
-    <view class="menu-item" bindtap="goToGuide">
-      <view class="menu-icon green">
-        <text>📍</text>
-      </view>
-      <view class="menu-title">退休办理指南</view>
-      <view class="menu-desc">福建各地办事流程</view>
-    </view>
-  </view>
+  <view class="card notice"><view class="section-title">测算流程</view><view class="step">1. 上传缴费明细 PDF</view><view class="step">2. 核对并编辑缴费基数</view><view class="step">3. 补充退休身份和账户信息</view><view class="step">4. 生成养老金测算结果</view></view>
 </view>

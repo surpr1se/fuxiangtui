@@ -1,8 +1,1 @@
-<view class="container">
-  <view class="history-header"><view class="history-title">测算历史</view><view class="history-count">共 {{historyList.length}} 条</view></view>
-  <view class="empty-state" wx:if="{{!loading && historyList.length === 0}}"><view class="empty-icon">📋</view><view class="empty-title">暂无测算记录</view><view class="empty-desc">上传缴费明细后即可开始测算</view><button class="btn-primary" bindtap="goCalculate">去测算</button></view>
-  <view wx:for="{{historyList}}" wx:key="resultId" class="history-card" bindtap="viewDetail" data-index="{{index}}">
-    <view class="history-top"><view><view class="history-name">{{item.title}}</view><view class="history-date">{{item.timeText}}</view></view><view class="history-amount">{{item.monthlyText}}</view></view>
-    <view class="history-info"><view class="info-item"><text class="info-label">退休年龄</text><text class="info-value">{{item.retireAge}}岁</text></view><view class="info-item"><text class="info-label">累计缴费</text><text class="info-value">{{item.totalPaymentYears}}年</text></view><view class="info-item"><text class="info-label">平均指数</text><text class="info-value">{{item.avgPaymentIndex}}</text></view></view>
-  </view>
-</view>
+<view class="page"><view class="section-title">我的计算记录</view><view class="empty" wx:if="{{!list.length}}">暂无测算记录</view><view class="card history" wx:for="{{list}}" wx:key="id" bindtap="detail" data-i="{{index}}"><view><view class="h-title">{{item.title}}</view><view class="muted">{{item.time}}</view></view><view class="money">{{item.money}}</view></view></view>
