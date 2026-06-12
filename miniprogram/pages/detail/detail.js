@@ -1,84 +1,84 @@
 // pages/detail/detail.js
 const util = require('../../utils/util.js')
+const request = require('../../utils/request.js')
 const app = getApp()
 
 Page({
   data: {
     personalInfo: {},
     summary: {},
-    paymentDetails: [],
-    displayList: [],
-    showDetail: true,
-    hasMore: true,
-    pageSize: 24,
-    currentPage: 1,
-    idCardMasked: ''
+    yearGroups: [],
+    editVisible: false,
+    editYear: '',
+    editItems: [],
+    idCardMasked: '',
+    pdfInfo: null
   },
 
-  onLoad(options) {
-    this.initData()
-  },
+  onLoad() { this.initData() },
+  onShow() { this.initData() },
 
-  // 初始化数据
   initData() {
-    const personalInfo = app.globalData.personalInfo || { name: '张三', idCard: '350100xxxxxxxx0000', gender: '男' }
-    const paymentDetails = app.globalData.paymentDetails || []
-    const summary = app.globalData.paymentSummary || {
-      totalMonths: paymentDetails.length,
-      avgPaymentBase: util.calculateAvgBase(paymentDetails),
-      startDate: paymentDetails[0]?.yearMonth || '-',
-      endDate: paymentDetails[paymentDetails.length - 1]?.yearMonth || '-'
-    }
-
-    // 身份证脱敏
-    const idCardMasked = util.maskIdCard(personalInfo.idCard)
-
-    // 初始化显示列表（最新的在前）
-    const reversedList = [...paymentDetails].reverse()
-    const displayList = reversedList.slice(0, this.data.pageSize)
-
+    const personalInfo = util.normalizePersonalInfo(app.globalData.personalInfo || {})
+    const paymentDetails = util.normalizePaymentDetails(app.globalData.paymentDetails || [])
+    const summary = util.buildPaymentSummary(paymentDetails)
+    const yearGroups = util.groupPaymentsByYear(paymentDetails)
+    app.globalData.paymentDetails = paymentDetails
+    app.globalData.paymentSummary = summary
+    app.globalData.personalInfo = personalInfo
     this.setData({
       personalInfo,
       summary,
-      paymentDetails,
-      displayList,
-      idCardMasked,
-      hasMore: paymentDetails.length > this.data.pageSize
+      yearGroups,
+      idCardMasked: util.maskIdCard(personalInfo.idCard),
+      pdfInfo: app.globalData.pdfInfo || null
     })
   },
 
-  // 展开/收起明细
-  toggleDetail() {
+  toggleYear(e) {
+    const year = String(e.currentTarget.dataset.year)
+    const yearGroups = this.data.yearGroups.map(group => group.year === year ? { ...group, expanded: !group.expanded } : group)
+    this.setData({ yearGroups })
+  },
+
+  openEdit(e) {
+    const year = String(e.currentTarget.dataset.year)
+    const group = this.data.yearGroups.find(item => item.year === year)
+    if (!group) return
     this.setData({
-      showDetail: !this.data.showDetail
+      editVisible: true,
+      editYear: year,
+      editItems: group.items.map(item => ({ ...item, inputValue: String(item.paymentBase) }))
     })
   },
 
-  // 加载更多
-  loadMore() {
-    const { paymentDetails, displayList, currentPage, pageSize } = this.data
-    const reversedList = [...paymentDetails].reverse()
-    const nextPage = currentPage + 1
-    const start = (nextPage - 1) * pageSize
-    const end = start + pageSize
-    const newItems = reversedList.slice(start, end)
-
-    this.setData({
-      displayList: [...displayList, ...newItems],
-      currentPage: nextPage,
-      hasMore: end < reversedList.length
-    })
+  onMonthBaseInput(e) {
+    const index = Number(e.currentTarget.dataset.index)
+    const editItems = [...this.data.editItems]
+    editItems[index].inputValue = e.detail.value
+    this.setData({ editItems })
   },
 
-  // 重新上传
-  reUpload() {
-    wx.navigateBack()
+  noop() {},
+  closeEdit() { this.setData({ editVisible: false, editYear: '', editItems: [] }) },
+
+  saveEdit() {
+    const changed = this.data.editItems.map(item => ({
+      ...item,
+      paymentBase: util.round(item.inputValue, 2),
+      modified: util.round(item.inputValue, 2) !== util.round(item.paymentBase, 2)
+    }))
+    const changedMap = {}
+    changed.forEach(item => { changedMap[item.yearMonth] = item })
+    const paymentDetails = util.normalizePaymentDetails(app.globalData.paymentDetails || []).map(item => changedMap[item.yearMonth] ? { ...item, ...changedMap[item.yearMonth], modified: Boolean(item.modified || changedMap[item.yearMonth].modified) } : item)
+    app.globalData.paymentDetails = paymentDetails
+    app.globalData.paymentSummary = util.buildPaymentSummary(paymentDetails)
+    this.closeEdit()
+    this.initData()
+    util.showToast('已更新缴费数据', 'success')
+    request.importPaymentDetails(paymentDetails).catch(err => console.warn('同步缴费明细失败:', err))
   },
 
-  // 下一步
-  goNext() {
-    wx.navigateTo({
-      url: '/pages/input/input'
-    })
-  }
+  reUpload() { wx.navigateBack() },
+  goNext() { wx.navigateTo({ url: '/pages/input/input' }) }
 })

@@ -1,37 +1,29 @@
-/**
- * 小程序请求工具类
- */
+// utils/request.js
+const util = require('./util.js')
+
 const config = {
   baseUrl: 'http://14.103.38.180:8080/api/v1',
-  useMock: false, // 是否使用Mock数据
-  timeout: 15000
-};
+  useMock: false,
+  timeout: 20000
+}
+
+const isSuccess = body => body && (body.code === 0 || body.code === 200)
 
 const Request = {
-  /**
-   * 通用请求方法
-   */
+  config,
+  isSuccess,
+
   async request(url, options = {}) {
-    const { method = 'GET', data, header = {}, showLoading = false } = options;
+    const { method = 'GET', data = {}, header = {}, showLoading = false } = options
+    if (config.useMock) return this.mockRequest(url, method, data)
+    if (showLoading) wx.showLoading({ title: '加载中...', mask: true })
 
-    // Mock模式
-    if (config.useMock) {
-      return this.mockRequest(url, method, data);
-    }
-
-    if (showLoading) {
-      wx.showLoading({ title: '加载中...', mask: true });
-    }
-
-    const token = wx.getStorageSync('token');
+    const token = wx.getStorageSync('token')
     const headerConfig = {
       'Content-Type': 'application/json',
       ...header
-    };
-
-    if (token) {
-      headerConfig['Authorization'] = `Bearer ${token}`;
     }
+    if (token) headerConfig.Authorization = `Bearer ${token}`
 
     try {
       const result = await new Promise((resolve, reject) => {
@@ -41,197 +33,176 @@ const Request = {
           data,
           header: headerConfig,
           timeout: config.timeout,
-          success: (res) => resolve(res.data),
-          fail: (err) => reject(err)
-        });
-      });
-
-      if (showLoading) {
-        wx.hideLoading();
-      }
-
-      // token过期处理
+          success: res => resolve(res.data || {}),
+          fail: reject
+        })
+      })
+      if (showLoading) wx.hideLoading()
       if (result.code === 401) {
-        wx.removeStorageSync('token');
-        wx.removeStorageSync('userId');
+        wx.removeStorageSync('token')
+        wx.removeStorageSync('userId')
       }
-
-      return result;
+      return result
     } catch (error) {
-      if (showLoading) {
-        wx.hideLoading();
-      }
-      console.error('请求失败:', error);
-      return {
-        code: -1,
-        message: error.errMsg || '网络请求失败',
-        data: null
-      };
+      if (showLoading) wx.hideLoading()
+      console.error('请求失败:', method, url, error)
+      return { code: -1, message: error.errMsg || '网络请求失败', data: null }
     }
   },
 
-  /**
-   * Mock请求
-   */
-  async mockRequest(url, method, data) {
-    await new Promise(resolve => setTimeout(resolve, 500));
+  get(url, params = {}) { return this.request(url, { method: 'GET', data: params }) },
+  post(url, data = {}) { return this.request(url, { method: 'POST', data }) },
+  put(url, data = {}) { return this.request(url, { method: 'PUT', data }) },
+  delete(url, data = {}) { return this.request(url, { method: 'DELETE', data }) },
 
-    // 登录
-    if (url.includes('/user/wxlogin')) {
-      const userId = Date.now();
-      wx.setStorageSync('userId', userId);
-      wx.setStorageSync('token', `mock_token_${userId}`);
-      return {
-        code: 0,
-        message: 'success',
-        data: {
-          userId,
-          openId: `mock_openid_${userId}`,
-          nickName: '微信用户',
-          token: `mock_token_${userId}`
-        }
-      };
-    }
-
-    // PDF解析
-    if (url.includes('/pdf/upload-and-parse')) {
-      return {
-        code: 0,
-        message: 'success',
-        data: {
-          personalInfo: {
-            name: '张三',
-            idCard: '350121199001011234',
-            gender: '男'
-          },
-          paymentDetails: this.generateDemoData(),
-          summary: {
-            totalMonths: 120,
-            averagePaymentBase: 5850,
-            dateRange: '2015-01 至 2024-12',
-            totalRecords: 120
-          },
-          warnings: []
-        }
-      };
-    }
-
-    // 测算
-    if (url.includes('/pension/calculate')) {
-      const totalYears = (data.visualPaymentYears || 0) + 10;
-      const avgIndex = 0.85;
-      const socialAvgWage = 8250;
-      
-      const basicPension = Math.round(((socialAvgWage + socialAvgWage * avgIndex) / 2) * totalYears * 0.01);
-      const personalAccount = data.personalAccountAmount || 100000;
-      const calculateMonths = data.retirementAge === 60 ? 139 : data.retirementAge === 55 ? 170 : 195;
-      const personalPension = Math.round(personalAccount / calculateMonths);
-      const transitionalPension = data.visualPaymentYears > 0 ? Math.round(socialAvgWage * avgIndex * data.visualPaymentYears * 0.013) : 0;
-
-      return {
-        code: 0,
-        message: 'success',
-        data: {
-          calculateNo: 'CAL' + Date.now(),
-          basicInfo: {
-            name: data.personalInfo?.name || '张三',
-            gender: data.personalInfo?.gender || '男',
-            retirementIdentity: data.retirementIdentity || '工人',
-            retirementAge: data.retirementAge || 60,
-            retirementYear: data.retirementYear || 2025,
-            actualPaymentYears: 10,
-            visualPaymentYears: data.visualPaymentYears || 0,
-            totalPaymentYears: totalYears,
-            averagePaymentIndex: avgIndex,
-            socialAvgWageYear: 2024
-          },
-          pensionDetail: {
-            basicPension,
-            personalAccountPension: personalPension,
-            transitionalPension,
-            paymentYearsPension: 0,
-            totalMonthlyPension: basicPension + personalPension + transitionalPension
-          },
-          calculationProcess: [
-            { stepName: '基础养老金计算', formula: `(${socialAvgWage} + ${Math.round(socialAvgWage * avgIndex)}) / 2 × ${totalYears} × 1%`, result: basicPension },
-            { stepName: '个人账户养老金计算', formula: `${personalAccount} ÷ ${calculateMonths}`, result: personalPension },
-            { stepName: '过渡性养老金计算', formula: data.visualPaymentYears > 0 ? `${Math.round(socialAvgWage * avgIndex)} × ${data.visualPaymentYears} × 1.3%` : '无视同缴费年限', result: transitionalPension }
-          ],
-          warnings: totalYears < 15 ? ['累计缴费不足15年，建议补缴'] : []
-        }
-      };
-    }
-
-    return { code: 0, message: 'success', data: null };
-  },
-
-  get(url, params = {}) {
-    return this.request(url, { method: 'GET', data: params });
-  },
-
-  post(url, data = {}) {
-    return this.request(url, { method: 'POST', data });
-  },
-
-  put(url, data = {}) {
-    return this.request(url, { method: 'PUT', data });
-  },
-
-  delete(url, data = {}) {
-    return this.request(url, { method: 'DELETE', data });
-  },
-
-  /**
-   * 上传PDF文件
-   */
   async uploadPdf(filePath, onProgress) {
     if (config.useMock) {
       for (let i = 0; i <= 100; i += 20) {
-        await new Promise(resolve => setTimeout(resolve, 200));
-        if (onProgress) onProgress(i);
+        await new Promise(resolve => setTimeout(resolve, 120))
+        if (onProgress) onProgress(i)
       }
-      return this.mockRequest('/pdf/upload-and-parse', 'POST', {});
+      return this.mockRequest('/pdf/upload', 'POST', {})
     }
 
-    const token = wx.getStorageSync('token');
+    const token = wx.getStorageSync('token')
     return new Promise((resolve, reject) => {
-      wx.uploadFile({
-        url: config.baseUrl + '/pdf/upload-and-parse',
+      const task = wx.uploadFile({
+        url: config.baseUrl + '/pdf/upload',
         filePath,
         name: 'file',
-        header: {
-          'Authorization': `Bearer ${token}`
-        },
-        success: (res) => {
-          try {
-            resolve(JSON.parse(res.data));
-          } catch (e) {
-            resolve(res.data);
-          }
+        header: token ? { Authorization: `Bearer ${token}` } : {},
+        success: res => {
+          try { resolve(JSON.parse(res.data)) } catch (e) { resolve({ code: -1, message: '解析上传响应失败', data: res.data }) }
         },
         fail: reject
-      });
-    });
+      })
+      if (task && task.onProgressUpdate && onProgress) {
+        task.onProgressUpdate(res => onProgress(res.progress || 0))
+      }
+    })
   },
 
-  /**
-   * 生成示例数据
-   */
-  generateDemoData() {
-    const data = [];
-    for (let year = 2015; year <= 2024; year++) {
-      for (let month = 1; month <= 12; month++) {
-        data.push({
-          yearMonth: `${year}-${String(month).padStart(2, '0')}`,
-          paymentBase: 3500 + (year - 2015) * 250 + Math.floor(Math.random() * 500),
-          paymentMonths: 1,
-          unitName: `福建${year % 2 === 0 ? 'XX科技' : 'XX贸易'}有限公司`,
-          paymentType: '正常应缴'
-        });
-      }
-    }
-    return data;
-  }
-};
+  async getPaymentDetailList(userId) {
+    const params = userId ? { userId } : {}
+    const result = await this.get('/payment/list', params)
+    const data = result.data || []
+    const list = Array.isArray(data) ? data : (data.list || data.records || [])
+    if (isSuccess(result)) result.data = util.normalizePaymentDetails(list)
+    return result
+  },
 
-module.exports = Request;
+  async importPaymentDetails(details = []) { return this.post('/payment/import', details) },
+
+  async calculateDelayRetire(birthDate, personType) {
+    return this.get('/retire-age/calculate', { birthDate, personType })
+  },
+
+  async getPreviousYearSocialWage(baseYear, province = '福建省') {
+    return this.get('/system-param/social-wage/latest-previous-year', { baseYear, province })
+  },
+
+  async calculatePension(params = {}) {
+    const result = await this.post('/pension/calculate', {
+      batchNo: params.batchNo || 'BATCH_' + Date.now(),
+      paymentDetails: params.paymentDetails || [],
+      personalInfo: params.personalInfo || {},
+      retirementIdentity: params.retirementIdentity || '工人',
+      retirementAge: params.retirementAge || 60,
+      retirementYear: params.retirementYear || new Date().getFullYear() + 1,
+      visualPaymentYears: params.visualPaymentYears ?? params.visualYears ?? 0,
+      personalAccountAmount: params.personalAccountAmount || 0,
+      socialAvgWage: params.socialAvgWage || undefined
+    })
+    if (isSuccess(result) && result.data) {
+      result.data = util.normalizeCalculateResult(result.data, params)
+    }
+    return result
+  },
+
+  async saveResult(payload = {}) { return this.post('/calculate-result/save', payload) },
+
+  async getHistoryList(params = {}) {
+    const query = { page: params.page || 1, pageSize: params.pageSize || 20 }
+    if (params.userId) query.userId = params.userId
+    if (params.openid) query.openid = params.openid
+    return this.get('/calculate-result/history', query)
+  },
+
+  async getResult(id) { return this.get(`/calculate-result/${id}`) },
+
+  normalizeUploadData(raw = {}) {
+    const data = raw.data || raw || {}
+    const personalInfo = util.normalizePersonalInfo(data.personalInfo || data.userInfo || data.personInfo || {})
+    const paymentDetails = util.normalizePaymentDetails(data.paymentDetails || data.details || data.list || [])
+    return {
+      ...data,
+      personalInfo,
+      paymentDetails,
+      summary: data.summary || util.buildPaymentSummary(paymentDetails),
+      id: data.id || data.pdfId || data.parseId || null
+    }
+  },
+
+  generateDemoData() {
+    const data = []
+    ;[
+      { year: 2024, months: 7, base: 4043 },
+      { year: 2025, months: 12, base: 4043 },
+      { year: 2026, months: 3, base: 4043 }
+    ].forEach(group => {
+      for (let month = 1; month <= group.months; month++) {
+        data.push({
+          yearMonth: `${group.year}-${util.pad2(month)}`,
+          paymentBase: group.base,
+          paymentMonths: 1,
+          unitName: '福建示例单位',
+          paymentType: '正常应缴'
+        })
+      }
+    })
+    return util.normalizePaymentDetails(data)
+  },
+
+  async mockRequest(url, method, data) {
+    await new Promise(resolve => setTimeout(resolve, 300))
+    if (url.includes('/user/wxlogin')) {
+      const userId = Date.now()
+      wx.setStorageSync('userId', userId)
+      wx.setStorageSync('token', `mock_token_${userId}`)
+      return { code: 200, message: 'success', data: { userId, openId: `mock_openid_${userId}`, token: `mock_token_${userId}` } }
+    }
+    if (url.includes('/pdf/upload')) {
+      const paymentDetails = this.generateDemoData()
+      return { code: 200, message: 'success', data: { personalInfo: { name: '余雪琴', idCard: '350425197510140726', gender: '女' }, paymentDetails, summary: util.buildPaymentSummary(paymentDetails) } }
+    }
+    if (url.includes('/retire-age/calculate')) {
+      return { code: 200, message: 'success', data: { delayMonths: 18, reformRetireAgeYear: 51, reformRetireAgeMonth: 6, reformRetireDate: '2027-04-01', personTypeName: '女工人' } }
+    }
+    if (url.includes('/system-param/social-wage')) {
+      return { code: 200, message: 'success', data: { monthlyWage: 8500, annualWage: 102000, province: '福建省' } }
+    }
+    if (url.includes('/pension/calculate')) {
+      const paymentDetails = data.paymentDetails || []
+      const summary = util.buildPaymentSummary(paymentDetails)
+      const totalYears = util.round(summary.totalYears + Number(data.visualPaymentYears || 0), 2)
+      const avgIndex = util.calculateAvgIndex(paymentDetails, data.socialAvgWage || 8500)
+      const calculateMonths = util.getCalculateMonths(data.retirementAge || 60)
+      const basicPension = util.round(((data.socialAvgWage || 8500) * (1 + Number(avgIndex)) / 2) * totalYears * 0.01, 2)
+      const accountAmount = Number(data.personalAccountAmount || summary.personalTotal)
+      const personalAccountPension = util.round(accountAmount / calculateMonths, 2)
+      const transitionalPension = Number(data.visualPaymentYears || 0) > 0 ? util.round((data.socialAvgWage || 8500) * Number(avgIndex) * Number(data.visualPaymentYears || 0) * 0.013, 2) : 0
+      return { code: 200, message: 'success', data: util.normalizeCalculateResult({
+        basicInfo: { totalPaymentYears: totalYears, actualPaymentYears: summary.totalYears, visualPaymentYears: data.visualPaymentYears || 0, avgPaymentIndex: avgIndex, calculateMonths, retireAge: data.retirementAge },
+        pensionDetail: { basicPension, personalAccountPension, transitionalPension, totalMonthlyPension: basicPension + personalAccountPension + transitionalPension },
+        calculationProcess: [
+          { stepName: '基础养老金', formula: '（社平工资 + 本人指数化工资）÷2×缴费年限×1%', result: basicPension },
+          { stepName: '个人账户养老金', formula: '个人账户累计金额÷计发月数', result: personalAccountPension },
+          { stepName: '过渡性养老金', formula: '指数化工资×视同缴费年限×1.3%', result: transitionalPension }
+        ]
+      }, data) }
+    }
+    return { code: 200, message: 'success', data: null }
+  }
+}
+
+module.exports = Request

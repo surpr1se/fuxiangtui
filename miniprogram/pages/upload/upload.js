@@ -12,136 +12,86 @@ Page({
     isParsing: false
   },
 
-  onLoad(options) {
-
-  },
-
-  // 选择文件
   chooseFile() {
     wx.chooseMessageFile({
       count: 1,
       type: 'file',
       extension: ['pdf'],
-      success: (res) => {
+      success: res => {
         const file = res.tempFiles[0]
-        console.log('选择的文件:', file)
-        
-        // 检查文件大小
-        if (file.size > 10 * 1024 * 1024) {
-          util.showToast('文件大小不能超过10MB')
+        if (!file) return
+        if (!String(file.name || '').toLowerCase().endsWith('.pdf')) {
+          util.showToast('请选择PDF格式文件')
           return
         }
-        
+        if (file.size > 20 * 1024 * 1024) {
+          util.showToast('文件大小不能超过20MB')
+          return
+        }
         this.setData({
-          fileInfo: {
-            name: file.name,
-            size: util.formatFileSize(file.size)
-          },
+          fileInfo: { name: file.name, size: util.formatFileSize(file.size) },
           filePath: file.path
         })
       },
-      fail: (err) => {
+      fail: err => {
         console.log('选择文件失败:', err)
         util.showToast('选择文件失败')
       }
     })
   },
 
-  // 开始解析
-  startParse() {
+  async startParse() {
     if (!this.data.filePath) {
       util.showToast('请先选择文件')
       return
     }
+    this.setData({ showProgress: true, isParsing: true, progress: 0 })
+    try {
+      const result = await request.uploadPdf(this.data.filePath, progress => {
+        this.setData({ progress: Math.max(0, Math.min(progress, 95)) })
+      })
+      if (!request.isSuccess(result)) throw new Error(result.message || '解析失败')
 
-    this.setData({
-      showProgress: true,
-      isParsing: true,
-      progress: 0
-    })
-
-    // 模拟解析进度
-    const timer = setInterval(() => {
-      const newProgress = Math.min(this.data.progress + 10, 90)
-      this.setData({ progress: newProgress })
-      
-      if (newProgress >= 90) {
-        clearInterval(timer)
+      const parsed = request.normalizeUploadData(result)
+      let paymentDetails = parsed.paymentDetails || []
+      if (!paymentDetails.length) {
+        const detailResult = await request.getPaymentDetailList(wx.getStorageSync('userId'))
+        if (request.isSuccess(detailResult)) paymentDetails = detailResult.data || []
       }
-    }, 200)
+      if (!paymentDetails.length) throw new Error('未提取到缴费明细')
 
-    // 模拟解析成功，使用示例数据
-    setTimeout(() => {
-      clearInterval(timer)
+      const summary = util.buildPaymentSummary(paymentDetails)
+      app.globalData.paymentDetails = paymentDetails
+      app.globalData.personalInfo = parsed.personalInfo
+      app.globalData.paymentSummary = summary
+      app.globalData.pdfInfo = {
+        id: parsed.id,
+        fileName: this.data.fileInfo.name,
+        fileSize: this.data.fileInfo.size,
+        parseTime: util.formatTime(new Date())
+      }
+
       this.setData({ progress: 100 })
-      
-      // 生成示例数据
-      const mockData = {
-        personalInfo: {
-          name: '张三',
-          idCard: '350100xxxxxxxx0000',
-          gender: '男'
-        },
-        paymentDetails: request.generateDemoData(),
-        summary: {
-          totalMonths: 120,
-          avgPaymentBase: 5850,
-          startDate: '2015-01',
-          endDate: '2024-12',
-          hasGap: false
-        }
-      }
-
-      // 保存到全局
-      app.globalData.paymentDetails = mockData.paymentDetails
-      app.globalData.personalInfo = mockData.personalInfo
-      app.globalData.paymentSummary = mockData.summary
-
-      setTimeout(() => {
-        this.setData({ showProgress: false, isParsing: false })
-        util.showToast('解析成功', 'success')
-        
-        // 跳转到明细页
-        wx.navigateTo({
-          url: '/pages/detail/detail'
-        })
-      }, 500)
-    }, 2000)
+      util.showToast('PDF解析成功', 'success')
+      setTimeout(() => wx.navigateTo({ url: '/pages/detail/detail' }), 500)
+    } catch (error) {
+      console.error('PDF解析失败:', error)
+      util.showToast(error.message || '上传解析失败')
+    } finally {
+      this.setData({ showProgress: false, isParsing: false })
+    }
   },
 
-  // 使用示例数据
   useDemoData() {
     util.showLoading('加载示例数据中...')
-    
-    setTimeout(() => {
-      const mockData = {
-        personalInfo: {
-          name: '张三',
-          idCard: '350100xxxxxxxx0000',
-          gender: '男'
-        },
-        paymentDetails: request.generateDemoData(),
-        summary: {
-          totalMonths: 120,
-          avgPaymentBase: 5850,
-          startDate: '2015-01',
-          endDate: '2024-12',
-          hasGap: false
-        }
-      }
-
-      // 保存到全局
-      app.globalData.paymentDetails = mockData.paymentDetails
-      app.globalData.personalInfo = mockData.personalInfo
-      app.globalData.paymentSummary = mockData.summary
-
-      util.hideLoading()
-      util.showToast('加载成功', 'success')
-      
-      // 跳转到明细页
-      wx.navigateTo({
-        url: '/pages/detail/detail'
-      })
-    }, 1000)
+    const paymentDetails = request.generateDemoData()
+    const personalInfo = util.normalizePersonalInfo({ name: '余雪琴', idCard: '350425197510140726', gender: '女' })
+    app.globalData.paymentDetails = paymentDetails
+    app.globalData.personalInfo = personalInfo
+    app.globalData.paymentSummary = util.buildPaymentSummary(paymentDetails)
+    app.globalData.pdfInfo = { fileName: '缴费明细_示例.pdf', fileSize: '-', parseTime: util.formatTime(new Date()) }
+    util.hideLoading()
+    util.showToast('加载成功', 'success')
+    wx.navigateTo({ url: '/pages/detail/detail' })
   }
 })
