@@ -141,7 +141,7 @@ Page({
       if (!request.isSuccess(r)) throw new Error(r.message || '测算失败')
       var result = util.normalizeResult(r.data, params)
       app.globalData.calculateResult = result
-      return request.saveResult({ title: (params.personalInfo.name || '') + '待遇测算结果', monthlyPension: result.pensionDetails.totalMonthlyPension, basicPension: result.pensionDetails.basicPension, personalAccountPension: result.pensionDetails.personalAccountPension, transitionalPension: result.pensionDetails.transitionalPension, personalAccountAmount: params.personalAccountAmount, paymentYears: params.totalPaymentYears, paymentMonths: util.calculateMonths(params.retirementAge), retireAge: params.retirementAge, result: result, userId: wx.getStorageSync('userId'), openid: wx.getStorageSync('openId') }).then(function() { return result })
+      return request.saveResult({ title: (params.personalInfo.name || '') + '待遇测算结果', monthlyPension: result.pensionDetails.totalMonthlyPension, basicPension: result.pensionDetails.basicPension, personalAccountPension: result.pensionDetails.personalAccountPension, transitionalPension: result.pensionDetails.transitionalPension, personalAccountAmount: params.personalAccountAmount, paymentYears: params.totalPaymentYears, paymentMonths: util.calculateMonths(params.retirementAge), retireAge: params.retirementAge, result: result, userId: request.currentUserId(), openid: request.currentOpenId() }).then(function() { return result })
     }).then(function() {
       wx.navigateTo({ url: '/pages/result/result' })
     }).catch(function(e) {

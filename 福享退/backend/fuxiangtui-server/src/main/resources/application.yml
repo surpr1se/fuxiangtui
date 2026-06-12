@@ -43,3 +43,9 @@ jwt:
 logging:
   level:
     com.fuxiangtui: debug
+
+wechat:
+  mini-program:
+    # 推荐通过环境变量配置，避免提交真实密钥
+    appid: ${WECHAT_MINI_APPID:}
+    app-secret: ${WECHAT_MINI_APP_SECRET:}

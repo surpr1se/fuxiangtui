@@ -39,7 +39,7 @@ Page({
       var parsed = request.normalizeUploadData(r)
       var details = parsed.paymentDetails || []
       if (!details.length) {
-        return request.getPaymentDetailList(wx.getStorageSync('userId')).then(function(lr) {
+        return request.getPaymentDetailList(request.currentUserId()).then(function(lr) {
           if (request.isSuccess(lr)) details = lr.data || []
           return { parsed: parsed, details: details }
         })

@@ -8,7 +8,7 @@ Page({
   load: function() {
     var self = this
     this.setData({ loading: true })
-    request.getHistoryList({ userId: wx.getStorageSync('userId'), openid: wx.getStorageSync('openId'), pageSize: 50 }).then(function(r) {
+    request.getHistoryList({ userId: request.currentUserId(), openid: request.currentOpenId(), pageSize: 50 }).then(function(r) {
       var raw = []
       if (request.isSuccess(r)) {
         if (Array.isArray(r.data)) raw = r.data

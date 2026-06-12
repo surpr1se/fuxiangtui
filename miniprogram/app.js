@@ -6,6 +6,8 @@ App({
     personalInfo: null,
     openid: null,
     token: null,
+    userId: null,
+    logining: true,
     baseUrl: request.config.baseUrl,
     paymentDetails: [],
     paymentSummary: null,
@@ -17,36 +19,79 @@ App({
     retireInfo: null
   },
   onLaunch: function() {
-    this.globalData.token = wx.getStorageSync('token') || ''
-    this.globalData.openid = wx.getStorageSync('openId') || ''
+    var self = this
+    var hasToken = wx.getStorageSync('token')
+    if (hasToken) {
+      self.globalData.token = hasToken
+      self.globalData.openid = wx.getStorageSync('openId') || ''
+      self.globalData.userId = wx.getStorageSync('userId') || null
+      self.globalData.logining = false
+      self.syncUserInfo()
+    }
+    self.doLogin()
+  },
+  doLogin: function() {
     var self = this
     wx.login({
       success: function(res) {
-        if (res.code) self.login(res.code)
+        if (res.code) {
+          request.post('/user/wx-login', {
+            code: res.code,
+            nickName: '微信用户',
+            avatarUrl: ''
+          }).then(function(r) {
+            if (!request.isSuccess(r)) {
+              console.warn('wx-login 失败', r.message || r)
+              self.globalData.logining = false
+              return
+            }
+            var d = r.data || {}
+            self.globalData.token = d.token || d.accessToken || ''
+            self.globalData.openid = d.openId || d.openid || d.open_id || ''
+            self.globalData.userId = d.userId || d.id || null
+            self.globalData.logining = false
+            if (self.globalData.token) wx.setStorageSync('token', self.globalData.token)
+            if (self.globalData.openid) wx.setStorageSync('openId', self.globalData.openid)
+            if (self.globalData.userId) wx.setStorageSync('userId', self.globalData.userId)
+            self.syncUserInfo()
+          }).catch(function(err) {
+            console.warn('wx-login 请求异常', err)
+            self.globalData.logining = false
+          })
+        } else {
+          self.globalData.logining = false
+        }
       },
-      fail: function(err) {
-        console.warn('wx.login失败', err)
+      fail: function() {
+        self.globalData.logining = false
       }
     })
   },
-  login: function(code) {
+  syncUserInfo: function() {
     var self = this
-    var userInfo = wx.getStorageSync('userInfo') || {}
-    return request.post('/user/wxlogin', {
-      code: code,
-      nickName: userInfo.nickName || '微信用户',
-      avatarUrl: userInfo.avatarUrl || ''
-    }).then(function(result) {
-      if (!request.isSuccess(result)) return
-      var data = result.data || {}
-      self.globalData.token = data.token || data.accessToken || ''
-      self.globalData.openid = data.openId || data.openid || data.open_id || ''
-      self.globalData.userInfo = data.userInfo || data
-      if (self.globalData.token) wx.setStorageSync('token', self.globalData.token)
-      if (self.globalData.openid) wx.setStorageSync('openId', self.globalData.openid)
-      if (data.userId || data.id) wx.setStorageSync('userId', data.userId || data.id)
-    }).catch(function(error) {
-      console.warn('登录失败', error)
-    })
+    request.get('/user/profile').then(function(r) {
+      if (request.isSuccess(r) && r.data) {
+        self.globalData.userInfo = r.data
+        var nick = r.data.nickName || r.data.nick_name || '微信用户'
+        var avatar = r.data.avatarUrl || r.data.avatar_url || ''
+        wx.setStorageSync('nickName', nick)
+        if (avatar) wx.setStorageSync('avatarUrl', avatar)
+      }
+    }).catch(function() {})
+  },
+  waitLogin: function(cb) {
+    var self = this
+    if (!self.globalData.logining) {
+      cb && cb()
+      return
+    }
+    var times = 0
+    var iv = setInterval(function() {
+      times++
+      if (!self.globalData.logining || times > 60) {
+        clearInterval(iv)
+        cb && cb()
+      }
+    }, 100)
   }
 })

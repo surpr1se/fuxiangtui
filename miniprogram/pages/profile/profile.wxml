@@ -1,1 +1,24 @@
-<view class="page"><view class="profile-hero"><view class="avatar">👤</view><view class="name">{{userName}}</view></view><view class="stat"><view><view class="num">{{calcCount}}</view><view>测算次数</view></view><view><view class="num">{{avgPension}}</view><view>平均待遇</view></view><view><view class="num">{{paymentMonths}}</view><view>累计缴费月</view></view></view><view class="card" bindtap="history"><view class="row"><text>我的计算记录</text><text class="money">查看全部 ></text></view><view wx:if="{{!latest}}" class="empty">暂无测算记录</view></view><view class="card"><view class="row" bindtap="calculate"><text>重新测算</text><text>></text></view><view class="row" bindtap="policy"><text>政策说明与办理指南</text><text>></text></view><view class="row"><text>PDF解析记录</text><text>{{pdfCount}} 条</text></view></view></view>
+<view class="page">
+  <view class="profile-hero">
+    <view class="avatar" wx:if="{{avatarUrl}}">
+      <image class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" catchtap="getProfile" />
+    </view>
+    <view class="avatar placeholder" wx:else bindtap="getProfile">👤</view>
+    <view class="name">{{userName}}</view>
+    <view wx:if="{{!hasLogged}}" class="login-hint" bindtap="getProfile">点击完善微信信息</view>
+  </view>
+  <view class="stat">
+    <view><view class="num">{{calcCount}}</view><view>测算次数</view></view>
+    <view><view class="num">{{avgPension}}</view><view>平均待遇</view></view>
+    <view><view class="num">{{paymentMonths}}</view><view>累计缴费月</view></view>
+  </view>
+  <view class="card" bindtap="history">
+    <view class="row"><text>我的计算记录</text><text class="money">查看全部 ></text></view>
+    <view wx:if="{{!latest}}" class="empty">暂无测算记录</view>
+  </view>
+  <view class="card">
+    <view class="row" bindtap="calculate"><text>重新测算</text><text>></text></view>
+    <view class="row" bindtap="policy"><text>政策说明与办理指南</text><text>></text></view>
+    <view class="row"><text>PDF解析记录</text><text>{{pdfCount}} 条</text></view>
+  </view>
+</view>
