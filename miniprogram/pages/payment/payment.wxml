@@ -1,7 +1,30 @@
 <view class="page">
- <view class="hero"><view class="hero-title">缴费明细</view><view class="hero-desc">{{personalInfo.name||'用户'}} · {{summary.totalMonths}}个月 · {{summary.startDate}} 至 {{summary.endDate}}</view></view>
- <view class="card"><view class="row"><text>个人账户累计</text><text class="money">{{summary.personalTotalText}}</text></view><view class="row"><text>平均缴费基数</text><text>{{summary.avgBaseText}}</text></view><view class="row"><text>平均缴费指数</text><text>{{summary.avgIndex}}</text></view></view>
- <view class="card"><view class="section-title">年度缴费基数明细</view><view wx:for="{{groups}}" wx:key="year" class="year"><view class="year-row" bindtap="toggle" data-year="{{item.year}}"><view><view class="year-title">{{item.year}}年 <text wx:if="{{item.modified}}" class="tag">已修改</text></view><view class="muted">平均基数 {{item.avgBaseText}}</view></view><view class="year-right"><view class="money">{{item.personalAmountText}}</view><view class="muted">{{item.months}}个月</view></view><button catchtap="edit" data-year="{{item.year}}">编辑</button></view><view class="month-grid" wx:if="{{item.expanded}}"><view class="month" wx:for="{{item.items}}" wx:for-item="m" wx:key="yearMonth"><view class="muted">{{m.monthText}}</view><view>{{m.paymentBaseText}}</view></view></view></view></view>
- <view class="btn-row"><button class="btn-secondary" bindtap="back">重新上传</button><button class="btn-primary" bindtap="next">下一步</button></view>
- <view class="modal-mask" wx:if="{{editVisible}}" catchtap="close"><view class="modal" catchtap="noop"><view class="modal-title">编辑{{editYear}}年缴费基数</view><view class="edit-grid"><view class="edit-cell" wx:for="{{editItems}}" wx:key="yearMonth"><text>{{item.monthText}}</text><input value="{{item.inputValue}}" type="digit" data-index="{{index}}" bindinput="input"/></view></view><view class="btn-row"><button class="btn-secondary" bindtap="close">取消</button><button class="btn-primary" bindtap="save">保存</button></view></view></view>
+  <view class="hero">
+    <view class="hero-title">缴费明细</view>
+    <view class="hero-desc">{{heroDesc}}</view>
+  </view>
+  <view class="summary-card">
+    <view><text>累计缴费</text><text>{{summary.totalYears}}年</text></view>
+    <view><text>个人账户</text><text>{{summary.personalTotalText}}</text></view>
+    <view><text>平均基数</text><text>{{summary.avgBaseText}}</text></view>
+  </view>
+  <view class="year-card" wx:for="{{groups}}" wx:key="year">
+    <view class="year-head" bindtap="toggle" data-year="{{item.year}}">
+      <view><text class="year">{{item.year}}年</text><text class="muted">{{item.months}}个月 · 月均{{item.avgBaseText}}</text></view>
+      <view><text class="money">{{item.personalAmountText}}</text><button size="mini" catchtap="edit" data-year="{{item.year}}">编辑</button></view>
+    </view>
+    <view wx:if="{{item.expanded}}" class="month-grid">
+      <view class="month" wx:for="{{item.items}}" wx:for-item="m" wx:key="yearMonth"><text>{{m.monthText}}</text><text>{{m.paymentBaseText}}</text></view>
+    </view>
+  </view>
+  <view class="btn-row"><button class="btn-secondary" bindtap="back">返回</button><button class="btn-primary" bindtap="next">下一步</button></view>
+  <view wx:if="{{editVisible}}" class="modal-mask" catchtap="close">
+    <view class="modal" catchtap="noop">
+      <view class="modal-title">编辑 {{editYear}} 年缴费基数</view>
+      <view class="edit-row" wx:for="{{editItems}}" wx:key="yearMonth">
+        <text>{{item.monthText}}</text><input type="digit" value="{{item.inputValue}}" data-index="{{index}}" bindinput="input" />
+      </view>
+      <view class="btn-row"><button class="btn-secondary" bindtap="close">取消</button><button class="btn-primary" bindtap="save">保存</button></view>
+    </view>
+  </view>
 </view>

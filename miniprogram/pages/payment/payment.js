@@ -1,2 +1,71 @@
-const util=require('../../utils/util.js'); const request=require('../../utils/request.js'); const app=getApp()
-Page({data:{personalInfo:{},summary:{},groups:[],editVisible:false,editYear:'',editItems:[]},onLoad(){this.load()},onShow(){this.load()},load(){const details=util.normalizePaymentDetails(app.globalData.paymentDetails||[]); const summary=util.paymentSummary(details,app.globalData.socialAvgWage); app.globalData.paymentDetails=details; app.globalData.paymentSummary=summary; this.setData({personalInfo:util.normalizePersonalInfo(app.globalData.personalInfo||{}),summary,groups:util.groupByYear(details)})},toggle(e){const y=String(e.currentTarget.dataset.year); this.setData({groups:this.data.groups.map(g=>g.year===y?{...g,expanded:!g.expanded}:g)})},edit(e){const y=String(e.currentTarget.dataset.year); const g=this.data.groups.find(i=>i.year===y); if(g)this.setData({editVisible:true,editYear:y,editItems:g.items})},input(e){const i=Number(e.currentTarget.dataset.index); const arr=[...this.data.editItems]; arr[i].inputValue=e.detail.value; this.setData({editItems:arr})},close(){this.setData({editVisible:false,editYear:'',editItems:[]})},noop(){},save(){const map={}; this.data.editItems.forEach(i=>{const nb=util.round(i.inputValue,2); map[i.yearMonth]={...i,paymentBase:nb,modified:i.modified||nb!==util.round(i.paymentBase,2)}}); const details=util.normalizePaymentDetails(app.globalData.paymentDetails||[]).map(i=>map[i.yearMonth]?{...i,...map[i.yearMonth]}:i); app.globalData.paymentDetails=details; app.globalData.paymentSummary=util.paymentSummary(details); this.close(); this.load(); util.toast('已保存','success'); request.importPaymentDetails(details).catch(()=>{})},next(){wx.navigateTo({url:'/pages/info/info'})},back(){wx.switchTab({url:'/pages/calculate/calculate'})}})
+var util = require('../../utils/util.js')
+var request = require('../../utils/request.js')
+var app = getApp()
+
+Page({
+  data: {
+    personalInfo: {},
+    heroDesc: '',
+    summary: {},
+    groups: [],
+    editVisible: false,
+    editYear: '',
+    editItems: []
+  },
+  onLoad: function() { this.load() },
+  onShow: function() { this.load() },
+  load: function() {
+    var details = util.normalizePaymentDetails(app.globalData.paymentDetails || [])
+    var summary = util.paymentSummary(details, app.globalData.socialAvgWage)
+    var info = util.normalizePersonalInfo(app.globalData.personalInfo || {})
+    app.globalData.paymentDetails = details
+    app.globalData.paymentSummary = summary
+    this.setData({
+      personalInfo: info,
+      heroDesc: (info.name || '用户') + ' · ' + summary.totalMonths + '个月 · ' + summary.startDate + ' 至 ' + summary.endDate,
+      summary: summary,
+      groups: util.groupByYear(details)
+    })
+  },
+  toggle: function(e) {
+    var y = String(e.currentTarget.dataset.year)
+    var groups = this.data.groups.map(function(g) {
+      var next = util.assign({}, g)
+      if (next.year === y) next.expanded = !next.expanded
+      return next
+    })
+    this.setData({ groups: groups })
+  },
+  edit: function(e) {
+    var y = String(e.currentTarget.dataset.year)
+    var g = null
+    this.data.groups.forEach(function(item) { if (item.year === y) g = item })
+    if (g) this.setData({ editVisible: true, editYear: y, editItems: g.items })
+  },
+  input: function(e) {
+    var i = Number(e.currentTarget.dataset.index)
+    var arr = this.data.editItems.slice()
+    if (arr[i]) arr[i].inputValue = e.detail.value
+    this.setData({ editItems: arr })
+  },
+  close: function() { this.setData({ editVisible: false, editYear: '', editItems: [] }) },
+  noop: function() {},
+  save: function() {
+    var map = {}
+    this.data.editItems.forEach(function(i) {
+      var nb = util.round(i.inputValue, 2)
+      map[i.yearMonth] = util.assign({}, i, { paymentBase: nb, modified: i.modified || nb !== util.round(i.paymentBase, 2) })
+    })
+    var details = util.normalizePaymentDetails(app.globalData.paymentDetails || []).map(function(i) {
+      return map[i.yearMonth] ? util.assign({}, i, map[i.yearMonth]) : i
+    })
+    app.globalData.paymentDetails = details
+    app.globalData.paymentSummary = util.paymentSummary(details)
+    this.close()
+    this.load()
+    util.toast('已保存', 'success')
+    request.importPaymentDetails(details).catch(function() {})
+  },
+  next: function() { wx.navigateTo({ url: '/pages/info/info' }) },
+  back: function() { wx.switchTab({ url: '/pages/calculate/calculate' }) }
+})
