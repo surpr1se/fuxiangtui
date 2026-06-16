@@ -71,10 +71,14 @@ App({
     var self = this
     request.get('/user/profile').then(function(r) {
       if (request.isSuccess(r) && r.data) {
-        self.globalData.userInfo = r.data
-        var nick = r.data.nickName || r.data.nick_name || '微信用户'
-        var avatar = r.data.avatarUrl || r.data.avatar_url || ''
-        wx.setStorageSync('nickName', nick)
+        var storedNick = wx.getStorageSync('nickName') || ''
+        var storedAvatar = wx.getStorageSync('avatarUrl') || ''
+        var remoteNick = r.data.nickName || r.data.nick_name || ''
+        var remoteAvatar = r.data.avatarUrl || r.data.avatar_url || ''
+        var nick = remoteNick && remoteNick !== '微信用户' ? remoteNick : (storedNick || '微信用户')
+        var avatar = remoteAvatar || storedAvatar
+        self.globalData.userInfo = Object.assign({}, r.data, { nickName: nick, avatarUrl: avatar })
+        if (nick && nick !== '微信用户') wx.setStorageSync('nickName', nick)
         if (avatar) wx.setStorageSync('avatarUrl', avatar)
       }
     }).catch(function() {})

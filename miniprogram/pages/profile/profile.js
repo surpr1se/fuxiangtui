@@ -22,8 +22,12 @@ Page({
   load: function() {
     var self = this
     var user = app.globalData.userInfo || {}
-    var userName = user.nickName || user.nick_name || wx.getStorageSync('nickName') || '微信用户'
-    var avatarUrl = user.avatarUrl || user.avatar_url || wx.getStorageSync('avatarUrl') || ''
+    var storedNick = wx.getStorageSync('nickName') || ''
+    var storedAvatar = wx.getStorageSync('avatarUrl') || ''
+    var remoteNick = user.nickName || user.nick_name || ''
+    var remoteAvatar = user.avatarUrl || user.avatar_url || ''
+    var userName = remoteNick && remoteNick !== '微信用户' ? remoteNick : (storedNick || '微信用户')
+    var avatarUrl = remoteAvatar || storedAvatar || ''
     var userId = app.globalData.userId || request.currentUserId()
     var openid = app.globalData.openid || request.currentOpenId()
     self.setData({ userName: userName, avatarUrl: avatarUrl, hasLogged: !!app.globalData.token })
@@ -56,10 +60,26 @@ Page({
     }).catch(function() {})
   },
   onChooseAvatar: function(e) {
+    var self = this
     var avatarUrl = e.detail && e.detail.avatarUrl
     if (!avatarUrl) return
-    this.setData({ avatarUrl: avatarUrl })
-    this.saveProfile({ avatarUrl: avatarUrl })
+    if (avatarUrl.indexOf('http') === 0) {
+      self.setData({ avatarUrl: avatarUrl })
+      self.saveProfile({ avatarUrl: avatarUrl })
+      return
+    }
+    wx.saveFile({
+      tempFilePath: avatarUrl,
+      success: function(res) {
+        var savedPath = res.savedFilePath || avatarUrl
+        self.setData({ avatarUrl: savedPath })
+        self.saveProfile({ avatarUrl: savedPath })
+      },
+      fail: function() {
+        self.setData({ avatarUrl: avatarUrl })
+        self.saveProfile({ avatarUrl: avatarUrl })
+      }
+    })
   },
   onNicknameBlur: function(e) {
     this.updateNickname(e.detail && e.detail.value)
