@@ -94,6 +94,15 @@ Page({
     var avatarUrl = this.data.avatarUrl || wx.getStorageSync('avatarUrl') || ''
     if (nickName && nickName !== '微信用户' && avatarUrl) return
     if (wx.getStorageSync('profilePromptSkipped') === '1') return
+    this.openProfileDialog()
+  },
+  openProfileDialog: function() {
+    if (!app.globalData.token) {
+      this.login()
+      return
+    }
+    var nickName = this.data.userName || wx.getStorageSync('nickName') || ''
+    var avatarUrl = this.data.avatarUrl || wx.getStorageSync('avatarUrl') || ''
     this.setData({
       profileDialogVisible: true,
       profileDraftName: nickName === '微信用户' ? '' : nickName,
@@ -115,19 +124,6 @@ Page({
       success: next
     })
   },
-  onChooseAvatar: function(e) {
-    var self = this
-    if (!app.globalData.token) {
-      self.login()
-      return
-    }
-    var avatarUrl = e.detail && e.detail.avatarUrl
-    if (!avatarUrl) return
-    self.avatarToPersistValue(avatarUrl, function(value) {
-      self.setData({ avatarUrl: value })
-      self.saveProfile({ avatarUrl: value })
-    })
-  },
   onDialogChooseAvatar: function(e) {
     var self = this
     var avatarUrl = e.detail && e.detail.avatarUrl
@@ -136,7 +132,7 @@ Page({
       self.setData({ profileDraftAvatar: value })
     })
   },
-  onDialogNicknameBlur: function(e) {
+  onDialogNicknameInput: function(e) {
     this.setData({ profileDraftName: (e.detail && e.detail.value) || '' })
   },
   avatarToPersistValue: function(path, cb) {
@@ -159,22 +155,6 @@ Page({
     wx.removeStorageSync('profilePromptSkipped')
     this.setData({ userName: nickName, avatarUrl: avatarUrl, profileDialogVisible: false })
     this.saveProfile({ nickName: nickName, avatarUrl: avatarUrl })
-  },
-  onNicknameBlur: function(e) {
-    this.updateNickname(e.detail && e.detail.value)
-  },
-  onNicknameConfirm: function(e) {
-    this.updateNickname(e.detail && e.detail.value)
-  },
-  updateNickname: function(value) {
-    if (!app.globalData.token) {
-      this.login()
-      return
-    }
-    var nickName = (value || '').replace(/^\s+|\s+$/g, '')
-    if (!nickName || nickName === this.data.userName) return
-    this.setData({ userName: nickName })
-    this.saveProfile({ nickName: nickName })
   },
   saveProfile: function(payload) {
     var self = this

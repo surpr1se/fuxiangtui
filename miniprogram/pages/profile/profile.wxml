@@ -1,16 +1,17 @@
 <view class="page profile-page">
   <view class="hero profile-hero">
-    <button wx:if="{{hasLogged}}" class="profile-avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择微信头像">
+    <view wx:if="{{hasLogged}}" class="profile-avatar-btn" aria-label="微信头像">
       <image wx:if="{{avatarUrl}}" class="profile-avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
       <view wx:else class="profile-avatar-placeholder">👤</view>
-    </button>
+    </view>
     <view wx:else class="profile-avatar-btn" bindtap="login" aria-label="微信登录">
       <view class="profile-avatar-placeholder">👤</view>
     </view>
-    <input wx:if="{{hasLogged}}" class="profile-name" type="nickname" value="{{userName}}" placeholder="点击填写昵称" bindblur="onNicknameBlur" bindconfirm="onNicknameConfirm" />
+    <view wx:if="{{hasLogged}}" class="profile-name">{{userName}}</view>
     <view wx:else class="profile-name" bindtap="login">微信用户</view>
     <view wx:if="{{!hasLogged}}" class="profile-desc">登录后可保存测算记录和个人资料</view>
-    <view wx:elif="{{!profileCompleted}}" class="profile-desc">点击头像选择微信头像，点击昵称填写微信昵称</view>
+    <view wx:elif="{{!profileCompleted}}" class="profile-desc">完善头像昵称后，可用于展示和保存测算记录</view>
+    <button wx:if="{{hasLogged}}" class="profile-edit-btn" bindtap="openProfileDialog">修改</button>
     <button wx:if="{{!hasLogged}}" class="profile-login-btn" bindtap="login">微信登录</button>
   </view>
 
@@ -99,7 +100,7 @@
         <image wx:if="{{profileDraftAvatar}}" class="profile-dialog-avatar-img" src="{{profileDraftAvatar}}" mode="aspectFill" />
         <view wx:else class="profile-dialog-avatar-placeholder">选择头像</view>
       </button>
-      <input class="profile-dialog-input" type="nickname" value="{{profileDraftName}}" placeholder="请输入微信昵称" bindblur="onDialogNicknameBlur" bindconfirm="onDialogNicknameBlur" />
+      <input class="profile-dialog-input" type="nickname" value="{{profileDraftName}}" placeholder="请输入微信昵称" bindinput="onDialogNicknameInput" bindblur="onDialogNicknameInput" bindconfirm="onDialogNicknameInput" />
       <view class="profile-dialog-actions">
         <button class="profile-dialog-cancel" bindtap="closeProfileDialog">稍后再说</button>
         <button class="profile-dialog-save" bindtap="saveProfileDialog">保存资料</button>
