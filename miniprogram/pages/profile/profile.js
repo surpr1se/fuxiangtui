@@ -11,10 +11,7 @@ Page({
     paymentMonths: 0,
     latest: null,
     pdfCount: 0,
-    hasLogged: false,
-    profileCompleted: false,
-    profileDraftNickName: '',
-    profileDraftAvatarUrl: ''
+    hasLogged: false
   },
   onShow: function() {
     var self = this
@@ -29,15 +26,7 @@ Page({
     var avatarUrl = user.avatarUrl || user.avatar_url || wx.getStorageSync('avatarUrl') || ''
     var userId = app.globalData.userId || request.currentUserId()
     var openid = app.globalData.openid || request.currentOpenId()
-    var profileCompleted = !!(avatarUrl && userName && userName !== '微信用户')
-    self.setData({
-      userName: userName,
-      avatarUrl: avatarUrl,
-      hasLogged: !!app.globalData.token,
-      profileCompleted: profileCompleted,
-      profileDraftNickName: profileCompleted ? userName : '',
-      profileDraftAvatarUrl: profileCompleted ? avatarUrl : ''
-    })
+    self.setData({ userName: userName, avatarUrl: avatarUrl, hasLogged: !!app.globalData.token })
     request.getHistoryList({ userId: userId, openid: openid, pageSize: 20 }).then(function(h) {
       var list = []
       if (request.isSuccess(h)) {
@@ -69,32 +58,27 @@ Page({
   onChooseAvatar: function(e) {
     var avatarUrl = e.detail && e.detail.avatarUrl
     if (!avatarUrl) return
-    this.setData({ profileDraftAvatarUrl: avatarUrl })
-  },
-  onNicknameInput: function(e) {
-    this.setData({ profileDraftNickName: e.detail && e.detail.value || '' })
+    this.setData({ avatarUrl: avatarUrl })
+    this.saveProfile({ avatarUrl: avatarUrl })
   },
   onNicknameBlur: function(e) {
-    this.setData({ profileDraftNickName: e.detail && e.detail.value || this.data.profileDraftNickName || '' })
+    this.updateNickname(e.detail && e.detail.value)
   },
-  submitProfile: function() {
-    var nickName = (this.data.profileDraftNickName || '').replace(/^\s+|\s+$/g, '')
-    var avatarUrl = this.data.profileDraftAvatarUrl || ''
-    if (!avatarUrl) {
-      wx.showToast({ title: '请先选择头像', icon: 'none' })
-      return
-    }
-    if (!nickName) {
-      wx.showToast({ title: '请先填写昵称', icon: 'none' })
-      return
-    }
-    this.saveProfile(nickName, avatarUrl)
+  onNicknameConfirm: function(e) {
+    this.updateNickname(e.detail && e.detail.value)
   },
-  saveProfile: function(nickName, avatarUrl) {
+  updateNickname: function(value) {
+    var nickName = (value || '').replace(/^\s+|\s+$/g, '')
+    if (!nickName || nickName === this.data.userName) return
+    this.setData({ userName: nickName })
+    this.saveProfile({ nickName: nickName })
+  },
+  saveProfile: function(payload) {
     var self = this
-    self.setData({ userName: nickName, avatarUrl: avatarUrl, profileCompleted: true })
+    var nickName = payload.nickName || self.data.userName || wx.getStorageSync('nickName') || '微信用户'
+    var avatarUrl = payload.avatarUrl || self.data.avatarUrl || wx.getStorageSync('avatarUrl') || ''
     wx.setStorageSync('nickName', nickName)
-    wx.setStorageSync('avatarUrl', avatarUrl)
+    if (avatarUrl) wx.setStorageSync('avatarUrl', avatarUrl)
     app.globalData.userInfo = app.globalData.userInfo || {}
     app.globalData.userInfo.nickName = nickName
     app.globalData.userInfo.avatarUrl = avatarUrl
@@ -105,7 +89,6 @@ Page({
     }).then(function(r) {
       if (request.isSuccess(r) && r.data) {
         app.globalData.userInfo = r.data
-        wx.showToast({ title: '已保存', icon: 'success' })
       }
     })
   },
