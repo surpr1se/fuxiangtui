@@ -137,7 +137,7 @@ Page({
     app.globalData.paymentDetails = details
     app.globalData.personalInfo = util.normalizePersonalInfo({ name: '余雪琴', idCard: '350425197510140726', gender: '女' })
     app.globalData.paymentSummary = util.paymentSummary(details)
-    app.globalData.pdfInfo = { fileName: '缴费明细_示例.pdf', fileSize: '-', parseTime: util.dateTime() }
+    app.globalData.pdfInfo = { fileName: '缴费明细_示例.pdf', fileSize: '-', parseTime: util.dateTime(), isDemo: true }
     wx.navigateTo({ url: '/pages/payment/payment' })
   }
 })

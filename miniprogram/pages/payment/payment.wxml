@@ -1,9 +1,4 @@
 <view class="flow-page payment-page">
-  <view class="flow-header">
-    <view class="flow-back" bindtap="back">&lt;</view>
-    <view class="flow-title">缴费明细</view>
-  </view>
-
   <view class="flow-steps">
     <view class="flow-step done"><view class="flow-step-dot">1</view><view class="flow-step-text">上传PDF</view></view>
     <view class="flow-line active"></view>

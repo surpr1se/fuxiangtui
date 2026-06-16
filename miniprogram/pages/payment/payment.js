@@ -12,8 +12,12 @@ Page({
     editYear: '',
     editItems: []
   },
-  onLoad: function() { this.load() },
-  onShow: function() { this.load() },
+  onLoad: function() { this.setTitle(); this.load() },
+  onShow: function() { this.setTitle(); this.load() },
+  setTitle: function() {
+    var isDemo = !!(app.globalData.pdfInfo && app.globalData.pdfInfo.isDemo)
+    wx.setNavigationBarTitle({ title: isDemo ? '测算模拟体验' : '缴费明细' })
+  },
   load: function() {
     var details = util.normalizePaymentDetails(app.globalData.paymentDetails || [])
     var summary = util.paymentSummary(details, app.globalData.socialAvgWage)
