@@ -29,14 +29,19 @@ Page({
     var remoteAvatar = user.avatarUrl || user.avatar_url || ''
     var userName = remoteNick && remoteNick !== '微信用户' ? remoteNick : (storedNick || '微信用户')
     var avatarUrl = remoteAvatar || storedAvatar || ''
+    var hasLogged = !!app.globalData.token
     var userId = app.globalData.userId || request.currentUserId()
     var openid = app.globalData.openid || request.currentOpenId()
     self.setData({
       userName: userName,
       avatarUrl: avatarUrl,
-      hasLogged: !!app.globalData.token,
+      hasLogged: hasLogged,
       profileCompleted: self.isProfileCompleted(userName, avatarUrl)
     })
+    if (!hasLogged) {
+      self.setData({ calcCount: 0, avgPension: util.currency(0), paymentMonths: 0, latest: null, pdfCount: 0 })
+      return
+    }
     request.getHistoryList({ userId: userId, openid: openid, pageSize: 20 }).then(function(h) {
       var list = []
       if (request.isSuccess(h)) {
@@ -65,8 +70,29 @@ Page({
       })
     }).catch(function() {})
   },
+  login: function() {
+    var self = this
+    app.ensureLogin({
+      content: '登录后可保存测算记录和个人资料，是否现在登录？',
+      success: function() { self.load() }
+    })
+  },
+  requireLogin: function(next) {
+    if (app.globalData.token) {
+      next && next()
+      return
+    }
+    app.ensureLogin({
+      content: '登录后可保存测算记录和个人资料，是否现在登录？',
+      success: next
+    })
+  },
   onChooseAvatar: function(e) {
     var self = this
+    if (!app.globalData.token) {
+      self.login()
+      return
+    }
     var avatarUrl = e.detail && e.detail.avatarUrl
     if (!avatarUrl) return
     if (avatarUrl.indexOf('http') === 0) {
@@ -94,6 +120,10 @@ Page({
     this.updateNickname(e.detail && e.detail.value)
   },
   updateNickname: function(value) {
+    if (!app.globalData.token) {
+      this.login()
+      return
+    }
     var nickName = (value || '').replace(/^\s+|\s+$/g, '')
     if (!nickName || nickName === this.data.userName) return
     this.setData({ userName: nickName })
@@ -123,7 +153,9 @@ Page({
     return !!(avatarUrl && nickName && nickName !== '微信用户')
   },
   history: function() {
-    wx.navigateTo({ url: '/pages/history/history' })
+    this.requireLogin(function() {
+      wx.navigateTo({ url: '/pages/history/history' })
+    })
   },
   policy: function() {
     wx.navigateTo({ url: '/pages/policy/policy' })

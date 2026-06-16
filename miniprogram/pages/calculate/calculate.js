@@ -40,6 +40,13 @@ Page({
   startUpload: function() {
     var self = this
     if (!this.data.filePath) return util.toast('请先选择PDF')
+    if (!app.globalData.token) {
+      app.ensureLogin({
+        content: '登录后才能上传并保存 PDF 解析记录，是否现在登录？',
+        success: function() { self.startUpload() }
+      })
+      return
+    }
     this.setData({ uploading: true, progress: 0 })
     util.loading('正在解析PDF')
     request.uploadPdf(this.data.filePath, function(p) {

@@ -1,11 +1,17 @@
 <view class="page profile-page">
   <view class="hero profile-hero">
-    <button class="profile-avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择微信头像">
+    <button wx:if="{{hasLogged}}" class="profile-avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择微信头像">
       <image wx:if="{{avatarUrl}}" class="profile-avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
       <view wx:else class="profile-avatar-placeholder">👤</view>
     </button>
-    <input class="profile-name" type="nickname" value="{{userName}}" placeholder="点击填写昵称" bindblur="onNicknameBlur" bindconfirm="onNicknameConfirm" />
-    <view wx:if="{{!profileCompleted}}" class="profile-desc">点击头像选择微信头像，点击昵称填写微信昵称</view>
+    <view wx:else class="profile-avatar-btn" bindtap="login" aria-label="微信登录">
+      <view class="profile-avatar-placeholder">👤</view>
+    </view>
+    <input wx:if="{{hasLogged}}" class="profile-name" type="nickname" value="{{userName}}" placeholder="点击填写昵称" bindblur="onNicknameBlur" bindconfirm="onNicknameConfirm" />
+    <view wx:else class="profile-name" bindtap="login">微信用户</view>
+    <view wx:if="{{!hasLogged}}" class="profile-desc">登录后可保存测算记录和个人资料</view>
+    <view wx:elif="{{!profileCompleted}}" class="profile-desc">点击头像选择微信头像，点击昵称填写微信昵称</view>
+    <button wx:if="{{!hasLogged}}" class="profile-login-btn" bindtap="login">微信登录</button>
   </view>
 
   <view class="card profile-stats-card">

@@ -7,7 +7,7 @@ App({
     openid: null,
     token: null,
     userId: null,
-    logining: true,
+    logining: false,
     baseUrl: request.config.baseUrl,
     paymentDetails: [],
     paymentSummary: null,
@@ -25,24 +25,29 @@ App({
       self.globalData.token = hasToken
       self.globalData.openid = wx.getStorageSync('openId') || ''
       self.globalData.userId = wx.getStorageSync('userId') || null
-      self.globalData.logining = false
       self.syncUserInfo()
     }
-    self.doLogin()
   },
-  doLogin: function() {
+  doLogin: function(options) {
+    options = options || {}
     var self = this
+    if (self.globalData.token) {
+      options.success && options.success(self.globalData)
+      return
+    }
+    self.globalData.logining = true
     wx.login({
       success: function(res) {
         if (res.code) {
           request.post('/user/wx-login', {
             code: res.code,
-            nickName: '微信用户',
-            avatarUrl: ''
+            nickName: wx.getStorageSync('nickName') || '微信用户',
+            avatarUrl: wx.getStorageSync('avatarUrl') || ''
           }).then(function(r) {
             if (!request.isSuccess(r)) {
               console.warn('wx-login 失败', r.message || r)
               self.globalData.logining = false
+              options.fail && options.fail(r)
               return
             }
             var d = r.data || {}
@@ -54,16 +59,53 @@ App({
             if (self.globalData.openid) wx.setStorageSync('openId', self.globalData.openid)
             if (self.globalData.userId) wx.setStorageSync('userId', self.globalData.userId)
             self.syncUserInfo()
+            options.success && options.success(d)
           }).catch(function(err) {
             console.warn('wx-login 请求异常', err)
             self.globalData.logining = false
+            options.fail && options.fail(err)
           })
         } else {
           self.globalData.logining = false
+          options.fail && options.fail({ message: '微信登录失败' })
         }
       },
-      fail: function() {
+      fail: function(err) {
         self.globalData.logining = false
+        options.fail && options.fail(err)
+      }
+    })
+  },
+  ensureLogin: function(options) {
+    options = options || {}
+    var self = this
+    if (self.globalData.token) {
+      options.success && options.success(self.globalData)
+      return
+    }
+    wx.showModal({
+      title: options.title || '微信登录',
+      content: options.content || '登录后可保存测算记录和个人资料，是否现在登录？',
+      confirmText: options.confirmText || '登录',
+      confirmColor: '#FF6B6B',
+      success: function(res) {
+        if (!res.confirm) {
+          options.cancel && options.cancel()
+          return
+        }
+        wx.showLoading({ title: '登录中' })
+        self.doLogin({
+          success: function(data) {
+            wx.hideLoading()
+            wx.showToast({ title: '登录成功', icon: 'success' })
+            options.success && options.success(data)
+          },
+          fail: function(err) {
+            wx.hideLoading()
+            wx.showToast({ title: (err && err.message) || '登录失败', icon: 'none' })
+            options.fail && options.fail(err)
+          }
+        })
       }
     })
   },
