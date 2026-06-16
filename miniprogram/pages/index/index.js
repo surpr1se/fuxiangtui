@@ -7,9 +7,21 @@ Page({
     ]
   },
   start: function() {
-    wx.switchTab({ url: '/pages/calculate/calculate' })
+    this.goCalculate()
   },
   policy: function() {
+    this.goPolicy()
+  },
+  goCalculate: function() {
+    wx.switchTab({ url: '/pages/calculate/calculate' })
+  },
+  goHistory: function() {
+    wx.navigateTo({ url: '/pages/history/history' })
+  },
+  goProfile: function() {
+    wx.switchTab({ url: '/pages/profile/profile' })
+  },
+  goPolicy: function() {
     wx.navigateTo({ url: '/pages/policy/policy' })
   }
 })
