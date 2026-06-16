@@ -65,6 +65,9 @@ Page({
       self.setData({ uploading: false })
     })
   },
+  goHome: function() {
+    wx.switchTab({ url: '/pages/index/index' })
+  },
   useDemo: function() {
     var details = util.demoPayments()
     app.globalData.paymentDetails = details

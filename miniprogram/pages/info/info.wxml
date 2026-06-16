@@ -1,27 +1,48 @@
-<view class="page">
-  <view class="hero"><view class="hero-title">补充信息</view><view class="hero-desc">系统已根据 PDF 自动返填，可手动调整</view></view>
-  <view class="card">
-    <view class="row"><text>姓名</text><text>{{personalInfo.name}}</text></view>
-    <view class="row"><text>性别</text><text>{{genderText}}</text></view>
-    <view class="row"><text>当前个人账户</text><text class="money">{{summary.personalTotalText}}</text></view>
+<view class="flow-page info-page">
+  <view class="flow-header">
+    <view class="flow-back" bindtap="back">&lt;</view>
+    <view class="flow-title">信息补全</view>
   </view>
-  <view class="card">
-    <view wx:if="{{!hideIdentity}}" class="form-item">
-      <text class="form-label">退休身份</text>
-      <view class="grid2"><view class="option {{workerActive ? 'active' : ''}}" bindtap="setIdentity" data-v="工人">工人</view><view class="option {{cadreActive ? 'active' : ''}}" bindtap="setIdentity" data-v="干部">干部</view></view>
+
+  <view class="flow-steps">
+    <view class="flow-step done"><view class="flow-step-dot">1</view><view class="flow-step-text">上传PDF</view></view>
+    <view class="flow-line active"></view>
+    <view class="flow-step done"><view class="flow-step-dot">2</view><view class="flow-step-text">核对明细</view></view>
+    <view class="flow-line active"></view>
+    <view class="flow-step active"><view class="flow-step-dot">3</view><view class="flow-step-text">信息补全</view></view>
+    <view class="flow-line"></view>
+    <view class="flow-step"><view class="flow-step-dot">4</view><view class="flow-step-text">计算结果</view></view>
+  </view>
+
+  <view class="flow-card">
+    <view class="flow-section-title"><text class="flow-section-title-icon">👤</text>基础信息</view>
+    <view class="flow-row"><text class="flow-label">姓名</text><text class="flow-value">{{personalInfo.name || '-'}}</text></view>
+    <view class="flow-row"><text class="flow-label">性别</text><text class="flow-value">{{genderText}}</text></view>
+    <view class="flow-row"><text class="flow-label">当前个人账户</text><text class="flow-money">{{summary.personalTotalText}}</text></view>
+  </view>
+
+  <view class="flow-card">
+    <view class="flow-section-title"><text class="flow-section-title-icon">🧾</text>退休参数</view>
+    <view wx:if="{{!hideIdentity}}" class="form-block">
+      <text class="form-title">退休身份</text>
+      <view class="flow-option-grid"><view class="flow-option {{workerActive ? 'active' : ''}}" bindtap="setIdentity" data-v="工人">工人</view><view class="flow-option {{cadreActive ? 'active' : ''}}" bindtap="setIdentity" data-v="干部">干部</view></view>
     </view>
-    <view class="form-item"><text class="form-label">退休年月</text><input class="input" value="{{retireDate}}" bindinput="inputDate" /></view>
-    <view class="form-item"><text class="form-label">退休年龄</text><input class="input" type="digit" value="{{retirementAge}}" bindinput="inputAge" /></view>
-    <view wx:if="{{delayTip}}" class="delay">{{delayTip}}</view>
-    <view class="form-item"><text class="form-label">视同缴费年限</text><input class="input" type="digit" value="{{visualYears}}" bindinput="inputVisual" /></view>
-    <view class="form-item"><text class="form-label">个人账户累计金额</text><input class="input" type="digit" value="{{personalAccountAmount}}" bindinput="inputAccount" /></view>
-    <view class="form-item"><text class="form-label">上年社平工资（月）</text><input class="input" type="digit" value="{{socialAvgWage}}" bindinput="inputWage" /></view>
+    <view class="form-block"><text class="form-title">退休年月</text><input class="flow-input" value="{{retireDate}}" bindinput="inputDate" placeholder="例如 2035-10" /></view>
+    <view class="form-block"><text class="form-title">退休年龄</text><input class="flow-input" type="digit" value="{{retirementAge}}" bindinput="inputAge" /></view>
+    <view wx:if="{{delayTip}}" class="delay-card">{{delayTip}}</view>
+    <view class="form-block"><text class="form-title">视同缴费年限</text><input class="flow-input" type="digit" value="{{visualYears}}" bindinput="inputVisual" /></view>
+    <view class="form-block"><text class="form-title">个人账户累计金额</text><input class="flow-input" type="digit" value="{{personalAccountAmount}}" bindinput="inputAccount" /></view>
+    <view class="form-block last"><text class="form-title">上年社平工资（月）</text><input class="flow-input" type="digit" value="{{socialAvgWage}}" bindinput="inputWage" /></view>
   </view>
-  <view class="card">
-    <view class="section-title">未来缴费预测</view>
-    <view class="grid2"><view class="option {{modeActive.real ? 'active' : ''}}" bindtap="mode" data-v="real">本人基数</view><view class="option {{modeActive.base60 ? 'active' : ''}}" bindtap="mode" data-v="base60">社平60%</view><view class="option {{modeActive.base100 ? 'active' : ''}}" bindtap="mode" data-v="base100">社平100%</view><view class="option {{modeActive.base300 ? 'active' : ''}}" bindtap="mode" data-v="base300">社平300%</view></view>
-    <view class="row" wx:for="{{futureYears}}" wx:key="year"><text>{{item.year}}年 · {{item.months}}个月</text><text>{{item.amountText}}</text></view>
-    <view class="row"><text>预计个人账户增加</text><text class="money">{{futureText}}</text></view>
+
+  <view class="flow-card future-card">
+    <view class="flow-section-title"><text class="flow-section-title-icon">📈</text>未来缴费预测</view>
+    <view class="flow-option-grid future-options"><view class="flow-option {{modeActive.real ? 'active' : ''}}" bindtap="mode" data-v="real">本人基数</view><view class="flow-option {{modeActive.base60 ? 'active' : ''}}" bindtap="mode" data-v="base60">社平60%</view><view class="flow-option {{modeActive.base100 ? 'active' : ''}}" bindtap="mode" data-v="base100">社平100%</view><view class="flow-option {{modeActive.base300 ? 'active' : ''}}" bindtap="mode" data-v="base300">社平300%</view></view>
+    <view class="future-list" wx:if="{{futureYears.length}}">
+      <view class="flow-row" wx:for="{{futureYears}}" wx:key="year"><text class="flow-label">{{item.year}}年 · {{item.months}}个月</text><text class="flow-value">{{item.amountText}}</text></view>
+    </view>
+    <view class="future-total"><text>预计个人账户增加</text><text>{{futureText}}</text></view>
   </view>
-  <view class="btn-row"><button class="btn-secondary" bindtap="back">返回</button><button class="btn-primary" loading="{{calculating}}" bindtap="calculate">开始测算</button></view>
+
+  <view class="flow-btn-row"><button class="flow-secondary-btn" bindtap="back">返回</button><button class="flow-primary-btn" loading="{{calculating}}" bindtap="calculate">开始测算</button></view>
 </view>

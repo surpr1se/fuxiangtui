@@ -1,30 +1,63 @@
-<view class="page">
-  <view class="hero">
-    <view class="hero-title">缴费明细</view>
-    <view class="hero-desc">{{heroDesc}}</view>
+<view class="flow-page payment-page">
+  <view class="flow-header">
+    <view class="flow-back" bindtap="back">&lt;</view>
+    <view class="flow-title">缴费明细</view>
   </view>
-  <view class="summary-card">
-    <view><text>累计缴费</text><text>{{summary.totalYears}}年</text></view>
-    <view><text>个人账户</text><text>{{summary.personalTotalText}}</text></view>
-    <view><text>平均基数</text><text>{{summary.avgBaseText}}</text></view>
+
+  <view class="flow-steps">
+    <view class="flow-step done"><view class="flow-step-dot">1</view><view class="flow-step-text">上传PDF</view></view>
+    <view class="flow-line active"></view>
+    <view class="flow-step active"><view class="flow-step-dot">2</view><view class="flow-step-text">核对明细</view></view>
+    <view class="flow-line"></view>
+    <view class="flow-step"><view class="flow-step-dot">3</view><view class="flow-step-text">信息补全</view></view>
+    <view class="flow-line"></view>
+    <view class="flow-step"><view class="flow-step-dot">4</view><view class="flow-step-text">计算结果</view></view>
   </view>
+
+  <view class="flow-card payment-summary-card">
+    <view class="summary-item"><view class="summary-value">{{summary.totalYears}}</view><view class="summary-label">累计缴费年</view></view>
+    <view class="summary-line"></view>
+    <view class="summary-item"><view class="summary-value small">{{summary.personalTotalText}}</view><view class="summary-label">个人账户</view></view>
+    <view class="summary-line"></view>
+    <view class="summary-item"><view class="summary-value small">{{summary.avgBaseText}}</view><view class="summary-label">平均基数</view></view>
+  </view>
+
+  <view class="flow-tip-card payment-tip">
+    <view class="flow-tip-title"><text>✅</text>识别结果</view>
+    <view class="flow-tip compact"><text class="flow-check">✓</text><text>{{heroDesc}}</text></view>
+    <view class="flow-tip compact"><text class="flow-check">✓</text><text>请核对缴费月份和缴费基数，发现异常可点击年份右侧编辑</text></view>
+  </view>
+
   <view class="year-card" wx:for="{{groups}}" wx:key="year">
     <view class="year-head" bindtap="toggle" data-year="{{item.year}}">
-      <view><text class="year">{{item.year}}年</text><text class="muted">{{item.months}}个月 · 月均{{item.avgBaseText}}</text></view>
-      <view><text class="money">{{item.personalAmountText}}</text><button size="mini" catchtap="edit" data-year="{{item.year}}">编辑</button></view>
+      <view class="year-left">
+        <view class="year-title">{{item.year}}年</view>
+        <view class="year-desc">{{item.months}}个月 · 月均{{item.avgBaseText}}</view>
+      </view>
+      <view class="year-right">
+        <view class="year-money">{{item.personalAmountText}}</view>
+        <button class="year-edit-btn" catchtap="edit" data-year="{{item.year}}">编辑</button>
+      </view>
     </view>
     <view wx:if="{{item.expanded}}" class="month-grid">
-      <view class="month" wx:for="{{item.items}}" wx:for-item="m" wx:key="yearMonth"><text>{{m.monthText}}</text><text>{{m.paymentBaseText}}</text></view>
+      <view class="month-cell" wx:for="{{item.items}}" wx:for-item="m" wx:key="yearMonth">
+        <view class="month-name">{{m.monthText}}</view>
+        <view class="month-base">{{m.paymentBaseText}}</view>
+      </view>
     </view>
   </view>
-  <view class="btn-row"><button class="btn-secondary" bindtap="back">返回</button><button class="btn-primary" bindtap="next">下一步</button></view>
+
+  <view class="flow-btn-row"><button class="flow-secondary-btn" bindtap="back">返回</button><button class="flow-primary-btn" bindtap="next">下一步</button></view>
+
   <view wx:if="{{editVisible}}" class="modal-mask" catchtap="close">
-    <view class="modal" catchtap="noop">
+    <view class="modal payment-modal" catchtap="noop">
       <view class="modal-title">编辑 {{editYear}} 年缴费基数</view>
-      <view class="edit-row" wx:for="{{editItems}}" wx:key="yearMonth">
-        <text>{{item.monthText}}</text><input type="digit" value="{{item.inputValue}}" data-index="{{index}}" bindinput="input" />
+      <view class="edit-grid">
+        <view class="edit-cell" wx:for="{{editItems}}" wx:key="yearMonth">
+          <text>{{item.monthText}}</text><input type="digit" value="{{item.inputValue}}" data-index="{{index}}" bindinput="input" />
+        </view>
       </view>
-      <view class="btn-row"><button class="btn-secondary" bindtap="close">取消</button><button class="btn-primary" bindtap="save">保存</button></view>
+      <view class="flow-btn-row"><button class="flow-secondary-btn" bindtap="close">取消</button><button class="flow-primary-btn" bindtap="save">保存</button></view>
     </view>
   </view>
 </view>

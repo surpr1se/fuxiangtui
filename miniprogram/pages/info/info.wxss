@@ -1,1 +1,2 @@
-.delay{background:#FFFBEB;border:1rpx solid #FDE68A;color:#B45309;border-radius:16rpx;padding:20rpx;font-size:24rpx;line-height:1.7;margin-bottom:28rpx}
+@import "../../styles/calc-flow.wxss";
+.form-block{margin-bottom:28rpx}.form-block.last{margin-bottom:0}.form-title{display:block;font-size:28rpx;font-weight:800;color:#333;margin-bottom:14rpx}.delay-card{background:#FFFBEB;border:1rpx solid #FDE68A;color:#B45309;border-radius:18rpx;padding:20rpx;font-size:24rpx;line-height:1.7;margin-bottom:28rpx}.future-options{margin-bottom:18rpx}.future-list{margin-top:10rpx}.future-total{margin-top:20rpx;border-radius:18rpx;background:#FFF5F5;color:#FF6B6B;font-size:28rpx;font-weight:900;padding:24rpx;display:flex;align-items:center;justify-content:space-between}

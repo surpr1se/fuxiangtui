@@ -1,9 +1,63 @@
-<view class="page">
-  <view class="result-hero"><view>预计月养老金</view><view class="result-money">{{pension.total}}</view><view>以上结果仅供参考</view></view>
-  <view class="card"><view class="row"><text>退休年龄</text><text>{{basicInfo.retireAge}}岁</text></view><view class="row"><text>累计缴费年限</text><text>{{basicInfo.totalPaymentYears}}年</text></view><view class="row"><text>平均缴费指数</text><text>{{basicInfo.avgPaymentIndex}}</text></view><view class="row"><text>计发月数</text><text>{{basicInfo.calculateMonths}}个月</text></view></view>
-  <view class="card"><view class="section-title">待遇明细构成</view><view class="row"><text>基础养老金</text><text>{{pension.basic}}</text></view><view class="row"><text>个人账户养老金</text><text>{{pension.personal}}</text></view><view class="row"><text>过渡性养老金</text><text>{{pension.transitional}}</text></view><view class="row"><text>合计</text><text class="money">{{pension.total}}</text></view></view>
-  <view class="card"><view class="section-title">待遇调整预测</view><view class="row" wx:for="{{forecast}}" wx:key="year"><text>{{item.year}}年</text><text>{{item.amount}}</text></view></view>
-  <view class="card"><view class="section-title">多方案对比</view><view class="scheme" wx:for="{{schemes}}" wx:key="name"><text>{{item.name}}</text><text class="money">{{item.amount}}</text></view></view>
-  <view class="card"><view class="section-title" bindtap="toggleProcess">详细计算过程 {{processArrow}}</view><view wx:if="{{showProcess}}"><view class="process" wx:for="{{calculationProcess}}" wx:key="stepName"><view>{{item.stepName}}</view><view class="muted">{{item.formula}}</view><view class="money">{{item.result}}</view></view></view></view>
-  <view class="btn-row"><button class="btn-secondary" bindtap="profile">查看历史</button><button class="btn-primary" bindtap="home">返回首页</button></view>
+<view class="flow-page result-page">
+  <view class="flow-header">
+    <view class="flow-back" bindtap="home">&lt;</view>
+    <view class="flow-title">计算结果</view>
+  </view>
+
+  <view class="flow-steps">
+    <view class="flow-step done"><view class="flow-step-dot">1</view><view class="flow-step-text">上传PDF</view></view>
+    <view class="flow-line active"></view>
+    <view class="flow-step done"><view class="flow-step-dot">2</view><view class="flow-step-text">核对明细</view></view>
+    <view class="flow-line active"></view>
+    <view class="flow-step done"><view class="flow-step-dot">3</view><view class="flow-step-text">信息补全</view></view>
+    <view class="flow-line active"></view>
+    <view class="flow-step active"><view class="flow-step-dot">4</view><view class="flow-step-text">计算结果</view></view>
+  </view>
+
+  <view class="result-main-card">
+    <view class="result-label">预计月养老金</view>
+    <view class="result-money">{{pension.total}}</view>
+    <view class="result-desc">以上结果仅供参考，以社保经办机构核定为准</view>
+  </view>
+
+  <view class="flow-card">
+    <view class="flow-section-title"><text class="flow-section-title-icon">📌</text>测算基础</view>
+    <view class="flow-row"><text class="flow-label">退休年龄</text><text class="flow-value">{{basicInfo.retireAge}}岁</text></view>
+    <view class="flow-row"><text class="flow-label">累计缴费年限</text><text class="flow-value">{{basicInfo.totalPaymentYears}}年</text></view>
+    <view class="flow-row"><text class="flow-label">平均缴费指数</text><text class="flow-value">{{basicInfo.avgPaymentIndex}}</text></view>
+    <view class="flow-row"><text class="flow-label">计发月数</text><text class="flow-value">{{basicInfo.calculateMonths}}个月</text></view>
+  </view>
+
+  <view class="flow-card">
+    <view class="flow-section-title"><text class="flow-section-title-icon">💰</text>待遇明细构成</view>
+    <view class="flow-row"><text class="flow-label">基础养老金</text><text class="flow-value">{{pension.basic}}</text></view>
+    <view class="flow-row"><text class="flow-label">个人账户养老金</text><text class="flow-value">{{pension.personal}}</text></view>
+    <view class="flow-row"><text class="flow-label">过渡性养老金</text><text class="flow-value">{{pension.transitional}}</text></view>
+    <view class="flow-row"><text class="flow-label">合计</text><text class="flow-money">{{pension.total}}</text></view>
+  </view>
+
+  <view class="flow-card">
+    <view class="flow-section-title"><text class="flow-section-title-icon">📈</text>待遇调整预测</view>
+    <view class="flow-row" wx:for="{{forecast}}" wx:key="year"><text class="flow-label">{{item.year}}年</text><text class="flow-value">{{item.amount}}</text></view>
+  </view>
+
+  <view class="flow-card">
+    <view class="flow-section-title"><text class="flow-section-title-icon">⚖️</text>多方案对比</view>
+    <view class="scheme-row" wx:for="{{schemes}}" wx:key="name">
+      <text>{{item.name}}</text><text class="flow-money">{{item.amount}}</text>
+    </view>
+  </view>
+
+  <view class="flow-card">
+    <view class="process-title" bindtap="toggleProcess"><text>详细计算过程</text><text>{{processArrow}}</text></view>
+    <view wx:if="{{showProcess}}">
+      <view class="process-card" wx:for="{{calculationProcess}}" wx:key="stepName">
+        <view class="process-name">{{item.stepName}}</view>
+        <view class="process-formula">{{item.formula}}</view>
+        <view class="process-result">{{item.result}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="flow-btn-row"><button class="flow-secondary-btn" bindtap="profile">查看历史</button><button class="flow-primary-btn" bindtap="home">返回首页</button></view>
 </view>
