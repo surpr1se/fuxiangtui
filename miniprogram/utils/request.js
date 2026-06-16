@@ -22,9 +22,16 @@ function uploadPdf(filePath, onProgress) {
     if (task && task.onProgressUpdate && onProgress) task.onProgressUpdate(function(res) { onProgress(res.progress || 0) })
   })
 }
-function currentUserId() { var app = getApp(); return (app.globalData && app.globalData.userId) || wx.getStorageSync('userId') || '' }
-function currentOpenId() { var app = getApp(); return (app.globalData && app.globalData.openid) || wx.getStorageSync('openId') || '' }
-function currentToken() { var app = getApp(); return (app.globalData && app.globalData.token) || wx.getStorageSync('token') || '' }
+function getAppSafe() {
+  try {
+    return typeof getApp === 'function' ? getApp() : null
+  } catch (e) {
+    return null
+  }
+}
+function currentUserId() { var app = getAppSafe(); return (app && app.globalData && app.globalData.userId) || wx.getStorageSync('userId') || '' }
+function currentOpenId() { var app = getAppSafe(); return (app && app.globalData && app.globalData.openid) || wx.getStorageSync('openId') || '' }
+function currentToken() { var app = getAppSafe(); return (app && app.globalData && app.globalData.token) || wx.getStorageSync('token') || '' }
 function withUser(params) { params = params || {}; if (!params.userId && currentUserId()) params.userId = currentUserId(); if (!params.openid && currentOpenId()) params.openid = currentOpenId(); return params }
 function getPaymentDetailList(userId) { return get('/payment/list', withUser(userId ? { userId: userId } : {})).then(function(r) { if (isSuccess(r)) { var d = r.data; r.data = util.normalizePaymentDetails(Array.isArray(d) ? d : ((d && (d.list || d.records)) || [])) } return r }) }
 function calculatePension(params) { params = params || {}; return post('/pension/calculate', { batchNo: 'BATCH_' + Date.now(), paymentDetails: params.paymentDetails || [], personalInfo: params.personalInfo || {}, retirementIdentity: params.retirementIdentity || '工人', retirementAge: params.retirementAge || 60, retirementYear: params.retirementYear || new Date().getFullYear() + 1, visualPaymentYears: params.visualPaymentYears || params.visualYears || 0, personalAccountAmount: params.personalAccountAmount || 0, socialAvgWage: params.socialAvgWage || undefined }).then(function(r) { if (isSuccess(r) && r.data) r.data = util.normalizeResult(r.data, params); return r }) }
