@@ -128,6 +128,29 @@ Page({
   policy: function() {
     wx.navigateTo({ url: '/pages/policy/policy' })
   },
+  policyDetail: function(e) {
+    var type = e.currentTarget.dataset.policy || ''
+    wx.navigateTo({ url: '/pages/policy/policy?type=' + type })
+  },
+  logout: function() {
+    var self = this
+    wx.showModal({
+      title: '退出登录',
+      content: '确定退出当前账号吗？',
+      confirmText: '退出',
+      confirmColor: '#E53E3E',
+      success: function(res) {
+        if (!res.confirm) return
+        ;['token', 'openId', 'userId', 'nickName', 'avatarUrl'].forEach(function(k) { wx.removeStorageSync(k) })
+        app.globalData.token = ''
+        app.globalData.openid = ''
+        app.globalData.userId = null
+        app.globalData.userInfo = null
+        self.setData({ userName: '微信用户', avatarUrl: '', hasLogged: false, profileCompleted: false })
+        wx.showToast({ title: '已退出', icon: 'success' })
+      }
+    })
+  },
   calculate: function() {
     wx.switchTab({ url: '/pages/calculate/calculate' })
   }

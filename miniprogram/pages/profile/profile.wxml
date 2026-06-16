@@ -37,19 +37,51 @@
     </view>
   </view>
 
-  <view class="card profile-menu-card">
-    <view class="section-title profile-section-title">常用功能</view>
-    <view class="profile-row" bindtap="calculate">
-      <text>重新测算</text>
-      <text class="profile-arrow">></text>
+  <view class="profile-section">
+    <view class="profile-section-title-row">
+      <text class="profile-section-icon">💻</text>
+      <text class="profile-section-title">政策说明</text>
     </view>
-    <view class="profile-row" bindtap="policy">
-      <text>政策说明与办理指南</text>
-      <text class="profile-arrow">></text>
-    </view>
-    <view class="profile-row last">
-      <text>PDF解析记录</text>
-      <text class="muted">{{pdfCount}} 条</text>
+    <view class="profile-list">
+      <view class="profile-list-item" bindtap="policyDetail" data-policy="pension">
+        <view class="profile-list-left"><text class="profile-list-icon">📄</text><text class="profile-list-text">养老保险政策解读</text></view>
+        <text class="profile-arrow">></text>
+      </view>
+      <view class="profile-list-item" bindtap="policyDetail" data-policy="formula">
+        <view class="profile-list-left"><text class="profile-list-icon">📊</text><text class="profile-list-text">待遇计算公式说明</text></view>
+        <text class="profile-arrow">></text>
+      </view>
+      <view class="profile-list-item" bindtap="policyDetail" data-policy="fujian">
+        <view class="profile-list-left"><text class="profile-list-icon">📍</text><text class="profile-list-text">福建省社保政策</text></view>
+        <text class="profile-arrow">></text>
+      </view>
+      <view class="profile-list-item last" bindtap="policyDetail" data-policy="retire">
+        <view class="profile-list-left"><text class="profile-list-icon">🪪</text><text class="profile-list-text">退休手续办理指南</text></view>
+        <text class="profile-arrow">></text>
+      </view>
     </view>
   </view>
+
+  <view class="profile-section">
+    <view class="profile-section-title-row">
+      <text class="profile-section-icon">☀️</text>
+      <text class="profile-section-title">其他</text>
+    </view>
+    <view class="profile-list">
+      <view class="profile-list-item" bindtap="policyDetail" data-policy="agreement">
+        <view class="profile-list-left"><text class="profile-list-icon">📝</text><text class="profile-list-text">用户协议</text></view>
+        <text class="profile-arrow">></text>
+      </view>
+      <view class="profile-list-item" bindtap="policyDetail" data-policy="privacy">
+        <view class="profile-list-left"><text class="profile-list-icon">🔒</text><text class="profile-list-text">隐私政策</text></view>
+        <text class="profile-arrow">></text>
+      </view>
+      <view class="profile-list-item logout-item last" bindtap="logout">
+        <view class="profile-list-left"><text class="profile-list-icon logout-icon">↪</text><text class="profile-list-text logout-text">退出登录</text></view>
+        <text class="profile-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="version-text">福享退 v1.0.0</view>
 </view>
