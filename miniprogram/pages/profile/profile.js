@@ -11,7 +11,8 @@ Page({
     paymentMonths: 0,
     latest: null,
     pdfCount: 0,
-    hasLogged: false
+    hasLogged: false,
+    profileCompleted: false
   },
   onShow: function() {
     var self = this
@@ -30,7 +31,12 @@ Page({
     var avatarUrl = remoteAvatar || storedAvatar || ''
     var userId = app.globalData.userId || request.currentUserId()
     var openid = app.globalData.openid || request.currentOpenId()
-    self.setData({ userName: userName, avatarUrl: avatarUrl, hasLogged: !!app.globalData.token })
+    self.setData({
+      userName: userName,
+      avatarUrl: avatarUrl,
+      hasLogged: !!app.globalData.token,
+      profileCompleted: self.isProfileCompleted(userName, avatarUrl)
+    })
     request.getHistoryList({ userId: userId, openid: openid, pageSize: 20 }).then(function(h) {
       var list = []
       if (request.isSuccess(h)) {
@@ -99,6 +105,7 @@ Page({
     var avatarUrl = payload.avatarUrl || self.data.avatarUrl || wx.getStorageSync('avatarUrl') || ''
     wx.setStorageSync('nickName', nickName)
     if (avatarUrl) wx.setStorageSync('avatarUrl', avatarUrl)
+    self.setData({ profileCompleted: self.isProfileCompleted(nickName, avatarUrl) })
     app.globalData.userInfo = app.globalData.userInfo || {}
     app.globalData.userInfo.nickName = nickName
     app.globalData.userInfo.avatarUrl = avatarUrl
@@ -111,6 +118,9 @@ Page({
         app.globalData.userInfo = r.data
       }
     })
+  },
+  isProfileCompleted: function(nickName, avatarUrl) {
+    return !!(avatarUrl && nickName && nickName !== '微信用户')
   },
   history: function() {
     wx.navigateTo({ url: '/pages/history/history' })
