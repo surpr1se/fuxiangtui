@@ -1,78 +1,55 @@
-<view class="profile-page">
-  <view class="profile-header">
-    <button class="avatar-button" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择微信头像">
-      <view class="profile-avatar" wx:if="{{avatarUrl}}">
-        <image class="profile-avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
-      </view>
-      <view class="profile-avatar profile-avatar-empty" wx:else>👤</view>
+<view class="page profile-page">
+  <view class="hero profile-hero">
+    <button class="profile-avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择微信头像">
+      <image wx:if="{{avatarUrl}}" class="profile-avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
+      <view wx:else class="profile-avatar-placeholder">👤</view>
     </button>
     <input class="profile-name" type="nickname" value="{{userName}}" placeholder="点击填写昵称" bindblur="onNicknameBlur" bindconfirm="onNicknameConfirm" />
-    <view wx:if="{{!profileCompleted}}" class="profile-tip">点击头像选择微信头像，点击昵称填写微信昵称</view>
+    <view wx:if="{{!profileCompleted}}" class="profile-desc">点击头像选择微信头像，点击昵称填写微信昵称</view>
   </view>
 
-  <view class="summary-card profile-summary">
-    <view class="summary-item">
-      <view class="summary-value">{{calcCount}}</view>
-      <view class="summary-label">测算次数</view>
+  <view class="card profile-stats-card">
+    <view class="stats-item">
+      <view class="stats-value">{{calcCount}}</view>
+      <view class="stats-label">测算次数</view>
     </view>
-    <view class="summary-divider"></view>
-    <view class="summary-item">
-      <view class="summary-value">{{avgPension}}</view>
-      <view class="summary-label">平均待遇</view>
+    <view class="stats-line"></view>
+    <view class="stats-item">
+      <view class="stats-value">{{avgPension}}</view>
+      <view class="stats-label">平均待遇</view>
     </view>
-    <view class="summary-divider"></view>
-    <view class="summary-item">
-      <view class="summary-value">{{paymentMonths}}</view>
-      <view class="summary-label">累计缴费月</view>
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-title-row" bindtap="history">
-      <view class="section-title-left">
-        <view class="section-icon">📄</view>
-        <text class="section-title">我的计算记录</text>
-      </view>
-      <text class="section-link">查看全部 ></text>
-    </view>
-    <view class="history-card" bindtap="history">
-      <view wx:if="{{!latest}}" class="empty">暂无测算记录</view>
-      <view wx:else class="history-content">
-        <view class="history-title">最近一次测算</view>
-        <view class="history-subtitle">点击查看详情</view>
-      </view>
+    <view class="stats-line"></view>
+    <view class="stats-item">
+      <view class="stats-value">{{paymentMonths}}</view>
+      <view class="stats-label">累计缴费月</view>
     </view>
   </view>
 
-  <view class="section">
-    <view class="section-title-row static">
-      <view class="section-title-left">
-        <view class="section-icon">📚</view>
-        <text class="section-title">常用功能</text>
-      </view>
+  <view class="card profile-record-card" bindtap="history">
+    <view class="profile-card-header">
+      <view class="profile-card-title">我的计算记录</view>
+      <view class="profile-card-link">查看全部 ></view>
     </view>
-    <view class="menu-list">
-      <view class="menu-list-item" bindtap="calculate">
-        <view class="menu-left">
-          <view class="menu-icon gradient-red">🔄</view>
-          <text class="menu-text">重新测算</text>
-        </view>
-        <text class="menu-arrow">></text>
-      </view>
-      <view class="menu-list-item" bindtap="policy">
-        <view class="menu-left">
-          <view class="menu-icon gradient-blue">📘</view>
-          <text class="menu-text">政策说明与办理指南</text>
-        </view>
-        <text class="menu-arrow">></text>
-      </view>
-      <view class="menu-list-item last">
-        <view class="menu-left">
-          <view class="menu-icon gradient-green">📎</view>
-          <text class="menu-text">PDF解析记录</text>
-        </view>
-        <text class="menu-extra">{{pdfCount}} 条</text>
-      </view>
+    <view wx:if="{{!latest}}" class="profile-empty">暂无测算记录</view>
+    <view wx:else class="latest-record">
+      <view class="latest-title">最近一次测算结果</view>
+      <view class="latest-desc">点击查看测算详情</view>
+    </view>
+  </view>
+
+  <view class="card profile-menu-card">
+    <view class="section-title profile-section-title">常用功能</view>
+    <view class="profile-row" bindtap="calculate">
+      <text>重新测算</text>
+      <text class="profile-arrow">></text>
+    </view>
+    <view class="profile-row" bindtap="policy">
+      <text>政策说明与办理指南</text>
+      <text class="profile-arrow">></text>
+    </view>
+    <view class="profile-row last">
+      <text>PDF解析记录</text>
+      <text class="muted">{{pdfCount}} 条</text>
     </view>
   </view>
 </view>
