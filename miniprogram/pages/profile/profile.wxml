@@ -1,11 +1,13 @@
 <view class="page">
   <view class="profile-hero">
-    <view class="avatar" wx:if="{{avatarUrl}}">
-      <image class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" catchtap="getProfile" />
-    </view>
-    <view class="avatar placeholder" wx:else bindtap="getProfile">👤</view>
-    <view class="name">{{userName}}</view>
-    <view wx:if="{{!hasLogged}}" class="login-hint" bindtap="getProfile">点击完善微信信息</view>
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <view class="avatar" wx:if="{{avatarUrl}}">
+        <image class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
+      </view>
+      <view class="avatar placeholder" wx:else>👤</view>
+    </button>
+    <input class="name-input" type="nickname" value="{{userName}}" placeholder="点击填写昵称" bindblur="onNicknameBlur" bindconfirm="onNicknameConfirm" />
+    <view class="login-hint">点击头像选择微信头像，点击昵称填写微信昵称</view>
   </view>
   <view class="stat">
     <view><view class="num">{{calcCount}}</view><view>测算次数</view></view>

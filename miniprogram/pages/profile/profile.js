@@ -55,25 +55,40 @@ Page({
       })
     }).catch(function() {})
   },
-  getProfile: function() {
+  onChooseAvatar: function(e) {
+    var avatarUrl = e.detail && e.detail.avatarUrl
+    if (!avatarUrl) return
+    this.setData({ avatarUrl: avatarUrl })
+    this.saveProfile({ avatarUrl: avatarUrl })
+  },
+  onNicknameBlur: function(e) {
+    this.updateNickname(e.detail && e.detail.value)
+  },
+  onNicknameConfirm: function(e) {
+    this.updateNickname(e.detail && e.detail.value)
+  },
+  updateNickname: function(value) {
+    var nickName = (value || '').replace(/^\s+|\s+$/g, '')
+    if (!nickName || nickName === this.data.userName) return
+    this.setData({ userName: nickName })
+    this.saveProfile({ nickName: nickName })
+  },
+  saveProfile: function(payload) {
     var self = this
-    wx.getUserProfile({
-      desc: '用于完善用户资料',
-      success: function(res) {
-        var u = res.userInfo || {}
-        self.setData({ userName: u.nickName || self.data.userName, avatarUrl: u.avatarUrl || self.data.avatarUrl })
-        request.put('/user/profile', {
-          nickName: u.nickName || '',
-          avatarUrl: u.avatarUrl || ''
-        }).then(function(r) {
-          app.globalData.userInfo = request.isSuccess(r) && r.data ? r.data : app.globalData.userInfo
-          wx.setStorageSync('nickName', u.nickName || '')
-          wx.setStorageSync('avatarUrl', u.avatarUrl || '')
-          app.syncUserInfo()
-        })
-      },
-      fail: function() {
-        wx.showToast({ title: '授权失败', icon: 'none' })
+    var nickName = payload.nickName || self.data.userName || wx.getStorageSync('nickName') || '微信用户'
+    var avatarUrl = payload.avatarUrl || self.data.avatarUrl || wx.getStorageSync('avatarUrl') || ''
+    wx.setStorageSync('nickName', nickName)
+    if (avatarUrl) wx.setStorageSync('avatarUrl', avatarUrl)
+    app.globalData.userInfo = app.globalData.userInfo || {}
+    app.globalData.userInfo.nickName = nickName
+    app.globalData.userInfo.avatarUrl = avatarUrl
+    if (!app.globalData.token) return
+    request.put('/user/profile', {
+      nickName: nickName,
+      avatarUrl: avatarUrl
+    }).then(function(r) {
+      if (request.isSuccess(r) && r.data) {
+        app.globalData.userInfo = r.data
       }
     })
   },
