@@ -1,10 +1,5 @@
 <view class="flow-page calculate-page">
-  <view class="flow-header">
-    <view class="flow-back" bindtap="goHome">&lt;</view>
-    <view class="flow-title">PDF上传</view>
-  </view>
-
-  <view class="flow-steps">
+  <view class="flow-steps calculate-steps">
     <view class="flow-step active"><view class="flow-step-dot">1</view><view class="flow-step-text">上传PDF</view></view>
     <view class="flow-line"></view>
     <view class="flow-step"><view class="flow-step-dot">2</view><view class="flow-step-text">核对明细</view></view>
@@ -21,7 +16,10 @@
   </view>
 
   <view class="flow-card selected-file-card" wx:if="{{fileInfo}}">
-    <view class="flow-section-title"><text class="flow-section-title-icon">📄</text>已选择文件</view>
+    <view class="selected-file-head">
+      <view class="flow-section-title selected-file-title"><text class="flow-section-title-icon">📄</text>已选择文件</view>
+      <button class="clear-file-btn" bindtap="clearFile">清除</button>
+    </view>
     <view class="flow-row"><text class="flow-label">文件名</text><text class="flow-value">{{fileInfo.name}}</text></view>
     <view class="flow-row"><text class="flow-label">大小</text><text class="flow-value">{{fileInfo.size}}</text></view>
   </view>

@@ -9,6 +9,16 @@ Page({
     uploading: false,
     progress: 0
   },
+  onShow: function() {
+    if (!this.data.uploading) this.resetFile()
+  },
+  resetFile: function() {
+    this.setData({ fileInfo: null, filePath: '', progress: 0 })
+  },
+  clearFile: function() {
+    if (this.data.uploading) return util.toast('正在解析中，请稍后')
+    this.resetFile()
+  },
   chooseFile: function() {
     var self = this
     wx.chooseMessageFile({
@@ -64,9 +74,6 @@ Page({
       util.hideLoading()
       self.setData({ uploading: false })
     })
-  },
-  goHome: function() {
-    wx.switchTab({ url: '/pages/index/index' })
   },
   useDemo: function() {
     var details = util.demoPayments()
