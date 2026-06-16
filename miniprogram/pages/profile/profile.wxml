@@ -1,13 +1,23 @@
 <view class="page">
   <view class="profile-hero">
-    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-      <view class="avatar" wx:if="{{avatarUrl}}">
-        <image class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
-      </view>
-      <view class="avatar placeholder" wx:else>👤</view>
-    </button>
-    <input class="name-input" type="nickname" value="{{userName}}" placeholder="点击填写昵称" bindblur="onNicknameBlur" bindconfirm="onNicknameConfirm" />
-    <view class="login-hint">点击头像选择微信头像，点击昵称填写微信昵称</view>
+    <view class="avatar" wx:if="{{avatarUrl}}">
+      <image class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" />
+    </view>
+    <view class="avatar placeholder" wx:else>👤</view>
+    <view class="name">{{userName}}</view>
+    <view class="login-hint">{{profileCompleted ? '微信资料已完善' : '登录后完善微信头像和昵称'}}</view>
+  </view>
+  <view class="profile-card" wx:if="{{!profileCompleted}}">
+    <view class="profile-title">登录/完善微信资料</view>
+    <view class="profile-desc">微信要求用户主动确认头像和昵称，完善后会自动保存到账号。</view>
+    <view class="profile-form">
+      <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image wx:if="{{profileDraftAvatarUrl}}" class="avatar-picker-img" src="{{profileDraftAvatarUrl}}" mode="aspectFill" />
+        <text wx:else>选择头像</text>
+      </button>
+      <input class="nickname-input" type="nickname" value="{{profileDraftNickName}}" placeholder="填写微信昵称" bindinput="onNicknameInput" bindblur="onNicknameBlur" />
+    </view>
+    <button class="save-profile-btn" bindtap="submitProfile">保存并登录</button>
   </view>
   <view class="stat">
     <view><view class="num">{{calcCount}}</view><view>测算次数</view></view>
