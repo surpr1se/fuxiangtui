@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   `open_id` varchar(128) NOT NULL COMMENT '微信用户唯一标识',
   `union_id` varchar(128) DEFAULT NULL COMMENT '微信开放平台统一ID',
   `nick_name` varchar(64) DEFAULT NULL COMMENT '用户昵称',
-  `avatar_url` varchar(256) DEFAULT NULL COMMENT '头像URL',
+  `avatar_url` MEDIUMTEXT DEFAULT NULL COMMENT '头像URL或base64头像数据',
   `gender` tinyint DEFAULT 0 COMMENT '性别：0未知 1男 2女',
   `city` varchar(32) DEFAULT NULL,
   `province` varchar(32) DEFAULT NULL,

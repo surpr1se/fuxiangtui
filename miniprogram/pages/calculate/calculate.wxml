@@ -9,6 +9,14 @@
     <view class="flow-step"><view class="flow-step-dot">4</view><view class="flow-step-text">计算结果</view></view>
   </view>
 
+  <view wx:if="{{!hasLogged}}" class="calc-login-gate">
+    <view class="calc-login-icon">🔐</view>
+    <view class="calc-login-title">登录后开始测算</view>
+    <view class="calc-login-desc">登录后可上传 PDF、保存解析记录和查看历史测算结果</view>
+    <button class="flow-primary-btn calc-login-btn" bindtap="login">微信登录</button>
+  </view>
+
+  <block wx:else>
   <view class="pdf-upload-card" bindtap="chooseFile">
     <view class="pdf-upload-icon">📤</view>
     <view class="pdf-upload-title">{{fileInfo ? fileInfo.name : '点击上传PDF文件'}}</view>
@@ -37,4 +45,5 @@
     <view class="flow-tip"><text class="flow-check">✓</text><text>系统会自动识别并提取缴费数据，如识别不准，可在下一步手动修改</text></view>
     <view class="flow-tip"><text class="flow-check">✓</text><text>PDF文件需完整、未加密，大小不超过20MB</text></view>
   </view>
+  </block>
 </view>

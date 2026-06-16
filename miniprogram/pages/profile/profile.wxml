@@ -90,4 +90,20 @@
   </view>
 
   <view class="version-text">福享退 v1.0.0</view>
+
+  <view wx:if="{{profileDialogVisible}}" class="profile-dialog-mask" catchtap="closeProfileDialog">
+    <view class="profile-dialog" catchtap="noop">
+      <view class="profile-dialog-title">完善微信资料</view>
+      <view class="profile-dialog-desc">请选择头像并填写昵称，用于展示和保存你的测算记录</view>
+      <button class="profile-dialog-avatar" open-type="chooseAvatar" bindchooseavatar="onDialogChooseAvatar">
+        <image wx:if="{{profileDraftAvatar}}" class="profile-dialog-avatar-img" src="{{profileDraftAvatar}}" mode="aspectFill" />
+        <view wx:else class="profile-dialog-avatar-placeholder">选择头像</view>
+      </button>
+      <input class="profile-dialog-input" type="nickname" value="{{profileDraftName}}" placeholder="请输入微信昵称" bindblur="onDialogNicknameBlur" bindconfirm="onDialogNicknameBlur" />
+      <view class="profile-dialog-actions">
+        <button class="profile-dialog-cancel" bindtap="closeProfileDialog">稍后再说</button>
+        <button class="profile-dialog-save" bindtap="saveProfileDialog">保存资料</button>
+      </view>
+    </view>
+  </view>
 </view>

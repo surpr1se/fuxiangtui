@@ -7,9 +7,11 @@ Page({
     fileInfo: null,
     filePath: '',
     uploading: false,
-    progress: 0
+    progress: 0,
+    hasLogged: false
   },
   onShow: function() {
+    this.setData({ hasLogged: !!app.globalData.token })
     if (!this.data.uploading) this.resetFile()
   },
   resetFile: function() {
@@ -19,8 +21,55 @@ Page({
     if (this.data.uploading) return util.toast('正在解析中，请稍后')
     this.resetFile()
   },
+  login: function() {
+    var self = this
+    app.ensureLogin({
+      content: '登录后才能使用养老金测算功能，是否现在登录？',
+      success: function() {
+        self.setData({ hasLogged: true })
+        self.promptProfileAfterLogin()
+      }
+    })
+  },
+  promptProfileAfterLogin: function() {
+    var user = app.globalData.userInfo || {}
+    var nick = user.nickName || user.nick_name || wx.getStorageSync('nickName') || ''
+    var avatar = user.avatarUrl || user.avatar_url || wx.getStorageSync('avatarUrl') || ''
+    if (nick && nick !== '微信用户' && avatar) return
+    wx.showModal({
+      title: '完善资料',
+      content: '登录成功，是否去个人中心补充微信头像和昵称？',
+      confirmText: '去完善',
+      confirmColor: '#FF6B6B',
+      success: function(res) {
+        if (res.confirm) {
+          wx.setStorageSync('profilePromptFromLogin', '1')
+          wx.switchTab({ url: '/pages/profile/profile' })
+        }
+      }
+    })
+  },
+  requireLogin: function(next) {
+    var self = this
+    if (app.globalData.token) {
+      next && next()
+      return
+    }
+    app.ensureLogin({
+      content: '登录后才能使用养老金测算功能，是否现在登录？',
+      success: function() {
+        self.setData({ hasLogged: true })
+        self.promptProfileAfterLogin()
+        next && next()
+      }
+    })
+  },
   chooseFile: function() {
     var self = this
+    if (!app.globalData.token) {
+      self.login()
+      return
+    }
     wx.chooseMessageFile({
       count: 1,
       type: 'file',
@@ -39,14 +88,11 @@ Page({
   },
   startUpload: function() {
     var self = this
-    if (!this.data.filePath) return util.toast('请先选择PDF')
     if (!app.globalData.token) {
-      app.ensureLogin({
-        content: '登录后才能上传并保存 PDF 解析记录，是否现在登录？',
-        success: function() { self.startUpload() }
-      })
+      self.login()
       return
     }
+    if (!this.data.filePath) return util.toast('请先选择PDF')
     this.setData({ uploading: true, progress: 0 })
     util.loading('正在解析PDF')
     request.uploadPdf(this.data.filePath, function(p) {
@@ -83,6 +129,10 @@ Page({
     })
   },
   useDemo: function() {
+    if (!app.globalData.token) {
+      this.login()
+      return
+    }
     var details = util.demoPayments()
     app.globalData.paymentDetails = details
     app.globalData.personalInfo = util.normalizePersonalInfo({ name: '余雪琴', idCard: '350425197510140726', gender: '女' })

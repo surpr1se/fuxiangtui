@@ -55,6 +55,7 @@ App({
             self.globalData.openid = d.openId || d.openid || d.open_id || ''
             self.globalData.userId = d.userId || d.id || null
             self.globalData.logining = false
+            wx.removeStorageSync('profilePromptSkipped')
             if (self.globalData.token) wx.setStorageSync('token', self.globalData.token)
             if (self.globalData.openid) wx.setStorageSync('openId', self.globalData.openid)
             if (self.globalData.userId) wx.setStorageSync('userId', self.globalData.userId)

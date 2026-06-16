@@ -12,7 +12,10 @@ Page({
     latest: null,
     pdfCount: 0,
     hasLogged: false,
-    profileCompleted: false
+    profileCompleted: false,
+    profileDialogVisible: false,
+    profileDraftName: '',
+    profileDraftAvatar: ''
   },
   onShow: function() {
     var self = this
@@ -36,8 +39,14 @@ Page({
       userName: userName,
       avatarUrl: avatarUrl,
       hasLogged: hasLogged,
-      profileCompleted: self.isProfileCompleted(userName, avatarUrl)
+      profileCompleted: self.isProfileCompleted(userName, avatarUrl),
+      profileDraftName: userName === '微信用户' ? '' : userName,
+      profileDraftAvatar: avatarUrl
     })
+    if (hasLogged && wx.getStorageSync('profilePromptFromLogin') === '1') {
+      wx.removeStorageSync('profilePromptFromLogin')
+      self.promptProfileDialog()
+    }
     if (!hasLogged) {
       self.setData({ calcCount: 0, avgPension: util.currency(0), paymentMonths: 0, latest: null, pdfCount: 0 })
       return
@@ -74,9 +83,28 @@ Page({
     var self = this
     app.ensureLogin({
       content: '登录后可保存测算记录和个人资料，是否现在登录？',
-      success: function() { self.load() }
+      success: function() {
+        self.load()
+        self.promptProfileDialog()
+      }
     })
   },
+  promptProfileDialog: function() {
+    var nickName = this.data.userName || wx.getStorageSync('nickName') || ''
+    var avatarUrl = this.data.avatarUrl || wx.getStorageSync('avatarUrl') || ''
+    if (nickName && nickName !== '微信用户' && avatarUrl) return
+    if (wx.getStorageSync('profilePromptSkipped') === '1') return
+    this.setData({
+      profileDialogVisible: true,
+      profileDraftName: nickName === '微信用户' ? '' : nickName,
+      profileDraftAvatar: avatarUrl || ''
+    })
+  },
+  closeProfileDialog: function() {
+    wx.setStorageSync('profilePromptSkipped', '1')
+    this.setData({ profileDialogVisible: false })
+  },
+  noop: function() {},
   requireLogin: function(next) {
     if (app.globalData.token) {
       next && next()
@@ -95,23 +123,42 @@ Page({
     }
     var avatarUrl = e.detail && e.detail.avatarUrl
     if (!avatarUrl) return
-    if (avatarUrl.indexOf('http') === 0) {
-      self.setData({ avatarUrl: avatarUrl })
-      self.saveProfile({ avatarUrl: avatarUrl })
-      return
-    }
-    wx.saveFile({
-      tempFilePath: avatarUrl,
-      success: function(res) {
-        var savedPath = res.savedFilePath || avatarUrl
-        self.setData({ avatarUrl: savedPath })
-        self.saveProfile({ avatarUrl: savedPath })
-      },
-      fail: function() {
-        self.setData({ avatarUrl: avatarUrl })
-        self.saveProfile({ avatarUrl: avatarUrl })
-      }
+    self.avatarToPersistValue(avatarUrl, function(value) {
+      self.setData({ avatarUrl: value })
+      self.saveProfile({ avatarUrl: value })
     })
+  },
+  onDialogChooseAvatar: function(e) {
+    var self = this
+    var avatarUrl = e.detail && e.detail.avatarUrl
+    if (!avatarUrl) return
+    self.avatarToPersistValue(avatarUrl, function(value) {
+      self.setData({ profileDraftAvatar: value })
+    })
+  },
+  onDialogNicknameBlur: function(e) {
+    this.setData({ profileDraftName: (e.detail && e.detail.value) || '' })
+  },
+  avatarToPersistValue: function(path, cb) {
+    if (!path) return cb('')
+    if (path.indexOf('data:image') === 0 || path.indexOf('http') === 0) return cb(path)
+    var ext = (path.split('.').pop() || 'png').toLowerCase()
+    var mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png'
+    wx.getFileSystemManager().readFile({
+      filePath: path,
+      encoding: 'base64',
+      success: function(res) { cb('data:' + mime + ';base64,' + res.data) },
+      fail: function() { cb(path) }
+    })
+  },
+  saveProfileDialog: function() {
+    var nickName = (this.data.profileDraftName || '').replace(/^\s+|\s+$/g, '')
+    var avatarUrl = this.data.profileDraftAvatar || ''
+    if (!nickName) return util.toast('请填写昵称')
+    if (!avatarUrl) return util.toast('请选择头像')
+    wx.removeStorageSync('profilePromptSkipped')
+    this.setData({ userName: nickName, avatarUrl: avatarUrl, profileDialogVisible: false })
+    this.saveProfile({ nickName: nickName, avatarUrl: avatarUrl })
   },
   onNicknameBlur: function(e) {
     this.updateNickname(e.detail && e.detail.value)
@@ -173,7 +220,7 @@ Page({
       confirmColor: '#E53E3E',
       success: function(res) {
         if (!res.confirm) return
-        ;['token', 'openId', 'userId', 'nickName', 'avatarUrl'].forEach(function(k) { wx.removeStorageSync(k) })
+        ;['token', 'openId', 'userId', 'nickName', 'avatarUrl', 'profilePromptSkipped', 'profilePromptFromLogin'].forEach(function(k) { wx.removeStorageSync(k) })
         app.globalData.token = ''
         app.globalData.openid = ''
         app.globalData.userId = null
