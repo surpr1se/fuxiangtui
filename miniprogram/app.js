@@ -42,6 +42,11 @@ App({
   },
   onLaunch: function() {
     var self = this
+    // 同步环境配置到 request 模块（解决 require 时序导致 getApp() undefined 问题）
+    request.setConfig({
+      baseUrl: currentEnv.baseUrl,
+      useMock: currentEnv.useMock
+    })
     var hasToken = wx.getStorageSync('token')
     if (hasToken) {
       self.globalData.token = hasToken

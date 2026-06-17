@@ -1,21 +1,7 @@
 var util = require('./util.js')
 var config = {
-  get baseUrl() {
-    try {
-      var app = typeof getApp === 'function' ? getApp() : null
-      return (app && app.globalData && app.globalData.baseUrl) || 'http://14.103.38.180:8080/api/v1'
-    } catch (e) {
-      return 'http://14.103.38.180:8080/api/v1'
-    }
-  },
-  get useMock() {
-    try {
-      var app = typeof getApp === 'function' ? getApp() : null
-      return (app && app.globalData && app.globalData.envConfig && app.globalData.envConfig.useMock) || false
-    } catch (e) {
-      return false
-    }
-  },
+  baseUrl: 'http://14.103.38.180:8080/api/v1',
+  useMock: false,
   timeout: 20000
 }
 function isSuccess(r) { return r && (r.code === 0 || r.code === 200) }
@@ -34,14 +20,16 @@ function post(url, data) { return request(url, { method: 'POST', data: data || {
 function put(url, data) { return request(url, { method: 'PUT', data: data || {} }) }
 function setConfig(cfg) {
   if (typeof cfg === 'object' && cfg !== null) {
-    if (cfg.baseUrl) {
-      var app = typeof getApp === 'function' ? getApp() : null
-      if (app && app.globalData) app.globalData.baseUrl = cfg.baseUrl
-    }
+    if (cfg.baseUrl) config.baseUrl = String(cfg.baseUrl)
     if (cfg.timeout != null) config.timeout = Number(cfg.timeout)
-    if (cfg.useMock != null && app && app.globalData && app.globalData.envConfig) {
-      app.globalData.envConfig.useMock = !!cfg.useMock
-    }
+    if (cfg.useMock != null) config.useMock = !!cfg.useMock
+    try {
+      var app = typeof getApp === 'function' ? getApp() : null
+      if (app && app.globalData) {
+        if (cfg.baseUrl) app.globalData.baseUrl = config.baseUrl
+        if (cfg.useMock != null && app.globalData.envConfig) app.globalData.envConfig.useMock = config.useMock
+      }
+    } catch (e) {}
   }
 }
 
