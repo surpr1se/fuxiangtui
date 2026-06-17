@@ -26,20 +26,20 @@
       {
         "pagePath": "pages/index/index",
         "text": "首页",
-        "iconPath": "images/tab-home.svg",
-        "selectedIconPath": "images/tab-home-active.svg"
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
       },
       {
         "pagePath": "pages/calculate/calculate",
         "text": "测算",
-        "iconPath": "images/tab-calculate.svg",
-        "selectedIconPath": "images/tab-calculate-active.svg"
+        "iconPath": "images/tab-calculate.png",
+        "selectedIconPath": "images/tab-calculate-active.png"
       },
       {
         "pagePath": "pages/profile/profile",
         "text": "我的",
-        "iconPath": "images/tab-profile.svg",
-        "selectedIconPath": "images/tab-profile-active.svg"
+        "iconPath": "images/tab-profile.png",
+        "selectedIconPath": "images/tab-profile-active.png"
       }
     ]
   },
