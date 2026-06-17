@@ -45,12 +45,13 @@
 
   <view class="flow-card">
     <view class="process-title" bindtap="toggleProcess"><text>详细计算过程</text><text>{{processArrow}}</text></view>
-    <view wx:if="{{showProcess}}">
+    <view wx:if="{{showProcess}}" class="process-list">
       <view class="process-card" wx:for="{{calculationProcess}}" wx:key="stepName">
-        <view class="process-name">{{item.stepName}}</view>
+        <view class="process-name">{{index + 1}}. {{item.stepName}}</view>
         <view class="process-formula">{{item.formula}}</view>
         <view class="process-result">{{item.result}}</view>
       </view>
+      <view class="process-tip">注：测算公式按当前录入信息估算，具体待遇以社保经办机构最终核定为准。</view>
     </view>
   </view>
 
