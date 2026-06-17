@@ -37,10 +37,21 @@
       <view class="profile-card-title">我的计算记录</view>
       <view class="profile-card-link">查看全部 ></view>
     </view>
-    <view wx:if="{{!latest}}" class="profile-empty">暂无测算记录</view>
+    <view wx:if="{{!latestRecord}}" class="profile-empty">暂无测算记录</view>
     <view wx:else class="latest-record">
-      <view class="latest-title">最近一次测算结果</view>
-      <view class="latest-desc">点击查看测算详情</view>
+      <view class="latest-top">
+        <view>
+          <view class="latest-title">{{latestRecord.title}}</view>
+          <view class="latest-desc">{{latestRecord.time}}</view>
+        </view>
+        <view class="latest-money">{{latestRecord.money}}</view>
+      </view>
+      <view class="latest-meta">
+        <view class="latest-meta-item"><text class="latest-meta-label">缴费年限</text><text class="latest-meta-value">{{latestRecord.paymentYearsText}}</text></view>
+        <view class="latest-meta-item"><text class="latest-meta-label">退休年龄</text><text class="latest-meta-value">{{latestRecord.retireAgeText}}</text></view>
+        <view class="latest-meta-item"><text class="latest-meta-label">计发月数</text><text class="latest-meta-value">{{latestRecord.paymentMonthsText}}</text></view>
+      </view>
+      <view class="latest-action">点击查看测算详情 ></view>
     </view>
   </view>
 

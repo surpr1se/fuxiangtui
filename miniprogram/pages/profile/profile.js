@@ -2,6 +2,28 @@ var util = require('../../utils/util.js')
 var request = require('../../utils/request.js')
 var app = getApp()
 
+function buildLatestRecord(item) {
+  if (!item) return null
+  var res = item.result || {}
+  var detail = res.pensionDetails || res.pensionDetail || item
+  var basic = res.basicInfo || {}
+  var personalInfo = res.personalInfo || {}
+  var monthlyPension = Number(item.monthlyPension || detail.totalMonthlyPension || res.monthlyPension || 0)
+  var paymentYears = item.paymentYears || basic.totalPaymentYears || res.paymentYears || ''
+  var paymentMonths = item.paymentMonths || basic.calculateMonths || res.paymentMonths || ''
+  var retireAge = item.retireAge || basic.retireAge || basic.retirementAge || res.retireAge || ''
+  var title = item.title || ((personalInfo.name || basic.name) ? ((personalInfo.name || basic.name) + '待遇测算结果') : '最近一次测算结果')
+  var recordTime = item.calculateTime || item.createTime || item.createdTime || item.updateTime
+  return {
+    title: title,
+    money: util.currency(monthlyPension),
+    time: recordTime ? util.dateTime(recordTime) : '-',
+    paymentYearsText: paymentYears ? (util.round(paymentYears, 2) + '年') : '-',
+    paymentMonthsText: paymentMonths ? (paymentMonths + '个月') : '-',
+    retireAgeText: retireAge ? (retireAge + '岁') : '-'
+  }
+}
+
 Page({
   data: {
     userName: '微信用户',
@@ -10,6 +32,7 @@ Page({
     avgPension: '¥ 0.00',
     paymentMonths: 0,
     latest: null,
+    latestRecord: null,
     pdfCount: 0,
     hasLogged: false,
     profileCompleted: false,
@@ -48,7 +71,7 @@ Page({
       self.promptProfileDialog()
     }
     if (!hasLogged) {
-      self.setData({ calcCount: 0, avgPension: util.currency(0), paymentMonths: 0, latest: null, pdfCount: 0 })
+      self.setData({ calcCount: 0, avgPension: util.currency(0), paymentMonths: 0, latest: null, latestRecord: null, pdfCount: 0 })
       return
     }
     request.getHistoryList({ userId: userId, openid: openid, pageSize: 20 }).then(function(h) {
@@ -69,11 +92,13 @@ Page({
           var d = pdf.data
           pdfCount = Array.isArray(d) ? d.length : ((d && (d.records || d.list)) || []).length
         }
+        var latest = list[0] || null
         self.setData({
           calcCount: list.length,
           avgPension: util.currency(avg),
           paymentMonths: (app.globalData.paymentSummary && app.globalData.paymentSummary.totalMonths) || 0,
-          latest: list[0] || null,
+          latest: latest,
+          latestRecord: buildLatestRecord(latest),
           pdfCount: pdfCount
         })
       })
