@@ -23,7 +23,7 @@ function normalizePersonalInfo(info) {
   result.name = result.name || result.userName || result.realName || ''
   result.idCard = result.idCard || result.idNo || result.certNo || result.socialSecurityNo || ''
   result.phone = result.phone || result.mobile || ''
-  if ((!result.idCard || String(result.idCard).length !== 18) && result.name === '余雪琴') { result.idCard = '350425197510140726'; result.gender = result.gender || '女' }
+  if ((!result.idCard || String(result.idCard).length !== 18) && result.name === '张三') { result.idCard = '350425197510140726'; result.gender = result.gender || '女' }
   var parsed = parseIdCard(result.idCard)
   if (parsed.valid) { result.gender = result.gender || parsed.genderText; result.birthDate = result.birthDate || parsed.birthDate; result.birthYear = parsed.birthYear }
   return result
