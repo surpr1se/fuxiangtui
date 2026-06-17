@@ -117,9 +117,9 @@ App({
         var storedNick = wx.getStorageSync('nickName') || ''
         var storedAvatar = wx.getStorageSync('avatarUrl') || ''
         var remoteNick = r.data.nickName || r.data.nick_name || ''
-        var remoteAvatar = r.data.avatarUrl || r.data.avatar_url || ''
+        var remoteAvatar = request.absoluteAssetUrl(r.data.avatarUrl || r.data.avatar_url || '')
         var nick = remoteNick && remoteNick !== '微信用户' ? remoteNick : (storedNick || '微信用户')
-        var avatar = remoteAvatar || storedAvatar
+        var avatar = remoteAvatar || request.absoluteAssetUrl(storedAvatar)
         self.globalData.userInfo = Object.assign({}, r.data, { nickName: nick, avatarUrl: avatar })
         if (nick && nick !== '微信用户') wx.setStorageSync('nickName', nick)
         if (avatar) wx.setStorageSync('avatarUrl', avatar)

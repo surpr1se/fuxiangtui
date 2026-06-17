@@ -14,12 +14,46 @@ function request(url, options) {
 function get(url, data) { return request(url, { method: 'GET', data: data || {} }) }
 function post(url, data) { return request(url, { method: 'POST', data: data || {} }) }
 function put(url, data) { return request(url, { method: 'PUT', data: data || {} }) }
+function parseUploadResponse(res, fallbackMessage) {
+  try {
+    return JSON.parse(res.data)
+  } catch (e) {
+    return { code: -1, message: fallbackMessage || '上传响应解析失败', data: res.data }
+  }
+}
+function absoluteAssetUrl(url) {
+  url = String(url || '')
+  if (!url || url.indexOf('http') === 0 || url.indexOf('data:image') === 0) return url
+  if (url.charAt(0) !== '/') return url
+  var m = String(config.baseUrl).match(/^(https?:\/\/[^/]+)/)
+  return (m ? m[1] : '') + url
+}
 function uploadPdf(filePath, onProgress) {
   if (config.useMock) return mock('/pdf/upload', 'POST', {})
   var token = currentToken()
   return new Promise(function(resolve) {
-    var task = wx.uploadFile({ url: config.baseUrl + '/pdf/upload', filePath: filePath, name: 'file', header: token ? { Authorization: 'Bearer ' + token } : {}, success: function(res) { try { resolve(JSON.parse(res.data)) } catch (e) { resolve({ code: -1, message: '上传响应解析失败', data: res.data }) } }, fail: function(err) { resolve({ code: -1, message: err.errMsg || '上传失败', data: null }) } })
+    var task = wx.uploadFile({ url: config.baseUrl + '/pdf/upload', filePath: filePath, name: 'file', header: token ? { Authorization: 'Bearer ' + token } : {}, success: function(res) { resolve(parseUploadResponse(res, '上传响应解析失败')) }, fail: function(err) { resolve({ code: -1, message: err.errMsg || '上传失败', data: null }) } })
     if (task && task.onProgressUpdate && onProgress) task.onProgressUpdate(function(res) { onProgress(res.progress || 0) })
+  })
+}
+function uploadAvatar(filePath) {
+  if (config.useMock) return Promise.resolve({ code: 200, data: { avatarUrl: filePath } })
+  var token = currentToken()
+  if (!token) return Promise.resolve({ code: 401, message: '请先登录', data: null })
+  return new Promise(function(resolve) {
+    wx.uploadFile({
+      url: config.baseUrl + '/user/avatar/upload',
+      filePath: filePath,
+      name: 'file',
+      header: { Authorization: 'Bearer ' + token },
+      success: function(res) {
+        var data = parseUploadResponse(res, '头像上传响应解析失败')
+        var avatarUrl = data && data.data && (data.data.avatarUrl || data.data.avatar_url || data.data.url)
+        if (avatarUrl) data.data.avatarUrl = absoluteAssetUrl(avatarUrl)
+        resolve(data)
+      },
+      fail: function(err) { resolve({ code: -1, message: err.errMsg || '头像上传失败', data: null }) }
+    })
   })
 }
 function getAppSafe() {
@@ -44,4 +78,4 @@ function getPreviousYearSocialWage(baseYear, province) { return get('/system-par
 function getPdfList(userId) { return get('/pdf/list', withUser(userId ? { userId: userId } : {})) }
 function normalizeUploadData(raw) { var d = (raw && raw.data) || raw || {}; var details = util.normalizePaymentDetails(d.paymentDetails || d.details || d.list || []); return util.assign({}, d, { personalInfo: util.normalizePersonalInfo(d.personalInfo || d.userInfo || {}), paymentDetails: details, summary: d.summary || util.paymentSummary(details), id: d.id || d.pdfId || d.parseId || null }) }
 function mock(url) { return new Promise(function(resolve) { setTimeout(function() { if (url.indexOf('/pdf/upload') >= 0) { var p = util.demoPayments(); resolve({ code: 200, data: { personalInfo: { name: '余雪琴', idCard: '350425197510140726', gender: '女' }, paymentDetails: p, summary: util.paymentSummary(p) } }); return } resolve({ code: 200, data: null }) }, 200) }) }
-module.exports = { config: config, isSuccess: isSuccess, currentUserId: currentUserId, currentOpenId: currentOpenId, currentToken: currentToken, withUser: withUser, request: request, get: get, post: post, put: put, uploadPdf: uploadPdf, getPaymentDetailList: getPaymentDetailList, calculatePension: calculatePension, saveResult: saveResult, getHistoryList: getHistoryList, getResult: getResult, importPaymentDetails: importPaymentDetails, calculateDelayRetire: calculateDelayRetire, getPreviousYearSocialWage: getPreviousYearSocialWage, getPdfList: getPdfList, normalizeUploadData: normalizeUploadData }
+module.exports = { config: config, isSuccess: isSuccess, currentUserId: currentUserId, currentOpenId: currentOpenId, currentToken: currentToken, withUser: withUser, request: request, get: get, post: post, put: put, uploadPdf: uploadPdf, uploadAvatar: uploadAvatar, absoluteAssetUrl: absoluteAssetUrl, getPaymentDetailList: getPaymentDetailList, calculatePension: calculatePension, saveResult: saveResult, getHistoryList: getHistoryList, getResult: getResult, importPaymentDetails: importPaymentDetails, calculateDelayRetire: calculateDelayRetire, getPreviousYearSocialWage: getPreviousYearSocialWage, getPdfList: getPdfList, normalizeUploadData: normalizeUploadData }

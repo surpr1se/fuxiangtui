@@ -52,9 +52,9 @@ Page({
     var storedNick = wx.getStorageSync('nickName') || ''
     var storedAvatar = wx.getStorageSync('avatarUrl') || ''
     var remoteNick = user.nickName || user.nick_name || ''
-    var remoteAvatar = user.avatarUrl || user.avatar_url || ''
+    var remoteAvatar = request.absoluteAssetUrl(user.avatarUrl || user.avatar_url || '')
     var userName = remoteNick && remoteNick !== '微信用户' ? remoteNick : (storedNick || '微信用户')
-    var avatarUrl = remoteAvatar || storedAvatar || ''
+    var avatarUrl = remoteAvatar || request.absoluteAssetUrl(storedAvatar) || ''
     var hasLogged = !!app.globalData.token
     var userId = app.globalData.userId || request.currentUserId()
     var openid = app.globalData.openid || request.currentOpenId()
@@ -151,32 +151,44 @@ Page({
   },
   onDialogChooseAvatar: function(e) {
     var self = this
-    var avatarUrl = e.detail && e.detail.avatarUrl
-    if (!avatarUrl) return
-    self.avatarToPersistValue(avatarUrl, function(value) {
-      self.setData({ profileDraftAvatar: value })
+    var avatarPath = e.detail && e.detail.avatarUrl
+    if (!avatarPath) return
+    if (!app.globalData.token) {
+      util.toast('请先登录后再上传头像')
+      return
+    }
+    self.setData({ profileDraftAvatar: avatarPath })
+    util.loading('上传头像')
+    request.uploadAvatar(avatarPath).then(function(r) {
+      util.hideLoading()
+      if (!request.isSuccess(r)) {
+        self.setData({ profileDraftAvatar: '' })
+        util.toast(r.message || '头像上传失败')
+        return
+      }
+      var data = r.data || {}
+      var avatarUrl = data.avatarUrl || data.avatar_url || data.url || ''
+      if (!avatarUrl) {
+        self.setData({ profileDraftAvatar: '' })
+        util.toast('头像上传失败')
+        return
+      }
+      self.setData({ profileDraftAvatar: avatarUrl })
+    }).catch(function() {
+      util.hideLoading()
+      self.setData({ profileDraftAvatar: '' })
+      util.toast('头像上传失败')
     })
   },
   onDialogNicknameInput: function(e) {
     this.setData({ profileDraftName: (e.detail && e.detail.value) || '' })
-  },
-  avatarToPersistValue: function(path, cb) {
-    if (!path) return cb('')
-    if (path.indexOf('data:image') === 0 || path.indexOf('http') === 0) return cb(path)
-    var ext = (path.split('.').pop() || 'png').toLowerCase()
-    var mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png'
-    wx.getFileSystemManager().readFile({
-      filePath: path,
-      encoding: 'base64',
-      success: function(res) { cb('data:' + mime + ';base64,' + res.data) },
-      fail: function() { cb(path) }
-    })
   },
   saveProfileDialog: function() {
     var nickName = (this.data.profileDraftName || '').replace(/^\s+|\s+$/g, '')
     var avatarUrl = this.data.profileDraftAvatar || ''
     if (!nickName) return util.toast('请填写昵称')
     if (!avatarUrl) return util.toast('请选择头像')
+    if (avatarUrl.indexOf('http') !== 0 && avatarUrl.indexOf('/uploads/') !== 0) return util.toast('头像还在上传，请稍后保存')
     wx.removeStorageSync('profilePromptSkipped')
     this.setData({ userName: nickName, avatarUrl: avatarUrl, profileDialogVisible: false })
     this.saveProfile({ nickName: nickName, avatarUrl: avatarUrl })
@@ -184,7 +196,7 @@ Page({
   saveProfile: function(payload) {
     var self = this
     var nickName = payload.nickName || self.data.userName || wx.getStorageSync('nickName') || '微信用户'
-    var avatarUrl = payload.avatarUrl || self.data.avatarUrl || wx.getStorageSync('avatarUrl') || ''
+    var avatarUrl = request.absoluteAssetUrl(payload.avatarUrl || self.data.avatarUrl || wx.getStorageSync('avatarUrl') || '')
     wx.setStorageSync('nickName', nickName)
     if (avatarUrl) wx.setStorageSync('avatarUrl', avatarUrl)
     self.setData({ profileCompleted: self.isProfileCompleted(nickName, avatarUrl) })
@@ -197,7 +209,12 @@ Page({
       avatarUrl: avatarUrl
     }).then(function(r) {
       if (request.isSuccess(r) && r.data) {
-        app.globalData.userInfo = r.data
+        var remoteAvatar = request.absoluteAssetUrl(r.data.avatarUrl || r.data.avatar_url || avatarUrl)
+        app.globalData.userInfo = util.assign({}, r.data, { nickName: r.data.nickName || r.data.nick_name || nickName, avatarUrl: remoteAvatar })
+        if (remoteAvatar) {
+          wx.setStorageSync('avatarUrl', remoteAvatar)
+          self.setData({ avatarUrl: remoteAvatar, profileDraftAvatar: remoteAvatar })
+        }
       }
     })
   },
