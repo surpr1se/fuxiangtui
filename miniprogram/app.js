@@ -1,14 +1,36 @@
 var request = require('./utils/request.js')
 
+// ⚠️ 环境切换：dev / test / prod
+const ENV = 'dev'
+
+const ENV_CONFIG = {
+  dev: {
+    baseUrl: 'http://14.103.38.180:8080/api/v1',
+    useMock: false
+  },
+  test: {
+    baseUrl: 'https://test.fuxiangtui.com/api/v1',
+    useMock: false
+  },
+  prod: {
+    baseUrl: 'https://fuxiangtui.com/api/v1',
+    useMock: false
+  }
+}
+
+const currentEnv = ENV_CONFIG[ENV] || ENV_CONFIG.prod
+
 App({
   globalData: {
+    env: ENV,
+    envConfig: currentEnv,
     userInfo: null,
     personalInfo: null,
     openid: null,
     token: null,
     userId: null,
     logining: false,
-    baseUrl: request.config.baseUrl,
+    baseUrl: currentEnv.baseUrl,
     paymentDetails: [],
     paymentSummary: null,
     pdfInfo: null,

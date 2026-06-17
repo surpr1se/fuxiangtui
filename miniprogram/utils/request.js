@@ -1,5 +1,23 @@
 var util = require('./util.js')
-var config = { baseUrl: 'http://14.103.38.180:8080/api/v1', timeout: 20000, useMock: false }
+var config = {
+  get baseUrl() {
+    try {
+      var app = typeof getApp === 'function' ? getApp() : null
+      return (app && app.globalData && app.globalData.baseUrl) || 'http://14.103.38.180:8080/api/v1'
+    } catch (e) {
+      return 'http://14.103.38.180:8080/api/v1'
+    }
+  },
+  get useMock() {
+    try {
+      var app = typeof getApp === 'function' ? getApp() : null
+      return (app && app.globalData && app.globalData.envConfig && app.globalData.envConfig.useMock) || false
+    } catch (e) {
+      return false
+    }
+  },
+  timeout: 20000
+}
 function isSuccess(r) { return r && (r.code === 0 || r.code === 200) }
 function request(url, options) {
   options = options || {}
@@ -14,6 +32,19 @@ function request(url, options) {
 function get(url, data) { return request(url, { method: 'GET', data: data || {} }) }
 function post(url, data) { return request(url, { method: 'POST', data: data || {} }) }
 function put(url, data) { return request(url, { method: 'PUT', data: data || {} }) }
+function setConfig(cfg) {
+  if (typeof cfg === 'object' && cfg !== null) {
+    if (cfg.baseUrl) {
+      var app = typeof getApp === 'function' ? getApp() : null
+      if (app && app.globalData) app.globalData.baseUrl = cfg.baseUrl
+    }
+    if (cfg.timeout != null) config.timeout = Number(cfg.timeout)
+    if (cfg.useMock != null && app && app.globalData && app.globalData.envConfig) {
+      app.globalData.envConfig.useMock = !!cfg.useMock
+    }
+  }
+}
+
 function parseUploadResponse(res, fallbackMessage) {
   try {
     return JSON.parse(res.data)
@@ -78,4 +109,4 @@ function getPreviousYearSocialWage(baseYear, province) { return get('/system-par
 function getPdfList(userId) { return get('/pdf/list', withUser(userId ? { userId: userId } : {})) }
 function normalizeUploadData(raw) { var d = (raw && raw.data) || raw || {}; var details = util.normalizePaymentDetails(d.paymentDetails || d.details || d.list || []); return util.assign({}, d, { personalInfo: util.normalizePersonalInfo(d.personalInfo || d.userInfo || {}), paymentDetails: details, summary: d.summary || util.paymentSummary(details), id: d.id || d.pdfId || d.parseId || null }) }
 function mock(url) { return new Promise(function(resolve) { setTimeout(function() { if (url.indexOf('/pdf/upload') >= 0) { var p = util.demoPayments(); resolve({ code: 200, data: { personalInfo: { name: '张三', idCard: '350425197510140726', gender: '女' }, paymentDetails: p, summary: util.paymentSummary(p) } }); return } resolve({ code: 200, data: null }) }, 200) }) }
-module.exports = { config: config, isSuccess: isSuccess, currentUserId: currentUserId, currentOpenId: currentOpenId, currentToken: currentToken, withUser: withUser, request: request, get: get, post: post, put: put, uploadPdf: uploadPdf, uploadAvatar: uploadAvatar, absoluteAssetUrl: absoluteAssetUrl, getPaymentDetailList: getPaymentDetailList, calculatePension: calculatePension, saveResult: saveResult, getHistoryList: getHistoryList, getResult: getResult, importPaymentDetails: importPaymentDetails, calculateDelayRetire: calculateDelayRetire, getPreviousYearSocialWage: getPreviousYearSocialWage, getPdfList: getPdfList, normalizeUploadData: normalizeUploadData }
+module.exports = { config: config, isSuccess: isSuccess, currentUserId: currentUserId, currentOpenId: currentOpenId, currentToken: currentToken, withUser: withUser, request: request, get: get, post: post, put: put, uploadPdf: uploadPdf, uploadAvatar: uploadAvatar, absoluteAssetUrl: absoluteAssetUrl, getPaymentDetailList: getPaymentDetailList, calculatePension: calculatePension, saveResult: saveResult, getHistoryList: getHistoryList, getResult: getResult, importPaymentDetails: importPaymentDetails, calculateDelayRetire: calculateDelayRetire, getPreviousYearSocialWage: getPreviousYearSocialWage, getPdfList: getPdfList, normalizeUploadData: normalizeUploadData, setConfig: setConfig }
