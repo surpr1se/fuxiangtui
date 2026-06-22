@@ -1,6 +1,6 @@
 var util = require('./util.js')
 var config = {
-  baseUrl: 'http://14.103.38.180:8080/api/v1',
+  baseUrl: 'https://fuxiangtui.echoymm.cn/api/v1',
   useMock: false,
   timeout: 20000
 }

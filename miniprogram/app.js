@@ -5,11 +5,11 @@ const ENV = 'prod'
 
 const ENV_CONFIG = {
   dev: {
-    baseUrl: 'http://14.103.38.180:8080/api/v1',
+    baseUrl: 'https://fuxiangtui.echoymm.cn/api/v1',
     useMock: false
   },
   test: {
-    baseUrl: 'http://fuxiangtui.echoymm.cn/api/v1',
+    baseUrl: 'https://fuxiangtui.echoymm.cn/api/v1',
     useMock: false
   },
   prod: {
