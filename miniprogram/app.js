@@ -1,7 +1,7 @@
 var request = require('./utils/request.js')
 
 // ⚠️ 环境切换：dev / test / prod
-const ENV = 'dev'
+const ENV = 'prod'
 
 const ENV_CONFIG = {
   dev: {
@@ -9,11 +9,11 @@ const ENV_CONFIG = {
     useMock: false
   },
   test: {
-    baseUrl: 'https://test.fuxiangtui.com/api/v1',
+    baseUrl: 'http://fuxiangtui.echoymm.cn/api/v1',
     useMock: false
   },
   prod: {
-    baseUrl: 'https://fuxiangtui.com/api/v1',
+    baseUrl: 'https://fuxiangtui.echoymm.cn/api/v1',
     useMock: false
   }
 }
