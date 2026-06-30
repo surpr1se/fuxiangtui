@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS pension_calculate_result (
+  id BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  user_id BIGINT DEFAULT NULL COMMENT '用户ID',
+  openid VARCHAR(128) DEFAULT NULL COMMENT '微信openid',
+  title VARCHAR(128) NOT NULL DEFAULT '养老金待遇测算' COMMENT '测算标题',
+  monthly_pension DECIMAL(12,2) DEFAULT NULL COMMENT '月养老金',
+  basic_pension DECIMAL(12,2) DEFAULT NULL COMMENT '基础养老金',
+  personal_account_pension DECIMAL(12,2) DEFAULT NULL COMMENT '个人账户养老金',
+  personal_account_amount DECIMAL(14,2) DEFAULT NULL COMMENT '个人账户金额',
+  payment_years DECIMAL(6,2) DEFAULT NULL COMMENT '缴费年限',
+  payment_months INT DEFAULT NULL COMMENT '计发月数或缴费月数',
+  retire_age INT DEFAULT NULL COMMENT '退休年龄',
+  request_json JSON DEFAULT NULL COMMENT '原始请求JSON',
+  result_json JSON DEFAULT NULL COMMENT '测算结果JSON',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_user_created (user_id, created_at),
+  KEY idx_openid_created (openid, created_at),
+  KEY idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='养老金待遇测算结果表';

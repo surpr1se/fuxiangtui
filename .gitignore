@@ -1,0 +1,15 @@
+*.class
+*.jar
+*.war
+*.log
+*.pid
+target/
+.idea/
+*.iml
+.DS_Store
+node_modules/
+uploads/
+*.tar.gz
+*.bak*
+backup-*/
+__ssl_probe*
