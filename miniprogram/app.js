@@ -5,7 +5,7 @@ const ENV = 'prod'
 
 const ENV_CONFIG = {
   dev: {
-    baseUrl: 'https://fuxiangtui.echoymm.cn/api/v1',
+    baseUrl: 'http://175.27.250.177:8080/api/v1',
     useMock: false
   },
   test: {
