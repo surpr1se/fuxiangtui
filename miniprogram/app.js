@@ -1,7 +1,7 @@
 var request = require('./utils/request.js')
 
 // ⚠️ 环境切换：dev / test / prod
-const ENV = 'dev'
+const ENV = 'prod'
 
 const ENV_CONFIG = {
   dev: {
